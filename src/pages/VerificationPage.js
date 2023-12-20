@@ -1,35 +1,65 @@
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, Typography, Divider, Box, Button, Card, Grid, Stack, alpha } from "@mui/material";
 import Page from "../components/Page";
-import { PUBLIC_URL } from "../constants";
+import { COMMON_ERROR_MSG, OTPLENGTH_ERROR_MSG, OTPSENT_SUCCESS_MSG, PUBLIC_URL, SIGNUP_SUCCESS_MSG } from "../constants";
 import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
-import Iconify from "../components/Iconify";
-import { FormProvider, RHFTextField } from "../components/hook-form";
-import { Link } from "react-router-dom";
+import AuthServices from "../services/AuthServices";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useStyles } from "./LoginPage";
 import PinInput from "react-pin-input";
+import { useEffect, useState } from "react";
+import { useSnackbar } from "../components/SnackBar";
 
 const VerificationPage = () => {
   const classes = useStyles();
+  const props = useLocation().state;
+  const navigate = useNavigate();
+  const showAlert = useSnackbar();
   const lgUp = useResponsive("up", "lg");
 
-  const schema = Yup.object().shape({
-    email: Yup.string().required("Email address is required"),
-    password: Yup.string().required("Password is required"),
-  });
+  const [isLoading, setLoading] = useState(false);
+  const [otp, setOtp] = useState("");
 
-  const defaultValues = {
-    email: "",
-    password: "",
+  useEffect(() => {
+    if (props.email) {
+      sendOtptoEmail();
+    } else {
+      navigate("/404");
+    }
+  }, []);
+
+  const sendOtptoEmail = async () => {
+    setLoading(true);
+
+    try {
+      const response = await AuthServices.sendOtptoEmail({ email: props.email });
+      const responseData = response.data?.data ?? {};
+      setLoading(false);
+      showAlert(OTPSENT_SUCCESS_MSG);
+    } catch (err) {
+      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      setLoading(false);
+    }
   };
 
-  const methods = useForm({
-    resolver: yupResolver(schema),
-    defaultValues,
-  });
+  const handleSubmit = async () => {
+    if (otp.length != 6) {
+      showAlert(OTPLENGTH_ERROR_MSG, "error");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await AuthServices.verifyOtptoEmail({ email: props.email, received_otp: otp });
+      setLoading(false);
+      showAlert(SIGNUP_SUCCESS_MSG);
+      navigate("/login", { replace: true });
+    } catch (err) {
+      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      setLoading(false);
+    }
+  };
 
   return (
     <Page title="Login">
@@ -46,51 +76,50 @@ const VerificationPage = () => {
         )}
 
         <Container maxWidth="xs" disableGutters>
-          <FormProvider methods={methods}>
-            <Box sx={{ py: 6, display: "flex", justifyContent: "center" }}>
-              <Box component="img" src={PUBLIC_URL + "/static/icons/logo.svg"} sx={{ width: 130 }} />
+          <Box sx={{ py: 6, display: "flex", justifyContent: "center" }}>
+            <Box component="img" src={PUBLIC_URL + "/static/icons/logo.svg"} sx={{ width: 130 }} />
+          </Box>
+
+          <Card className={classes.card} sx={{ px: 5, pt: 3, pb: 6 }}>
+            <Typography variant="subtitle2" fontSize={30} fontWeight={600}>
+              OTP Verification
+            </Typography>
+
+            <Box p={2} />
+
+            <Box sx={{ width: "100%" }}>
+              <PinInput
+                length={6}
+                type="numeric"
+                inputMode="number"
+                onComplete={(value) => {
+                  setOtp(value);
+                }}
+                style={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+                inputStyle={{ backgroundColor: "#2C2D3C", borderColor: "#2C2D3C", borderRadius: "6px", color: "white", fontSize: 18 }}
+              />
             </Box>
 
-            <Card className={classes.card} sx={{ px: 5, pt: 3, pb: 6 }}>
-              <Typography variant="subtitle2" fontSize={30} fontWeight={600}>
-                OTP Verification
-              </Typography>
+            <Box p={1} />
 
-              <Box p={2} />
+            <Typography variant="body2" color="text.disabled" fontWeight="normal" textAlign="center" gutterBottom>
+              Did n’t Receive code ?
+            </Typography>
 
-              {/* <RHFTextField name="otp" label="OTP sent to your Email address" /> */}
+            <Box sx={{ textAlign: "center" }}>
+              <Link to={"/signup"} style={{ color: "#CED765" }}>
+                Resend Code
+              </Link>
+            </Box>
 
-              <Box sx={{ width: "100%" }}>
-                <PinInput
-                  length={6}
-                  type="numeric"
-                  inputMode="number"
-                  style={{ width: "100%", display: "flex", justifyContent: "space-between" }}
-                  inputStyle={{ backgroundColor: "#2C2D3C", borderColor: "#2C2D3C", borderRadius: "6px", color: "white", fontSize: 18 }}
-                />
-              </Box>
+            <Box p={1} />
 
-              <Box p={1} />
+            <CustomButton loading={isLoading} title="Confirm" onClick={handleSubmit} sx={{ width: "100%" }} />
 
-              <Typography variant="body2" color="text.disabled" fontWeight="normal" textAlign="center" gutterBottom>
-                Did n’t Receive code ?
-              </Typography>
+            <Box p={1} />
+          </Card>
 
-              <Box sx={{ textAlign: "center" }}>
-                <Link to={"/signup"} style={{ color: "#CED765" }}>
-                  Resend Code
-                </Link>
-              </Box>
-
-              <Box p={1} />
-
-              <CustomButton title="Confirm" component={Link} to="/user/icap-test" sx={{ width: "100%" }} />
-
-              <Box p={1} />
-            </Card>
-
-            <Box p={7} />
-          </FormProvider>
+          <Box p={7} />
         </Container>
       </Box>
     </Page>

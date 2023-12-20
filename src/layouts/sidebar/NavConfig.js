@@ -26,7 +26,12 @@ const navConfig = [
   {
     title: "Profile Settings",
     path: "/user/profile",
-    icon: getIcon("iconamoon:profile-fill"),
+    display: false,
+  },
+  {
+    title: "ICAP Test",
+    path: "/user/examination",
+    display: false,
   },
 ];
 

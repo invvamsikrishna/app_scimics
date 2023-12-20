@@ -23,6 +23,7 @@ const IcapTestPage = () => {
             <Typography variant="subtitle1" fontSize={18} fontWeight={400}>
               Rakesh Harsha
             </Typography>
+
             <Typography variant="subtitle2" fontSize={12} fontWeight={500} color="text.disabled">
               Bangalore, India
             </Typography>

@@ -30,6 +30,13 @@ export const authSuccess = (data) => async (dispatch) => {
   });
 };
 
+export const authUpdated = (data) => async (dispatch) => {
+  dispatch({
+    type: "LOGIN_UPDATED",
+    payload: data,
+  });
+};
+
 export const authLogout = () => async (dispatch) => {
   dispatch({
     type: "LOGOUT",

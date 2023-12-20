@@ -27,14 +27,14 @@ const MainStyle = styled("div")(({ theme }) => ({
   },
 }));
 
-const SidebarLayout = ({ account }) => {
+const SidebarLayout = ({ isExam, account }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <RootStyle>
       <DashboardNavbar account={account ?? {}} onOpenSidebar={() => setOpen(true)} />
 
-      <DashboardSidebar account={account ?? {}} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardSidebar isExam={isExam} account={account ?? {}} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
 
       <MainStyle>
         <Outlet />

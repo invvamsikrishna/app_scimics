@@ -4,12 +4,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, Typography, Divider, Box, Button, Card, Grid, Stack, alpha } from "@mui/material";
 import Page from "../components/Page";
-import { PUBLIC_URL } from "../constants";
+import { COMMON_ERROR_MSG, PUBLIC_URL } from "../constants";
 import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
 import Iconify from "../components/Iconify";
 import { FormProvider, RHFTextField } from "../components/hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AuthServices from "../services/AuthServices";
+import { useSnackbar } from "../components/SnackBar";
+import { connect } from "react-redux";
+import { authSuccess } from "../actions/auth";
 
 export const useStyles = makeStyles((theme) => ({
   root: { position: "relative", minHeight: "100vh", overflow: "hidden" },
@@ -32,7 +37,6 @@ export const useStyles = makeStyles((theme) => ({
       border: `3px solid ${alpha("#2C2D3C", 0.2)}`,
     },
   },
-
   ellipse2: {
     "&:before": {
       backgroundColor: alpha("#2C2D3C", 0.2),
@@ -89,12 +93,16 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginPage = () => {
+const LoginPage = ({ authSuccess }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const showAlert = useSnackbar();
   const lgUp = useResponsive("up", "lg");
 
+  const [isLoading, setLoading] = useState(false);
+
   const schema = Yup.object().shape({
-    email: Yup.string().required("Email address is required"),
+    email: Yup.string().email().required("Email address is required"),
     password: Yup.string().required("Password is required"),
   });
 
@@ -107,6 +115,28 @@ const LoginPage = () => {
     resolver: yupResolver(schema),
     defaultValues,
   });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+
+    try {
+      const response = await AuthServices.loginPerson(data);
+      const responseData = response.data?.data ?? {};
+      setLoading(false);
+
+      if (responseData.is_account_verified == true) {
+        authSuccess(responseData);
+        navigate("/user/icap-test", { replace: true });
+      } else {
+        navigate("/verification", { state: responseData });
+      }
+    } catch (err) {
+      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      setLoading(false);
+    }
+  };
 
   return (
     <Page title="Login">
@@ -121,8 +151,9 @@ const LoginPage = () => {
             <Box className={classes.ellipseSm2} />
           </>
         )}
+
         <Container maxWidth="xs" disableGutters>
-          <FormProvider methods={methods}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ py: 6, display: "flex", justifyContent: "center" }}>
               <Box component="img" src={PUBLIC_URL + "/static/icons/logo.svg"} sx={{ width: 130 }} />
             </Box>
@@ -162,7 +193,7 @@ const LoginPage = () => {
 
               <Box p={2} />
 
-              <CustomButton component={Link} to="/verification" title="Login" sx={{ width: "100%" }} />
+              <CustomButton loading={isLoading} type="submit" title="Login" sx={{ width: "100%" }} />
 
               <Box p={1} />
 
@@ -182,4 +213,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default connect(null, { authSuccess })(LoginPage);

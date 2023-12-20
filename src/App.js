@@ -1,10 +1,13 @@
+import { SnackbarProvider } from "./components/SnackBar";
 import Router from "./customRoutes";
 import ThemeProvider from "./theme";
 
 function App() {
   return (
     <ThemeProvider>
-      <Router />
+      <SnackbarProvider>
+        <Router />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

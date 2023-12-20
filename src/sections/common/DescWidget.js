@@ -9,8 +9,8 @@ const DescWidget = ({ title, titleSize = 18, desc, children }) => {
         {title}
       </Typography>
 
-      {desc?.map((item) => (
-        <Typography variant="subtitle1" fontSize={13} fontWeight="normal" color="text.disabled">
+      {desc?.map((item, index) => (
+        <Typography key={index} variant="subtitle1" fontSize={13} fontWeight="normal" color="text.disabled">
           {item}
         </Typography>
       ))}

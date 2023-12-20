@@ -1,12 +1,18 @@
 import { useFormContext, Controller } from "react-hook-form";
-import { InputLabel, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, InputAdornment, InputLabel, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
+import React from "react";
 
 const CustomTextField = styled(TextField)({
-  backgroundColor: "#212428",
   borderRadius: 1,
   marginTop: "8px !important",
-  "& input": {
+  "& .MuiInputBase-root": {
+    backgroundColor: "#212428",
+  },
+  "& .MuiInputBase-input": {
+    padding: "12px 14px",
+  },
+  "& .MuiSelect-outlined": {
     padding: "12px 14px",
   },
   "& ::placeholder": {
@@ -15,7 +21,7 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-export default function RHFTextField({ name, label, onChange, InputLabelProps, ...other }) {
+export default function RHFTextField({ name, label, loading, onChange, InputLabelProps, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -41,11 +47,34 @@ export default function RHFTextField({ name, label, onChange, InputLabelProps, .
             }}
             error={!!error}
             helperText={error?.message}
-            InputLabelProps={{ ...field.inputlabelprops, ...InputLabelProps }}
+            InputLabelProps={{ ...field.InputLabelProps, ...InputLabelProps }}
+            InputProps={{
+              ...field.InputProps,
+              endAdornment: (
+                <React.Fragment>
+                  {loading ? <CircularProgress color="primary" size={20} /> : null}
+                  {field.InputProps?.endAdornment}
+                </React.Fragment>
+              ),
+            }}
             {...other}
           />
         )}
       />
+    </>
+  );
+}
+
+export function URHFTextField({ name, label, onChange, InputLabelProps, ...other }) {
+  return (
+    <>
+      <InputLabel shrink={false} htmlFor={"username"}>
+        <Typography component="span" color="white" fontSize={12} fontWeight="normal">
+          {label}
+        </Typography>
+      </InputLabel>
+
+      <CustomTextField fullWidth {...other} />
     </>
   );
 }

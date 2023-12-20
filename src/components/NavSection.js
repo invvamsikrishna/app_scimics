@@ -1,11 +1,12 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { NavLink as RouterLink, matchPath, useLocation } from "react-router-dom";
-import { alpha, useTheme, styled } from "@mui/material/styles";
-import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from "@mui/material";
+import { alpha, styled } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton, ListItem } from "@mui/material";
 import Iconify from "./Iconify";
 
-const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
+export const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
   ...theme.typography.body2,
   height: 48,
   position: "relative",
@@ -14,7 +15,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
   borderRadius: theme.shape.borderRadius,
 }));
 
-const ListItemIconStyle = styled(ListItemIcon)({
+export const ListItemIconStyle = styled(ListItemIcon)({
   width: 22,
   height: 22,
   minWidth: 38,
@@ -24,8 +25,39 @@ const ListItemIconStyle = styled(ListItemIcon)({
   justifyContent: "center",
 });
 
+export const ListItemStyle2 = styled((props) => <ListItem disableGutters {...props} />)(({ theme }) => ({
+  ...theme.typography.body2,
+  height: 48,
+  position: "relative",
+  textTransform: "capitalize",
+  color: theme.palette.text.secondary,
+  borderRadius: theme.shape.borderRadius,
+}));
+
+export const ListItemIconStyle2 = styled(ListItemIcon)({
+  width: 22,
+  height: 22,
+  minWidth: 54,
+  color: "inherit",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+export const useStyles = makeStyles((theme) => ({
+  activeRootStyle: {
+    color: "white",
+    // fontWeight: "fontWeightMedium",
+    backgroundColor: alpha(theme.palette.text.subtitle, theme.palette.action.selectedOpacity),
+  },
+  activeSubStyle: {
+    color: "white",
+    // fontWeight: "fontWeightMedium",
+  },
+}));
+
 function NavItem({ item, active }) {
-  const theme = useTheme();
+  const classes = useStyles();
 
   const isActiveRoot = active(item.path);
 
@@ -37,26 +69,10 @@ function NavItem({ item, active }) {
     setOpen((prev) => !prev);
   };
 
-  const activeRootStyle = {
-    color: "white",
-    // fontWeight: "fontWeightMedium",
-    bgcolor: alpha(theme.palette.text.subtitle, theme.palette.action.selectedOpacity),
-  };
-
-  const activeSubStyle = {
-    color: "white",
-    // fontWeight: "fontWeightMedium",
-  };
-
   if (children) {
     return (
       <>
-        <ListItemStyle
-          onClick={handleOpen}
-          sx={{
-            ...(isActiveRoot && activeRootStyle),
-          }}
-        >
+        <ListItemStyle className={isActiveRoot ? classes.activeRootStyle : null} onClick={handleOpen}>
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
           <ListItemText disableTypography primary={title} />
           {info && info}
@@ -70,14 +86,7 @@ function NavItem({ item, active }) {
               const isActiveSub = active(path);
 
               return (
-                <ListItemStyle
-                  key={title}
-                  component={RouterLink}
-                  to={path}
-                  sx={{
-                    ...(isActiveSub && activeSubStyle),
-                  }}
-                >
+                <ListItemStyle key={title} className={isActiveRoot ? classes.activeSubStyle : null} component={RouterLink} to={path}>
                   <ListItemIconStyle>
                     <Box
                       component="span"
@@ -97,6 +106,7 @@ function NavItem({ item, active }) {
                       }}
                     />
                   </ListItemIconStyle>
+
                   <ListItemText disableTypography primary={title} />
                 </ListItemStyle>
               );
@@ -108,13 +118,7 @@ function NavItem({ item, active }) {
   }
 
   return (
-    <ListItemStyle
-      component={RouterLink}
-      to={path}
-      sx={{
-        ...(isActiveRoot && activeRootStyle),
-      }}
-    >
+    <ListItemStyle className={isActiveRoot ? classes.activeRootStyle : null} component={RouterLink} to={path}>
       <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
       <ListItemText disableTypography primary={title} />
       {info && info}

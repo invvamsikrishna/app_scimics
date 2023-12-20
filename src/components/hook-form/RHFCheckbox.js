@@ -1,30 +1,32 @@
 import { useFormContext, Controller } from "react-hook-form";
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import { Checkbox, FormControlLabel, FormControl, FormGroup, FormHelperText } from "@mui/material";
 
 export function RHFCheckbox({ name, onChange, ...other }) {
   const { control } = useFormContext();
 
   return (
-    <FormControlLabel
-      sx={{ color: "text.subtitle" }}
-      control={
-        <Controller
-          name={name}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              {...field}
-              checked={field.value}
-              sx={{ color: "text.subtitle" }}
-              onChange={(e) => {
-                field.onChange(e.target.checked);
-                onChange && onChange(e);
-              }}
-            />
-          )}
-        />
-      }
-      {...other}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <FormControl error={!!error}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...field}
+                checked={field.value}
+                sx={{ color: "text.subtitle" }}
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                  onChange && onChange(e);
+                }}
+              />
+            }
+            {...other}
+          />
+          <FormHelperText>{error?.message}</FormHelperText>
+        </FormControl>
+      )}
     />
   );
 }

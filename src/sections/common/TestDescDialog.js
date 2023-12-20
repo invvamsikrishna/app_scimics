@@ -8,12 +8,18 @@ import { Dialog, DialogTitle, DialogActions, Grid, Button, Snackbar, Alert, Typo
 import { FormProvider, RHFTextField } from "../../components/hook-form";
 import CustomButton from "../../components/CustomButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useNavigate } from "react-router-dom";
 
 const TestDescDialog = ({ title }) => {
+  const navigate = useNavigate();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleCancel = () => {
     setDialogOpen(false);
+  };
+
+  const handleClick = () => {
+    navigate("/user/examination");
   };
 
   return (
@@ -68,7 +74,7 @@ const TestDescDialog = ({ title }) => {
         </Box>
 
         <DialogActions sx={{ p: 3 }}>
-          <Button variant="outlined" color="inherit" endIcon={<ArrowForwardIcon />} onClick={() => setDialogOpen(true)} sx={{ fontWeight: "normal" }}>
+          <Button variant="outlined" color="inherit" onClick={handleClick} endIcon={<ArrowForwardIcon />} sx={{ fontWeight: "normal" }}>
             Start Test
           </Button>
         </DialogActions>
