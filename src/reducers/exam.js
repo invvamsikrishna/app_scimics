@@ -1,4 +1,4 @@
-import { QUES_STATUS } from "../constants";
+import { NO_AVAILABLE_QUES_THROW, NO_AVAILABLE_TESTS_THROW, QUES_STATUS } from "../constants";
 
 const initialState = {
   isLoading: false,
@@ -46,7 +46,7 @@ export default function examReducer(state = initialState, action) {
     case "EXAM_NEXT_QUES":
       var quesLength = state.data[state.currentTest]?.questions?.length;
       if (quesLength == null || quesLength <= 0) {
-        throw new Error("No questions available");
+        throw new Error(NO_AVAILABLE_QUES_THROW);
       }
 
       var nextQues;
@@ -119,7 +119,7 @@ export default function examReducer(state = initialState, action) {
     case "EXAM_NEXT_TEST":
       var testLength = state.data?.length;
       if (testLength == null || testLength <= 0) {
-        throw new Error("No tests available");
+        throw new Error(NO_AVAILABLE_TESTS_THROW);
       }
 
       var nextTest;
@@ -129,7 +129,7 @@ export default function examReducer(state = initialState, action) {
         if (state.currentTest < testLength - 1) {
           nextTest = state.currentTest + 1;
         } else {
-          throw new Error("No tests available");
+          throw new Error(NO_AVAILABLE_TESTS_THROW);
         }
       }
 

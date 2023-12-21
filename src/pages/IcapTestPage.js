@@ -2,8 +2,9 @@ import React from "react";
 import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { TestOverview } from "../sections/icaptest";
+import { connect } from "react-redux";
 
-const IcapTestPage = () => {
+const IcapTestPage = ({ account }) => {
   return (
     <Page title="ICAP Test">
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -21,11 +22,11 @@ const IcapTestPage = () => {
 
           <div>
             <Typography variant="subtitle1" fontSize={18} fontWeight={400}>
-              Rakesh Harsha
+              {account.user?.firstname} {account.user?.lastname}
             </Typography>
 
             <Typography variant="subtitle2" fontSize={12} fontWeight={500} color="text.disabled">
-              Bangalore, India
+              India
             </Typography>
           </div>
         </Stack>
@@ -38,4 +39,10 @@ const IcapTestPage = () => {
   );
 };
 
-export default IcapTestPage;
+const mapStateToProps = (state) => {
+  return {
+    account: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, null)(IcapTestPage);

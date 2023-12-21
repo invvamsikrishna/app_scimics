@@ -23,16 +23,6 @@ const navConfig = [
     path: "/user/blog",
     icon: getIcon("solar:pen-new-square-bold"),
   },
-  {
-    title: "Profile Settings",
-    path: "/user/profile",
-    display: false,
-  },
-  {
-    title: "ICAP Test",
-    path: "/user/examination",
-    display: false,
-  },
 ];
 
 export { navConfig };

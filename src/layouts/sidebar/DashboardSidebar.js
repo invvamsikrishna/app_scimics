@@ -51,7 +51,7 @@ const DashboardSidebar = ({ exam, isExam, isOpenSidebar, onCloseSidebar, getTest
         <Box component="img" src={`${PUBLIC_URL}/static/icons/logo.svg`} sx={{ width: 100 }} />
       </Box>
 
-      <NavSection navConfig={navConfig.filter((e) => e.display != false)} />
+      <NavSection navConfig={navConfig} />
 
       <Box flexGrow={1} />
 
@@ -100,7 +100,7 @@ const DashboardSidebar = ({ exam, isExam, isOpenSidebar, onCloseSidebar, getTest
                 <Iconify icon={"healthicons:i-exam-multiple-choice"} width={16} height={16} />
               </ListItemIconStyle>
 
-              <ListItemText disableTypography primary={item.testname} />
+              <ListItemText primary={item.testname} primaryTypographyProps={{ style: { fontSize: 14, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: "1", WebkitBoxOrient: "vertical" } }} />
             </ListItemStyle>
 
             {exam.currentTest == index && (

@@ -62,7 +62,7 @@ const AccountPopover = ({ account, authLogout }) => {
           }),
         }}
       >
-        <Avatar sx={{ bgcolor: "#009BA5", color: "white" }}>R</Avatar>
+        <Avatar sx={{ bgcolor: "#009BA5", color: "white" }}>{account.user?.firstname?.charAt(0)}</Avatar>
       </IconButton>
 
       <MenuPopover
@@ -81,10 +81,10 @@ const AccountPopover = ({ account, authLogout }) => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            Rakesh Harsha
+            {account.user?.firstname} {account.user?.lastname}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            Bangalore, India
+            India
           </Typography>
         </Box>
 
@@ -108,4 +108,10 @@ const AccountPopover = ({ account, authLogout }) => {
   );
 };
 
-export default connect(null, { authLogout })(AccountPopover);
+const mapStateToProps = (state) => {
+  return {
+    account: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { authLogout })(AccountPopover);

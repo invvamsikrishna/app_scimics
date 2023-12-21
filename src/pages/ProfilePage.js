@@ -126,7 +126,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
   };
 
   return (
-    <Page title="ICAP Test">
+    <Page title="Profile">
       <Container maxWidth="xl" sx={{ py: 4 }}>
         <Box sx={{ width: { xs: "100%", md: "85%" } }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

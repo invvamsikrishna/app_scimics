@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from "@mui/material";
 import Iconify from "../../components/Iconify";
 import AccountPopover from "./AccountPopover";
-import { matchPath, useLocation } from "react-router-dom";
-import { navConfig } from "./NavConfig";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -30,9 +29,18 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 export default function DashboardNavbar({ account, onOpenSidebar }) {
-  const { pathname } = useLocation();
+  const [title, setTitle] = useState(document.title);
 
-  const matchedElement = navConfig.find((e) => pathname.includes(e.path));
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const title = document.title.split("|")[0];
+      setTitle(title);
+    });
+
+    observer.observe(document.querySelector("title"), { childList: true });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <RootStyle elevation={5}>
@@ -42,7 +50,7 @@ export default function DashboardNavbar({ account, onOpenSidebar }) {
         </IconButton>
 
         <Typography variant="subtitle2" fontWeight={500}>
-          {matchedElement?.title}
+          {title}
         </Typography>
 
         <Box sx={{ flexGrow: 1 }} />

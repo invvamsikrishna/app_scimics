@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ExaminationPage from "./pages/ExaminationPage";
 import ProtectedRoute from "./layouts/ProtectedRoute";
 import Page404 from "./pages/Page404";
+import ResultPage from "./pages/ResultPage";
 
 const CustomeRouter = () => {
   return (
@@ -25,6 +26,8 @@ const CustomeRouter = () => {
           <Route path="icap-test" element={<IcapTestPage />} />
 
           <Route path="profile" element={<ProfilePage />} />
+
+          <Route path="result" element={<ResultPage />} />
         </Route>
 
         <Route path="/user" element={<SidebarLayout isExam={true} />}>

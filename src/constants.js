@@ -32,3 +32,6 @@ export const UPDATE_PSWD_SUCCESS_MSG = "Password updated successfully";
 export const OTPLENGTH_ERROR_MSG = "OTP must be 6 digits long";
 
 export const COMMON_ERROR_MSG = "Something went wrong";
+
+export const NO_AVAILABLE_QUES_THROW = "no-available-questions";
+export const NO_AVAILABLE_TESTS_THROW = "no-available-tests";
