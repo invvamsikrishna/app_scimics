@@ -16,9 +16,8 @@ import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
 import { authSuccess } from "../actions/auth";
 
-import LoginGoogle from "../components/GoogleLogin";
-import { gapi } from 'gapi-script';
-const clientId = "136010808221-qcqe91l44c3i8060ib6novlgnmjkc8ot.apps.googleusercontent.com";
+import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export const useStyles = makeStyles((theme) => ({
   root: { position: "relative", minHeight: "100vh", overflow: "hidden" },
@@ -142,15 +141,18 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
-  useEffect(()=>{
-    function start(){
-      gapi.client.init({
-        clientId: clientId,
-        scope:""
-      })
-    };
-    gapi.load('client:auth2',start);
-  })
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      // console.log(tokenResponse);
+
+      const userInfo = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        })
+        .then((res) => res.data);
+      console.log(userInfo);
+    },
+  });
 
   return (
     <Page title="Login">
@@ -187,8 +189,8 @@ const LoginPage = ({ authSuccess }) => {
               <Box p={2} />
 
               <Stack direction="row" spacing={3}>
-                <LoginGoogle />
-                {/* <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} onPressed={<LoginGoogle/>} sx={{ width: "100%" }} /> */}
+                <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
+
                 <CustomButton title="Github" startIcon={<Iconify icon={"mdi:github"} />} sx={{ width: "100%" }} />
               </Stack>
 
