@@ -10,11 +10,15 @@ import CustomButton from "../components/CustomButton";
 import Iconify from "../components/Iconify";
 import { FormProvider, RHFTextField } from "../components/hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthServices from "../services/AuthServices";
 import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
 import { authSuccess } from "../actions/auth";
+
+import LoginGoogle from "../components/GoogleLogin";
+import { gapi } from 'gapi-script';
+const clientId = "136010808221-qcqe91l44c3i8060ib6novlgnmjkc8ot.apps.googleusercontent.com";
 
 export const useStyles = makeStyles((theme) => ({
   root: { position: "relative", minHeight: "100vh", overflow: "hidden" },
@@ -138,6 +142,16 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
+  useEffect(()=>{
+    function start(){
+      gapi.client.init({
+        clientId: clientId,
+        scope:""
+      })
+    };
+    gapi.load('client:auth2',start);
+  })
+
   return (
     <Page title="Login">
       <Box px={1} className={classes.root}>
@@ -173,7 +187,8 @@ const LoginPage = ({ authSuccess }) => {
               <Box p={2} />
 
               <Stack direction="row" spacing={3}>
-                <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} sx={{ width: "100%" }} />
+                <LoginGoogle />
+                {/* <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} onPressed={<LoginGoogle/>} sx={{ width: "100%" }} /> */}
                 <CustomButton title="Github" startIcon={<Iconify icon={"mdi:github"} />} sx={{ width: "100%" }} />
               </Stack>
 

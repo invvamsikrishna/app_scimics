@@ -5,9 +5,9 @@ import ThemeProvider from "./theme";
 function App() {
   return (
     <ThemeProvider>
-      <SnackbarProvider>
-        <Router />
-      </SnackbarProvider>
+        <SnackbarProvider>
+          <Router />
+        </SnackbarProvider>
     </ThemeProvider>
   );
 }
