@@ -6,6 +6,9 @@ class UserServices {
 
   updateUser = (data) => instance.post(`/updateuser`, data);
   updateUserPswd = (data) => instance.post(`/updatepassword`, data);
+
+  addReport = (data) => instance.post(`/addreport`, data);
+  getReports = (id) => instance.post(`/getreports/${id}`);
 }
 
 export default new UserServices();

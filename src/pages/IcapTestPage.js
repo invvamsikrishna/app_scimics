@@ -18,7 +18,7 @@ const IcapTestPage = ({ account }) => {
         <Box p={1} />
 
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar sx={{ width: 56, height: 56 }} />
+          <Avatar src={account.user?.pic} sx={{ width: 56, height: 56 }} />
 
           <div>
             <Typography variant="subtitle1" fontSize={18} fontWeight={400}>

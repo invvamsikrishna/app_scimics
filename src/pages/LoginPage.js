@@ -15,7 +15,6 @@ import AuthServices from "../services/AuthServices";
 import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
 import { authSuccess } from "../actions/auth";
-
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 
@@ -143,16 +142,33 @@ const LoginPage = ({ authSuccess }) => {
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      // console.log(tokenResponse);
-
-      const userInfo = await axios
-        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+      try {
+        const result = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        })
-        .then((res) => res.data);
-      console.log(userInfo);
+        });
+
+        handleGoogleSubmit(result.data);
+      } catch (err) {
+        showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      }
     },
   });
+
+  const handleGoogleSubmit = async (data) => {
+    try {
+      var values = { firstname: data.given_name, lastname: data.family_name, email: data.email, pic: data.picture, signin_source: "GOOGLE" };
+
+      const response = await AuthServices.googleLoginPerson(values);
+      const responseData = response.data?.data ?? {};
+      if (responseData.is_account_verified == true) {
+        authSuccess(responseData);
+        navigate("/user/icap-test", { replace: true });
+      }
+    } catch (err) {
+      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      setLoading(false);
+    }
+  };
 
   return (
     <Page title="Login">
@@ -205,7 +221,7 @@ const LoginPage = ({ authSuccess }) => {
               <Stack spacing={2}>
                 <RHFTextField name="email" label="Email address*" placeholder="Enter email address" />
 
-                <RHFTextField name="password" label="Password*" placeholder="Enter password" />
+                <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
               </Stack>
 
               <Box p={2} />

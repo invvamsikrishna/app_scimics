@@ -97,7 +97,7 @@ const SignUpPage = () => {
 
                 <RHFTextField name="email" label="Email* (OTP Will Send To Email)" placeholder="Enter email" />
 
-                <RHFTextField name="password" label="Password*" placeholder="Enter password" />
+                <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
 
                 <RHFTextField name="cpassword" label="Confirm Password*" placeholder="Enter confirm password" />
 

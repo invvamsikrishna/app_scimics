@@ -132,7 +132,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={8}>
               <Grid item xs={12} md={3} sx={{ textAlign: "center" }}>
-                <Avatar src={`${PUBLIC_URL}/static/images/profile.png`} sx={{ width: "100%", height: "auto", maxWidth: 200, margin: "auto" }} />
+                <Avatar src={account.user?.pic} sx={{ width: "180px", height: "180px", maxWidth: "100%", margin: "auto" }} />
 
                 <Box p={1} />
 
@@ -165,11 +165,11 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
                   <RHFTextField name="email" label="Email address" />
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <URHFTextField name="country" value="+91" label="Country Code" disabled />
                 </Grid>
 
-                <Grid item xs={9}>
+                <Grid item xs={10}>
                   <RHFTextField type="number" name="phone" label="Phone number" />
                 </Grid>
 

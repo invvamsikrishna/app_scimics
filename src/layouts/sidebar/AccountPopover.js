@@ -62,7 +62,7 @@ const AccountPopover = ({ account, authLogout }) => {
           }),
         }}
       >
-        <Avatar sx={{ bgcolor: "#009BA5", color: "white" }}>{account.user?.firstname?.charAt(0)}</Avatar>
+        <Avatar src={account.user?.pic} sx={{ bgcolor: "#009BA5", color: "white" }} />
       </IconButton>
 
       <MenuPopover
