@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const TestDescDialog = ({ title }) => {
   const navigate = useNavigate();
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isCheckboxChecked, setCheckboxChecked] = useState(false); // for checkbox
 
   const handleCancel = () => {
     setDialogOpen(false);
@@ -61,7 +62,8 @@ const TestDescDialog = ({ title }) => {
           <Typography variant="subtitle1" fontSize={14} fontWeight={400} sx={{ display: "flex", alignItems: "center" }}>
             <Checkbox
               size="small"
-              defaultChecked
+              checked={isCheckboxChecked}
+              onChange={() => setCheckboxChecked(!isCheckboxChecked)} // Handle checkbox change
               sx={{
                 color: "text.disabled",
                 "&.Mui-checked": {
@@ -74,7 +76,14 @@ const TestDescDialog = ({ title }) => {
         </Box>
 
         <DialogActions sx={{ p: 3 }}>
-          <Button variant="outlined" color="inherit" onClick={handleClick} endIcon={<ArrowForwardIcon />} sx={{ fontWeight: "normal" }}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={handleClick}
+            endIcon={<ArrowForwardIcon />}
+            sx={{ fontWeight: "normal" }}
+            disabled={!isCheckboxChecked} // Disable button when checkbox is not checked
+          >
             Start Test
           </Button>
         </DialogActions>
