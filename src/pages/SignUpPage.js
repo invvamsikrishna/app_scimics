@@ -99,7 +99,7 @@ const SignUpPage = () => {
 
                 <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
 
-                <RHFTextField name="cpassword" label="Confirm Password*" placeholder="Enter confirm password" />
+                <RHFTextField name="cpassword" type="password" label="Confirm Password*" placeholder="Enter confirm password" />
 
                 <RHFCheckbox name="terms" label="I agree to terms & conditions" />
               </Stack>
