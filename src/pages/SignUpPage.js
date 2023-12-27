@@ -1,13 +1,11 @@
 import * as Yup from "yup";
-import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Container, Typography, Divider, Box, Button, Card, Grid, Stack, alpha } from "@mui/material";
+import { Container, Typography, Box, Card, Stack } from "@mui/material";
 import Page from "../components/Page";
-import { COMMON_ERROR_MSG, PUBLIC_URL, SIGNUP_SUCCESS_MSG } from "../constants";
+import { COMMON_ERROR_MSG, PUBLIC_URL} from "../constants";
 import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
-import Iconify from "../components/Iconify";
 import { FormProvider, RHFCheckbox, RHFTextField } from "../components/hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useStyles } from "./LoginPage";
@@ -95,11 +93,11 @@ const SignUpPage = () => {
 
                 <RHFTextField name="lastname" label="Last Name*" placeholder="Enter last name" />
 
-                <RHFTextField name="email" label="Email* (OTP Will Send To Email)" placeholder="Enter email" />
+                <RHFTextField name="email" type="email" label="Email* (OTP Will Send To Email)" placeholder="Enter email" />
 
                 <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
 
-                <RHFTextField name="cpassword" label="Confirm Password*" placeholder="Enter confirm password" />
+                <RHFTextField name="cpassword" type="password" label="Confirm Password*" placeholder="Enter confirm password" />
 
                 <RHFCheckbox name="terms" label="I agree to terms & conditions" />
               </Stack>

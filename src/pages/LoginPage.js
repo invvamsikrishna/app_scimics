@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Container, Typography, Divider, Box, Button, Card, Grid, Stack, alpha } from "@mui/material";
+import { Container, Typography, Box,  Card,  Stack, alpha } from "@mui/material";
 import Page from "../components/Page";
 import { COMMON_ERROR_MSG, PUBLIC_URL } from "../constants";
 import useResponsive from "../hooks/useResponsive";
@@ -10,7 +10,7 @@ import CustomButton from "../components/CustomButton";
 import Iconify from "../components/Iconify";
 import { FormProvider, RHFTextField } from "../components/hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AuthServices from "../services/AuthServices";
 import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
@@ -152,6 +152,9 @@ const LoginPage = ({ authSuccess }) => {
         showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       }
     },
+    onError: () => {
+      console.log('Login Failed');
+    },
   });
 
   const handleGoogleSubmit = async (data) => {
@@ -168,6 +171,11 @@ const LoginPage = ({ authSuccess }) => {
       showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
+  };
+  
+  const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
+  const handleButtonClick = () => {
+    window.open(githubOAuthUrl, '_blank');
   };
 
   return (
@@ -207,7 +215,7 @@ const LoginPage = ({ authSuccess }) => {
               <Stack direction="row" spacing={3}>
                 <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
 
-                <CustomButton title="Github" startIcon={<Iconify icon={"mdi:github"} />} sx={{ width: "100%" }} />
+                <CustomButton title="Github" startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleButtonClick} sx={{ width: "100%" }} />
               </Stack>
 
               <Box p={1} />
@@ -245,5 +253,4 @@ const LoginPage = ({ authSuccess }) => {
     </Page>
   );
 };
-
 export default connect(null, { authSuccess })(LoginPage);

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Button, CircularProgress, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, FormControl, FormControlLabel, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
 import { connect } from "react-redux";
 import { getExamQuestions, getNextQuestion, getPrevQuestion, setAnstoQues, clearAnstoQues, markReviewtoQues, getNextTest } from "../../actions/exam";
@@ -96,23 +96,23 @@ const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, m
 
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <div>
-              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} onClick={() => getPrevQuestion()}>
-                Previous
-              </Button>
-
-              <Button variant="outlined" color="secondary" onClick={() => getNextQuestion()}>
-                Next
-              </Button>
-            </div>
-
-            <div>
               <Button variant="outlined" color="error" sx={{ mr: 1 }} onClick={() => clearAnstoQues()}>
                 Clear Response
               </Button>
 
-              <Button variant="outlined" sx={{ mr: 1 }} onClick={() => markReviewtoQues()}>
+              <Button variant="outlined" onClick={() => markReviewtoQues()}>
                 Mark for review and Next
               </Button>
+            </div>
+
+            <div>
+                <Button variant="outlined" color="secondary" sx={{ mr: 1 }} onClick={() => getPrevQuestion()}>
+                  Previous
+                </Button>
+
+                <Button variant="outlined" color="secondary" sx={{ mr: 3 }} onClick={() => getNextQuestion()}>
+                  Next
+                </Button>
 
               <Button variant="contained" color="success" onClick={handleClearTimer}>
                 Finish

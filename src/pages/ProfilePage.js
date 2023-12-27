@@ -179,7 +179,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
                   </Grid>
 
                   <Grid item xs={4} md={3}>
-                    <LoadingButton variant="contained" loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", width: "100%", fontWeight: "normal" }}>
+                    <LoadingButton variant="contained" loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
                       Update Password
                     </LoadingButton>
                   </Grid>

@@ -9,8 +9,10 @@ import { useStyles } from "./LoginPage";
 import PinInput from "react-pin-input";
 import { useEffect, useState } from "react";
 import { useSnackbar } from "../components/SnackBar";
+import { authSuccess } from "../actions/auth";
+import { connect } from "react-redux";
 
-const VerificationPage = () => {
+const VerificationPage = ({authSuccess}) => {
   const classes = useStyles();
   const props = useLocation().state;
   const navigate = useNavigate();
@@ -20,6 +22,9 @@ const VerificationPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
 
+  const [timer, setTimer] = useState(120); 
+  const [isActive, setIsActive] = useState(false);
+  
   useEffect(() => {
     if (props.email) {
       sendOtptoEmail();
@@ -27,6 +32,18 @@ const VerificationPage = () => {
       navigate("/404");
     }
   }, []);
+
+  useEffect(() => {
+    let interval;
+    if (timer > 0 && !isActive) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0 && !isActive) {
+      setIsActive(true);
+    }
+    return () => clearInterval(interval);
+  }, [timer, isActive]);
 
   const sendOtptoEmail = async () => {
     setLoading(true);
@@ -42,6 +59,15 @@ const VerificationPage = () => {
     }
   };
 
+  const handleResend= (e)=>{
+    e.preventDefault();
+    if (isActive) {
+      // alert("clicked")
+      sendOtptoEmail();
+      setIsActive(true);
+    }    
+  }
+
   const handleSubmit = async () => {
     if (otp.length != 6) {
       showAlert(OTPLENGTH_ERROR_MSG, "error");
@@ -54,7 +80,13 @@ const VerificationPage = () => {
       const response = await AuthServices.verifyOtptoEmail({ email: props.email, received_otp: otp });
       setLoading(false);
       showAlert(SIGNUP_SUCCESS_MSG);
-      navigate("/login", { replace: true });
+
+      const responseData = response.data?.data ?? {};
+      setLoading(false);
+      if (responseData.is_account_verified == true) {
+        authSuccess(responseData);
+        navigate("/user/icap-test", { replace: true });
+      } 
     } catch (err) {
       showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
@@ -107,9 +139,14 @@ const VerificationPage = () => {
             </Typography>
 
             <Box sx={{ textAlign: "center" }}>
-              <Link to={"/signup"} style={{ color: "#CED765" }}>
-                Resend Code
+            {isActive ?
+              <Link 
+              onClick={handleResend}
+               style={{ color: "#CED765" }}>Resend Code
               </Link>
+              :
+              <Typography style={{ color: "#CED765" }}>Resend Code in ${timer}s</Typography>
+             }
             </Box>
 
             <Box p={1} />
@@ -126,4 +163,4 @@ const VerificationPage = () => {
   );
 };
 
-export default VerificationPage;
+export default connect(null, { authSuccess })(VerificationPage);
