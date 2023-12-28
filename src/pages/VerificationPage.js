@@ -28,6 +28,7 @@ const VerificationPage = ({authSuccess}) => {
   useEffect(() => {
     if (props.email) {
       sendOtptoEmail();
+      // alert("otp sent")
     } else {
       navigate("/404");
     }
@@ -64,7 +65,8 @@ const VerificationPage = ({authSuccess}) => {
     if (isActive) {
       // alert("clicked")
       sendOtptoEmail();
-      setIsActive(true);
+      setIsActive(false);
+      setTimer(120);
     }    
   }
 
@@ -145,7 +147,7 @@ const VerificationPage = ({authSuccess}) => {
                style={{ color: "#CED765" }}>Resend Code
               </Link>
               :
-              <Typography style={{ color: "#CED765" }}>Resend Code in ${timer}s</Typography>
+              <Typography style={{ color: "#CED765" }}>Resend Code in {timer}s</Typography>
              }
             </Box>
 
