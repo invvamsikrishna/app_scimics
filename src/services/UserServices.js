@@ -7,7 +7,9 @@ class UserServices {
   updateUser = (data) => instance.post(`/updateuser`, data);
   updateUserPswd = (data) => instance.post(`/updatepassword`, data);
 
-  addReport = (data) => instance.post(`/addreport`, data);
+  getExamQuestions = (data) => instance.post(`/generatepaper`, data);
+  validateExamTest = (id, data) => instance.post(`/validatepaper/${id}`, { data: data });
+
   getReports = (id) => instance.post(`/getreports/${id}`);
 }
 

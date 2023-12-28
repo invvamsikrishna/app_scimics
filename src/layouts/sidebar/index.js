@@ -32,7 +32,7 @@ const SidebarLayout = ({ isExam, account }) => {
 
   return (
     <RootStyle>
-      <DashboardNavbar account={account ?? {}} onOpenSidebar={() => setOpen(true)} />
+      <DashboardNavbar isExam={isExam} account={account ?? {}} onOpenSidebar={() => setOpen(true)} />
 
       <DashboardSidebar isExam={isExam} account={account ?? {}} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
 

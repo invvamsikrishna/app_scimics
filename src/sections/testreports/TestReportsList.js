@@ -36,6 +36,21 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
       },
     },
     {
+      name: "ca_total",
+      label: "Total",
+      options: { display: "false" },
+    },
+    {
+      name: "ca_won",
+      label: "Cognitive Abilities",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          var data = tableMeta.rowData;
+          return `${value} of ${data[3]}`;
+        },
+      },
+    },
+    {
       name: "tp_total",
       label: "Total",
       options: { display: "false" },
@@ -46,7 +61,7 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           var data = tableMeta.rowData;
-          return `${value} of ${data[3]}`;
+          return `${value} of ${data[5]}`;
         },
       },
     },
@@ -61,83 +76,22 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           var data = tableMeta.rowData;
-          return `${value} of ${data[5]}`;
-        },
-      },
-    },
-    {
-      name: "ca_total",
-      label: "Total",
-      options: { display: "false" },
-    },
-    {
-      name: "ca_won",
-      label: "Cognitive Abilities",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          var data = tableMeta.rowData;
           return `${value} of ${data[7]}`;
         },
       },
     },
-
     {
-      name: "iats_total",
+      name: "pb_total",
       label: "Total",
       options: { display: "false" },
     },
     {
-      name: "iats_won",
-      label: "Interpersonal and Teamwork Skills",
+      name: "pb_won",
+      label: "Personality and Behavioral",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           var data = tableMeta.rowData;
           return `${value} of ${data[9]}`;
-        },
-      },
-    },
-    {
-      name: "aacl_total",
-      label: "Total",
-      options: { display: "false" },
-    },
-    {
-      name: "aacl_won",
-      label: "Adaptability and Continuous Learning",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          var data = tableMeta.rowData;
-          return `${value} of ${data[11]}`;
-        },
-      },
-    },
-    {
-      name: "pmatm_total",
-      label: "Total",
-      options: { display: "false" },
-    },
-    {
-      name: "pmatm_won",
-      label: "Project Management and Time Management",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          var data = tableMeta.rowData;
-          return `${value} of ${data[13]}`;
-        },
-      },
-    },
-    {
-      name: "peaip_total",
-      label: "Total",
-      options: { display: "false" },
-    },
-    {
-      name: "peiap_won",
-      label: "Professional Etiquette and Interview Preparedness",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          var data = tableMeta.rowData;
-          return `${value} of ${data[15]}`;
         },
       },
     },

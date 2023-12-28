@@ -56,7 +56,7 @@ export default function examReducer(state = initialState, action) {
         if (state.currentQues < quesLength - 1) {
           nextQues = state.currentQues + 1;
         } else {
-          nextQues = 0;
+          throw new Error(NO_AVAILABLE_QUES_THROW);
         }
       }
 
@@ -82,7 +82,7 @@ export default function examReducer(state = initialState, action) {
       var updatedData = [...state.data];
       var ques = updatedData[state.currentTest]?.questions[state.currentQues];
       if (ques != null) {
-        ques.answer = payload;
+        ques.user_answer = payload;
         ques.status = QUES_STATUS[2];
       }
 
@@ -95,7 +95,7 @@ export default function examReducer(state = initialState, action) {
       var updatedData = [...state.data];
       var ques = updatedData[state.currentTest]?.questions[state.currentQues];
       if (ques != null) {
-        ques.answer = "";
+        ques.user_answer = "";
         ques.status = QUES_STATUS[1];
       }
 
@@ -108,7 +108,7 @@ export default function examReducer(state = initialState, action) {
       var updatedData = [...state.data];
       var ques = updatedData[state.currentTest]?.questions[state.currentQues];
       if (ques != null) {
-        ques.status = ques.answer == null || ques.answer == "" ? QUES_STATUS[3] : QUES_STATUS[4];
+        ques.status = ques.user_answer == null || ques.user_answer == "" ? QUES_STATUS[3] : QUES_STATUS[4];
       }
 
       return {

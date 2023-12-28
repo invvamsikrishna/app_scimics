@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Container, Typography, Box,  Card,  Stack, alpha } from "@mui/material";
+import { Container, Typography, Box, Card, Stack, alpha } from "@mui/material";
 import Page from "../components/Page";
 import { COMMON_ERROR_MSG, PUBLIC_URL } from "../constants";
 import useResponsive from "../hooks/useResponsive";
@@ -143,26 +143,27 @@ const LoginPage = ({ authSuccess }) => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const result = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-
+        const result = await AuthServices.getGoogleUserInfo(tokenResponse.access_token);
         handleGoogleSubmit(result.data);
       } catch (err) {
         showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       }
     },
     onError: () => {
-      console.log('Login Failed');
+      console.log("Login Failed");
     },
   });
 
   const handleGoogleSubmit = async (data) => {
+    setLoading(true);
+
     try {
       var values = { firstname: data.given_name, lastname: data.family_name, email: data.email, pic: data.picture, signin_source: "GOOGLE" };
 
       const response = await AuthServices.googleLoginPerson(values);
       const responseData = response.data?.data ?? {};
+      setLoading(false);
+
       if (responseData.is_account_verified == true) {
         authSuccess(responseData);
         navigate("/user/icap-test", { replace: true });
@@ -172,10 +173,15 @@ const LoginPage = ({ authSuccess }) => {
       setLoading(false);
     }
   };
-  
-  const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
-  const handleButtonClick = () => {
-    window.open(githubOAuthUrl, '_blank');
+
+  // const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
+  const handleGithubLogin = async () => {
+    try {
+      const result = await AuthServices.githubLoginPerson();
+      console.log(result);
+    } catch (err) {
+      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+    }
   };
 
   return (
@@ -213,9 +219,9 @@ const LoginPage = ({ authSuccess }) => {
               <Box p={2} />
 
               <Stack direction="row" spacing={3}>
-                <CustomButton title="Google" startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
+                <CustomButton title="Google" loading={isLoading} startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
 
-                <CustomButton title="Github" startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleButtonClick} sx={{ width: "100%" }} />
+                <CustomButton title="Github" loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
               </Stack>
 
               <Box p={1} />

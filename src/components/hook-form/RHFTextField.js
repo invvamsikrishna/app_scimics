@@ -1,9 +1,9 @@
 import { useFormContext, Controller } from "react-hook-form";
-import {  CircularProgress,  InputLabel, TextField, Typography } from "@mui/material";
+import { CircularProgress, InputLabel, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
 import React, { useEffect, useState } from "react";
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const CustomTextField = styled(TextField)({
   borderRadius: 1,
@@ -25,15 +25,18 @@ const CustomTextField = styled(TextField)({
 
 export default function RHFTextField({ name, label, loading, onChange, InputLabelProps, type, ...other }) {
   const { control } = useFormContext();
-  const [passwordType,setPasswordType] = useState(type)
-  const [eyeIcon,setEyeIcon] = useState(false)
-  useEffect(()=>{
-      setPasswordType(type);
-  },[type])
+  const [passwordType, setPasswordType] = useState(type);
+  const [eyeIcon, setEyeIcon] = useState(false);
+
+  useEffect(() => {
+    setPasswordType(type);
+  }, [type]);
+
   const togglePasswordVisibility = () => {
     setEyeIcon(!eyeIcon);
     setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
   };
+
   return (
     <>
       <InputLabel shrink={false} htmlFor={"username"}>
@@ -64,17 +67,12 @@ export default function RHFTextField({ name, label, loading, onChange, InputLabe
                 <React.Fragment>
                   {loading ? <CircularProgress color="primary" size={20} /> : null}
                   {field.InputProps?.endAdornment}
-                {type === "password" && (
-              <span onClick={togglePasswordVisibility}>
-                {eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}
-              </span>
-            )}
-            </React.Fragment>
+                  {type === "password" && <span onClick={togglePasswordVisibility}>{eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>}
+                </React.Fragment>
               ),
             }}
             type={passwordType}
             {...other}
-            
           />
         )}
       />

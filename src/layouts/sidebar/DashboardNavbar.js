@@ -1,9 +1,10 @@
 import { alpha, styled } from "@mui/material/styles";
-import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from "@mui/material";
+import { Box, Stack, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
 import Iconify from "../../components/Iconify";
 import AccountPopover from "./AccountPopover";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -28,7 +29,10 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export default function DashboardNavbar({ account, onOpenSidebar }) {
+export default function DashboardNavbar({ account, isExam, onOpenSidebar }) {
+  const showAlertDialog = useAlertDialog();
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState(document.title);
 
   useEffect(() => {
@@ -41,6 +45,16 @@ export default function DashboardNavbar({ account, onOpenSidebar }) {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleExit = () => {
+    showAlertDialog({
+      title: "Confirmation ?",
+      description: `Are you sure, you want to exit?`,
+      agreeCallback: () => {
+        navigate("/user/icap-test", { replace: true });
+      },
+    });
+  };
 
   return (
     <RootStyle elevation={5}>
@@ -56,7 +70,13 @@ export default function DashboardNavbar({ account, onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <AccountPopover account={account} />
+          {!isExam && <AccountPopover account={account} />}
+
+          {isExam && (
+            <Button variant="outlined" color="error" onClick={handleExit}>
+              Exit
+            </Button>
+          )}
         </Stack>
       </ToolbarStyle>
     </RootStyle>

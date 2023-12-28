@@ -1,17 +1,18 @@
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { alpha } from "@mui/material/styles";
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from "@mui/material";
 import MenuPopover from "../../components/MenuPopover";
 import { connect } from "react-redux";
 import { authLogout } from "../../actions/auth";
+import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
 const MENU_OPTIONS = [
   {
     label: "Home",
     icon: "eva:home-fill",
-    linkTo: "./dashboard",
+    linkTo: "/user/icap-test",
   },
   {
     label: "Profile",
@@ -27,6 +28,8 @@ const MENU_OPTIONS = [
 
 const AccountPopover = ({ account, authLogout }) => {
   const anchorRef = useRef(null);
+  const navigate = useNavigate();
+  const showAlertDialog = useAlertDialog();
 
   const [open, setOpen] = useState(null);
 
@@ -39,7 +42,14 @@ const AccountPopover = ({ account, authLogout }) => {
   };
 
   const handleLogout = () => {
-    authLogout();
+    showAlertDialog({
+      title: "Logout",
+      description: "Are you sure, you want to log out?",
+      agreeCallback: () => {
+        authLogout();
+        navigate("/login");
+      },
+    });
   };
 
   return (
@@ -100,7 +110,7 @@ const AccountPopover = ({ account, authLogout }) => {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        <MenuItem to={"/login"} component={RouterLink} onClick={handleLogout} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>

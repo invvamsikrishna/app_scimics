@@ -1,51 +1,17 @@
-import axios from "axios";
-import { examQuestionsJson } from "../sections/examination/examJson";
+import UserServices from "../services/UserServices";
 
 export const getExamQuestions = () => async (dispatch) => {
   dispatch({
     type: "EXAM_LOAD_START",
   });
 
-  var values = {
-    stream: "Btech",
-    course: "CSE",
-    "1Q_count": "2",
-    "1Q_time": "2",
-    "2Q_time": "4",
-    "2Q_a_count": "1",
-    "2Q_b_count": "1",
-    "2Q_c_count": "1",
-    "2Q_d_count": "1",
-    "3Q_time": "2",
-    "3Q_a_count": "1",
-    "3Q_b_count": "1",
-    "4Q_time": "2",
-    "4Q_a_count": "1",
-    "4Q_b_count": "1",
-    "5Q_time": "2",
-    "5Q_a_count": "1",
-    "5Q_b_count": "1",
-    "6Q_time": "5",
-    "6Q_a_count": "1",
-    "6Q_b_count": "1",
-    "6Q_c_count": "1",
-    "6Q_d_count": "1",
-    "6Q_e_count": "1",
-    "7Q_time": "2",
-    "7Q_a_count": "1",
-    "7Q_b_count": "1",
-  };
-
   try {
-    const response = await axios.post("https://mcq-generator-xr5k.onrender.com/get_mcq", values);
-    const responseData = response.data?.MCQ_Questions ?? [];
-
-    const testList = responseData.map((e) => ({ ...e, duration: 600 }));
-    console.log(testList);
+    const response = await UserServices.getExamQuestions();
+    const responseData = response.data?.data ?? [];
 
     dispatch({
       type: "EXAM_LOAD_SUCCESS",
-      payload: testList,
+      payload: responseData,
     });
 
     dispatch({

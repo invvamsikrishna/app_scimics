@@ -1,11 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, CircularProgress, FormControl, FormControlLabel, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
 import { connect } from "react-redux";
 import { getExamQuestions, getNextQuestion, getPrevQuestion, setAnstoQues, clearAnstoQues, markReviewtoQues, getNextTest } from "../../actions/exam";
 import TimerWidget from "./TimerWidget";
-import { NO_AVAILABLE_TESTS_THROW } from "../../constants";
+import { COMMON_ERROR_MSG, NO_AVAILABLE_TESTS_THROW, QUES_STATUS } from "../../constants";
 import { useNavigate } from "react-router-dom";
+import UserServices from "../../services/UserServices";
+import { useSnackbar } from "../../components/SnackBar";
+import { LoadingButton } from "@mui/lab";
+import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
 const StyledRadio = styled(Radio)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -14,9 +18,13 @@ const StyledRadio = styled(Radio)(({ theme }) => ({
   },
 }));
 
-const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, markReviewtoQues, getPrevQuestion, getNextQuestion, getNextTest }) => {
+const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAnstoQues, markReviewtoQues, getPrevQuestion, getNextQuestion, getNextTest }) => {
   const timerRef = useRef(null);
   const navigate = useNavigate();
+  const showAlert = useSnackbar();
+  const showAlertDialog = useAlertDialog();
+
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getExamQuestions();
@@ -32,15 +40,38 @@ const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, m
   }, [exam.currentTest]);
 
   const handleClearTimer = () => {
-    timerRef.current.clearTimer();
+    var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => [QUES_STATUS[3], QUES_STATUS[4]].includes(e.status)).length;
+    var description = `Are you sure, you want to move to the next section? ${markReview > 0 ? `You currently have ${markReview} marked questions for review.` : ""}`;
+
+    if (exam.data.length - 1 <= exam.currentTest) {
+      description = "Are you sure, you want to submit the exam?";
+    }
+
+    showAlertDialog({
+      title: "Confirmation ?",
+      description: description,
+      agreeCallback: () => {
+        timerRef.current.clearTimer();
+      },
+    });
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     var result = getNextTest();
     if (result == true) return;
 
     if (result == NO_AVAILABLE_TESTS_THROW) {
-      navigate("/user/result", { replace: true });
+      setLoading(true);
+      try {
+        const response = await UserServices.validateExamTest(account.user.user_pk, exam.data);
+        const responseData = response.data?.data ?? {};
+        setLoading(false);
+
+        navigate("/user/result", { replace: true, state: responseData });
+      } catch (err) {
+        showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+        setLoading(false);
+      }
     }
   };
 
@@ -84,7 +115,7 @@ const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, m
 
           <Box sx={{ bgcolor: "background.paper", px: { xs: 3, md: 6 }, py: 4, borderRadius: 2 }}>
             <FormControl>
-              <RadioGroup value={exam.data[exam.currentTest]?.questions[exam.currentQues]?.answer ?? ""} name="answer" onChange={(e) => setAnstoQues(e.target.value)}>
+              <RadioGroup value={exam.data[exam.currentTest]?.questions[exam.currentQues]?.user_answer ?? ""} name="answer" onChange={(e) => setAnstoQues(e.target.value)}>
                 {exam.data[exam.currentTest]?.questions[exam.currentQues]?.options?.map((item, index) => (
                   <FormControlLabel key={index} value={item} label={item} control={<StyledRadio />} />
                 ))}
@@ -106,17 +137,17 @@ const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, m
             </div>
 
             <div>
-                <Button variant="outlined" color="secondary" sx={{ mr: 1 }} onClick={() => getPrevQuestion()}>
-                  Previous
-                </Button>
-
-                <Button variant="outlined" color="secondary" sx={{ mr: 3 }} onClick={() => getNextQuestion()}>
-                  Next
-                </Button>
-
-              <Button variant="contained" color="success" onClick={handleClearTimer}>
-                Finish
+              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} onClick={() => getPrevQuestion()}>
+                Previous
               </Button>
+
+              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} onClick={() => getNextQuestion()}>
+                Next
+              </Button>
+
+              <LoadingButton loading={isLoading} variant="contained" color="success" onClick={handleClearTimer}>
+                Finish
+              </LoadingButton>
             </div>
           </Stack>
         </div>
@@ -127,6 +158,7 @@ const QuestionPaper = ({ exam, getExamQuestions, setAnstoQues, clearAnstoQues, m
 
 const mapStateToProps = (state) => {
   return {
+    account: state.auth,
     exam: state.exam,
   };
 };
