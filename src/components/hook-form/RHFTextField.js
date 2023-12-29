@@ -67,7 +67,7 @@ export default function RHFTextField({ name, label, loading, onChange, InputLabe
                 <React.Fragment>
                   {loading ? <CircularProgress color="primary" size={20} /> : null}
                   {field.InputProps?.endAdornment}
-                  {type === "password" && <span onClick={togglePasswordVisibility}>{eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>}
+                  {type === "password" && <span onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>{eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>}
                 </React.Fragment>
               ),
             }}
