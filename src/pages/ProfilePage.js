@@ -173,17 +173,19 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
                   <RHFTextField type="number" name="phone" label="Phone number" />
                 </Grid>
 
-                <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
-                  <Grid item xs={8} md={9}>
-                    <RHFTextField name="password" label="Change Password" />
-                  </Grid>
+                {account.user?.signin_source === "EMAIL" && (
+                  <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
+                    <Grid item xs={8} md={9}>
+                      <RHFTextField name="password" label="Change Password" />
+                    </Grid>
 
-                  <Grid item xs={4} md={3}>
-                    <LoadingButton variant="contained" loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
-                      Update Password
-                    </LoadingButton>
+                    <Grid item xs={4} md={3}>
+                      <LoadingButton variant="contained" loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
+                        Update Password
+                      </LoadingButton>
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
 
                 <Grid item xs={12}>
                   <Box p={4} />

@@ -101,6 +101,22 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
 
           <Box p={2} />
 
+          {exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension && (
+            <>
+              <Box sx={{ bgcolor: "background.paper", px: { xs: 3, md: 6 }, py: 4, borderRadius: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mb: 2 }}>
+                  Comprehension
+                </Typography>
+
+                <Typography variant="subtitle1" fontWeight="normal" textAlign="justify">
+                  {exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension ?? "-"}
+                </Typography>
+              </Box>
+
+              <Box p={1} />
+            </>
+          )}
+
           <Box sx={{ bgcolor: "background.paper", px: { xs: 3, md: 6 }, py: 4, borderRadius: 2 }}>
             <Typography variant="subtitle1" fontWeight={500} sx={{ mb: 2 }}>
               Question {exam.currentQues + 1 ?? "-"}

@@ -174,11 +174,12 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
-  const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
   const handleGithubLogin = async () => {
-    window.open(githubOAuthUrl, '_blank');
+    const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
+    window.open(githubOAuthUrl, "_blank");
     // try {
-    //   const result = await AuthServices.githubLoginPerson();
+    //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
+    //   // const result = await AuthServices.githubLoginPerson();
     //   console.log(result);
     // } catch (err) {
     //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
@@ -222,7 +223,7 @@ const LoginPage = ({ authSuccess }) => {
               <Stack direction="row" spacing={3}>
                 <CustomButton title="Google" loading={isLoading} startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
 
-                <CustomButton title="Github" loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
+                <CustomButton title="Github" disabled={true} loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
               </Stack>
 
               <Box p={1} />

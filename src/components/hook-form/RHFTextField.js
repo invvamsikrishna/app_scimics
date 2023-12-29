@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from "react-hook-form";
-import { CircularProgress, InputLabel, TextField, Typography } from "@mui/material";
+import { CircularProgress, IconButton, InputLabel, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -67,7 +67,11 @@ export default function RHFTextField({ name, label, loading, onChange, InputLabe
                 <React.Fragment>
                   {loading ? <CircularProgress color="primary" size={20} /> : null}
                   {field.InputProps?.endAdornment}
-                  {type === "password" && <span onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>{eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>}
+                  {type === "password" && (
+                    <IconButton onClick={togglePasswordVisibility} sx={{ p: 0, color: "white" }}>
+                      {eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                  )}
                 </React.Fragment>
               ),
             }}
