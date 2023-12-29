@@ -132,7 +132,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={8}>
               <Grid item xs={12} md={3} sx={{ textAlign: "center" }}>
-                <Avatar src={account.user?.pic} sx={{ width: "180px", height: "180px", maxWidth: "100%", margin: "auto" }} />
+                <Avatar src={account.user?.pic} sx={{ width: "80%", height: "auto", maxWidth: "150px", margin: "auto", aspectRatio: "1/1" }} />
 
                 <Box p={1} />
 

@@ -153,11 +153,11 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
             </div>
 
             <div>
-              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} onClick={() => getPrevQuestion()}>
+              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} disabled={exam.currentQues <= 0} onClick={() => getPrevQuestion()}>
                 Previous
               </Button>
 
-              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} onClick={() => getNextQuestion()}>
+              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} disabled={exam.data[exam.currentTest]?.questions?.length - 1 <= exam.currentQues} onClick={() => getNextQuestion()}>
                 Next
               </Button>
 
