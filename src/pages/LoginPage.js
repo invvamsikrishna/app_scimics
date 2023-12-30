@@ -10,7 +10,7 @@ import CustomButton from "../components/CustomButton";
 import Iconify from "../components/Iconify";
 import { FormProvider, RHFTextField } from "../components/hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthServices from "../services/AuthServices";
 import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
@@ -174,17 +174,75 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
-  const handleGithubLogin = async () => {
-    const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
-    window.open(githubOAuthUrl, "_blank");
-    // try {
-    //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
-    //   // const result = await AuthServices.githubLoginPerson();
-    //   console.log(result);
-    // } catch (err) {
-    //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-    // }
-  };
+
+
+
+
+  const [rerender, setRerender] = useState(false);
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const code = urlParams.get('code');
+
+    if (code && localStorage.getItem("accessToken") === null) {
+      const getAccessToken = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/scimics/getAccessToken?code=${code}`, {
+            method: 'GET',
+          });
+
+          const data = await response.json();
+          console.log(data);
+
+          if (data.access_token) {
+            localStorage.setItem("accessToken", data.access_token);
+            setRerender(!rerender);
+            getUserData();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getAccessToken();
+    } else {
+      getUserData();
+    }
+  }, [rerender]); // Include 'rerender' in the dependency array
+
+  async function getUserData() {
+    try {
+      const response = await fetch("http://localhost:8080/scimics/getUserData", {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        },
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleGithubLogin() {
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user");
+  }
+
+
+  // const handleGithubLogin = async () => {
+  //   const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
+  //   window.open(githubOAuthUrl, "_blank");
+  //   // try {
+  //   //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
+  //   //   // const result = await AuthServices.githubLoginPerson();
+  //   //   console.log(result);
+  //   // } catch (err) {
+  //   //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+  //   // }
+  // };
 
   return (
     <Page title="Login">
@@ -223,7 +281,7 @@ const LoginPage = ({ authSuccess }) => {
               <Stack direction="row" spacing={3}>
                 <CustomButton title="Google" loading={isLoading} startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
 
-                <CustomButton title="Github" disabled={true} loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
+                <CustomButton title="Github" disabled={false} loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
               </Stack>
 
               <Box p={1} />
