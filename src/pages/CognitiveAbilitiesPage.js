@@ -53,18 +53,18 @@ const CognitiveAbilitiesPage = () => {
         <Box p={1} />
 
         <Box px={5} py={5} sx={{ display: "flex", alignItems: "center", bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-          <Typography variant="subtitle1" fontSize={22} fontWeight={500} color="gray" sx={{ marginRight: 3 }}>
+          <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
 
-          <TextField name="questionCount" label="Quantitative Aptitude" type="number" sx={{ marginLeft: 3, marginRight: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
-          <TextField name="questionCount" label="Logical Reasoning" type="number" sx={{ marginLeft: 3, marginRight: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
+          <TextField name="questionCount" label="Quantitative Aptitude" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
+          <TextField name="questionCount" label="Logical Reasoning" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
 
           <LoadingButton
             variant="outlined"
             loading={isLoading}
             onClick={() => onGenerateClicked()}
-            sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
+            sx={{marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >
             Generate
           </LoadingButton>

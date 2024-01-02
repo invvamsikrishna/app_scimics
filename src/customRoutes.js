@@ -30,14 +30,13 @@ const CustomeRouter = () => {
       <Route path="/verification" element={<VerificationPage />} />
 
       <Route path="/admin-login" element={<AdminLoginPage />} />
-      <Route path="/technical-proficiency-page" element={<TechnicalProficiencyPage />} />
-      <Route path="/communication-skills-page" element={<CommunicationSkillsPage />} />
-      <Route path="/cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
-      <Route path="/personality-behavioral-page" element={<PersonalityBehavioralPage />} />
 
       <Route path="/admin-dashboard" element={<AdminSidebarLayout />}>
           <Route path="technical-proficiency-page" element={<TechnicalProficiencyPage />} />
-          {/* <Route path="adminprofile" element={<AdminProfilePage />} /> */}
+          <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
+          <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
+          <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
+          <Route path="adminprofile" element={<AdminProfilePage />} />
          
       </Route>
 

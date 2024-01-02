@@ -10,17 +10,17 @@ const NavConfigAdmin = [
   },
   {
     title: "Communication Skills",
-    path: "/admin-dashboard",
+    path: "/admin-dashboard/communication-skills-page",
     icon: getIcon("streamline:desktop-code-solid"),
   },
   {
     title: "Cognitive Abilities",
-    path: "/admin-dashboard",
+    path: "/admin-dashboard/cognitive-abilities-page",
     icon: getIcon("streamline:group-meeting-call-solid"),
   },
   {
     title: "Personality & Behavioral",
-    path: "/admin-dashboard",
+    path: "/admin-dashboard/personality-behavioral-page",
     icon: getIcon("solar:pen-new-square-bold"),
   },
   {

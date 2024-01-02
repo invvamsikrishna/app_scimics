@@ -17,7 +17,7 @@ const MENU_OPTIONS = [
   {
     label: "Profile",
     icon: "eva:person-fill",
-    linkTo: "/admin-dashboard",
+    linkTo: "/admin-dashboard/adminprofile",
   },
   {
     label: "Settings",

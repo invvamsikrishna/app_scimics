@@ -33,7 +33,7 @@ const AdminSidebarLayout = ({ account }) => {
   return (
     <RootStyle>
       <AdminDashboardNavbar account={account ?? {}} onOpenSidebar={() => setOpen(true)} />
-      {/* <AdminDashBoardSidebar account={account ?? {}} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} /> */}
+      <AdminDashBoardSidebar account={account ?? {}} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

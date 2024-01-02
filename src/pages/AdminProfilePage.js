@@ -148,18 +148,18 @@ const AdminProfilePage = ({ account, common, authUpdated, getAllColleges, getAll
               <Grid item container xs={12} md={8} spacing={2} sx={{ alignItems: "start" }}>
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" fontSize={16} fontWeight="normal">
-                    Personal Profile Details
+                    Admin Profile Details
                   </Typography>
                   <Divider />
                 </Grid>
 
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <RHFTextField name="firstname" label="First name" />
                 </Grid>
 
                 <Grid item xs={6}>
                   <RHFTextField name="lastname" label="Last name" />
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12}>
                   <RHFTextField name="email" label="Email address" />
@@ -173,7 +173,7 @@ const AdminProfilePage = ({ account, common, authUpdated, getAllColleges, getAll
                   <RHFTextField type="number" name="phone" label="Phone number" />
                 </Grid>
 
-                {account.user?.signin_source === "EMAIL" && (
+                {/* {account.user?.signin_source === "EMAIL" && ( */}
                   <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
                     <Grid item xs={8} md={9}>
                       <RHFTextField name="password" label="Change Password" />
@@ -185,9 +185,9 @@ const AdminProfilePage = ({ account, common, authUpdated, getAllColleges, getAll
                       </LoadingButton>
                     </Grid>
                   </Grid>
-                )}
+                {/* )} */}
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <Box p={4} />
                   <Typography variant="subtitle1" fontSize={16} fontWeight="normal">
                     Educational Details
@@ -213,7 +213,7 @@ const AdminProfilePage = ({ account, common, authUpdated, getAllColleges, getAll
                       </MenuItem>
                     ))}
                   </RHFTextField>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sx={{ textAlign: "right" }}>
                   <LoadingButton type="submit" loading={isLoading} variant="contained" sx={{ fontWeight: "normal" }}>
