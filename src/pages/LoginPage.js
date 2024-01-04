@@ -188,7 +188,7 @@ const LoginPage = ({ authSuccess }) => {
     if (code && localStorage.getItem("accessToken") === null) {
       const getAccessToken = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/scimics/getAccessToken?code=${code}`, {
+          const response = await fetch(`http://localhost:8080/scimics/gitAccessToken?code=${code}`, {
             method: 'GET',
           });
 
@@ -213,7 +213,7 @@ const LoginPage = ({ authSuccess }) => {
 
   async function getUserData() {
     try {
-      const response = await fetch("http://localhost:8080/scimics/getUserData", {
+      const response = await fetch("http://localhost:8080/scimics/gitUserData", {
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('accessToken')
