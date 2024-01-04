@@ -193,7 +193,7 @@ const LoginPage = ({ authSuccess }) => {
           });
 
           const data = await response.json();
-          console.log(data);
+          console.log(data.access_token);
 
           if (data.access_token) {
             localStorage.setItem("accessToken", data.access_token);
@@ -211,38 +211,28 @@ const LoginPage = ({ authSuccess }) => {
     }
   }, [rerender]); // Include 'rerender' in the dependency array
 
-  async function getUserData() {
+  const getUserData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/scimics/gitUserData", {
+      const response = await fetch('http://localhost:8080/scimics/gitUserData', {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log(data.data);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   async function handleGithubLogin() {
     window.location.assign("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user");
   }
 
 
-  // const handleGithubLogin = async () => {
-  //   const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
-  //   window.open(githubOAuthUrl, "_blank");
-  //   // try {
-  //   //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
-  //   //   // const result = await AuthServices.githubLoginPerson();
-  //   //   console.log(result);
-  //   // } catch (err) {
-  //   //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-  //   // }
-  // };
+
 
   return (
     <Page title="Login">
