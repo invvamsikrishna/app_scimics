@@ -4,6 +4,7 @@ import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../components/AdminGeneratedQue";
+import { useSnackbar } from "../components/SnackBar";
 
 const TechnicalProficiencyPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -12,6 +13,7 @@ const TechnicalProficiencyPage = () => {
   const [questionCount2, setQuestionCount2] = useState(0);
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
+  const showAlert = useSnackbar();
 
   const onGenerateClicked = async() => {
     console.log("onGenerateClicked");
@@ -22,7 +24,8 @@ const TechnicalProficiencyPage = () => {
         const response = await axios.post("https://scimics-api.onrender.com/scimics/gettechnicalq", {
           "stream": "Btech",
           "course": "CSE",
-          "1Q_count":questionCount1,
+          "1Q_a_count":questionCount1,
+          "1Q_b_count":questionCount2,
           "1Q_time":"2",
         });
         console.log(response.data.data.MCQ_Questions[0].questions);
@@ -39,10 +42,10 @@ const TechnicalProficiencyPage = () => {
     const icap_category_id = 2;
     const icap_qscategory_id = 1;
     let icap_subcategory_id;
-    if (items.category === "CSEforBtech") {
-      icap_subcategory_id = 3
-    } else {
+    if (items.category === "coding questions") {
       icap_subcategory_id = 4
+    } else {
+      icap_subcategory_id = 3
     }
     try {
       setDisabledButtons(prev => [...prev, index]);
@@ -60,8 +63,20 @@ const TechnicalProficiencyPage = () => {
         "domain_id": null,
       });
       console.log(response);
+      showAlert("Question Approved successfully");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
+      showAlert("Question Approval failed");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     }
   }
   return (
@@ -79,7 +94,7 @@ const TechnicalProficiencyPage = () => {
           </Typography>
 
           <TextField name="questionCount" label="Domain-Specific" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
-          <TextField name="questionCount" disabled label="Hands-on Coding" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
+          <TextField name="questionCount" label="Hands-on Coding" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
 
           <LoadingButton
             variant="outlined"
@@ -102,7 +117,9 @@ const TechnicalProficiencyPage = () => {
           </Box>
         ) : ((queArray.length > 0 && isGenrated) && (
             queArray.map((items,index)=>{
+              // console.log(items);
               return(
+            // <Typography>Please wait...</Typography>
                 <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />
               )})
         ))}

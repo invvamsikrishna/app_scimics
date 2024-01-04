@@ -10,7 +10,7 @@ import CustomButton from "../../components/CustomButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 
-const TestDescDialog = ({ title, totalMinutes }) => {
+const TestDescDialog = ({ title, formattedDuration }) => {
   const navigate = useNavigate();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isCheckboxChecked, setCheckboxChecked] = useState(false); // for checkbox
@@ -29,16 +29,7 @@ const TestDescDialog = ({ title, totalMinutes }) => {
         Start Test
       </Button>
 
-      <Dialog
-        open={isDialogOpen}
-        maxWidth="md"
-        fullWidth
-        scroll={"body"}
-        onClose={handleCancel}
-        PaperProps={{
-          elevation: 0,
-        }}
-      >
+      <Dialog sx={{boxShadow:"none !importent"}} open={isDialogOpen} maxWidth="md" fullWidth scroll={"body"} onClose={handleCancel}>
         <Box pt={3} px={4}>
           <Typography variant="subtitle1" fontSize={24} fontWeight={600} textAlign="center" sx={{ mb: 2 }}>
             Exam Instructions
@@ -55,7 +46,7 @@ const TestDescDialog = ({ title, totalMinutes }) => {
             >
               {[
                 "Click on Start Test button to start writing the examination",
-                `Total Duration of the examination will be ${totalMinutes / 60} hrs.`,
+                `Total Duration of the examination will be ${formattedDuration}.`,
                 "You will see the remaining timer for each question and for each section on the top right corner of your screen.",
                 "Once the timer is complete you will automatically moved to your next question/sections",
               ].map((item, index) => (

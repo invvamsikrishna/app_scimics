@@ -21,6 +21,10 @@ const TestOverview = () => {
   const [CSTime,setCSTime]=useState(0);
   const [PBTime,setPBTime]=useState(0);
   const totalMinutes = TPTime + CATime + CSTime + PBTime;
+  const hours = Math.trunc(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const formattedDuration = `${hours > 0 ? `${hours}hrs` : ''} ${minutes > 0 ? `${minutes}min` : ''}`;
+
   useEffect(()=>{
     const fetchData = async () => {
       try {
@@ -60,12 +64,12 @@ const TestOverview = () => {
         </Typography>
 
         <Typography variant="subtitle2" fontSize={13} fontWeight="normal" color="text.subtitle">
-          Total Test Duration: {totalMinutes / 60}hrs
+          Total Test Duration: {formattedDuration}
         </Typography>
 
         <Box p={2} />
 
-        <TestDescDialog totalMinutes={totalMinutes} />
+        <TestDescDialog formattedDuration={formattedDuration} />
       </Box>
 
       <Box p={3} />

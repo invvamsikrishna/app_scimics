@@ -3,8 +3,11 @@ import Page from "../components/Page";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import { ACPTextField } from "../components/hook-form/RHFTextField";
 
 const AdminConfigurationPage = () => {
+  const [isLoading, setLoading] = useState(false);
+
   const [DSKQuantity,setDSKQuantity]=useState(0);
   const [HCQuantity,setHCQuantity]=useState(0);
   const [TPTime,setTPTime]=useState(0);
@@ -21,7 +24,6 @@ const AdminConfigurationPage = () => {
   const [PMTMQuantity,setPMTMQuantity]=useState(0);
   const [PEIPQuantity,setPEIPQuantity]=useState(0);
   const [PBTime,setPBTime]=useState(0);
-  // const [QuestionsCount,setQuestionsCount]=useState({});
   const [DSKCount,setDSKCount]=useState({});
   const [HCCount,setHCCount]=useState({});
   const [qaCount,setQACount]=useState({});
@@ -34,11 +36,15 @@ const AdminConfigurationPage = () => {
   const [ACLCount,setACLCount]=useState({});
   const [PMTMCount,setPMTMCount]=useState({});
   const [PEIPCount,setPEIPCount]=useState({});
+  const [CSMarks,setCSMarks]=useState(0);
+  const [TPMarks,setTPMarks]=useState(0);
+  const [CAMarks,setCAMarks]=useState(0);
+  const [PBMarks,setPBMarks]=useState(0);
+  
   const questionsCountFetch =async () => {
     try {
       const response = await axios.get("https://scimics-api.onrender.com/scimics/questioncount");
       console.log(response.data.data);
-      // setQuestionsCount(response.data.data[2]);
       setQACount(response.data.data[0])
       setLRCount(response.data.data[1])
       setDSKCount(response.data.data[2])
@@ -56,7 +62,7 @@ const AdminConfigurationPage = () => {
       console.error("Error fetching data:", error);
     }
   };
-// console.log(DSKCount.question_count);
+
   useEffect(()=>{
     const fetchData = async () => {
       try {
@@ -86,21 +92,17 @@ const AdminConfigurationPage = () => {
     
     questionsCountFetch();
   },[])
-  // useEffect(()=>{
-  //   setDSKCount((prevCount) => {
-  //     const updatedQuestionsCount = QuestionsCount.map((item) => {
-  //       if (item.icap_subcategory_id === 3) {
-  //         return { ...item, question_count: prevCount };
-  //       }
-  //       return item;
-  //     });
-  //     setQuestionsCount(updatedQuestionsCount);
-  //     return prevCount; 
-  //   });
-  // },[QuestionsCount])
-  // console.log(DSKCount);
+  
+ useEffect(()=>{
+  setCSMarks((ESQuantity*5)+(EWQuantity*5)+(ELQuantity*5)+(ERQuantity*5));
+  setTPMarks((DSKQuantity*1)+(HCQuantity*1));
+  setCAMarks((qaQuantity*1)+(lrQuantity*1));
+  setPBMarks((ITWSQuantity*1)+(ACLQuantity*1)+(PMTMQuantity*1)+(PEIPQuantity*1));
+ },[ESQuantity,EWQuantity,ELQuantity,ERQuantity,DSKQuantity,HCQuantity,qaQuantity,lrQuantity,ITWSQuantity,ACLQuantity,PMTMQuantity,PEIPQuantity])
+
 const onConfigUpdateHandle=async()=>{
   console.log("onConfigUpdateHandle");
+  setLoading(true)
   try {
     const response = await axios.post("https://scimics-api.onrender.com/scimics/updateconfig", {
         "ca_qa_total":qaQuantity,
@@ -121,8 +123,10 @@ const onConfigUpdateHandle=async()=>{
         "pb_time":PBTime,
     });
     console.log(response);
+    setLoading(false);
   } catch (error) {
     console.error("Error fetching data:", error);
+    setLoading(false);
   }
 }
   return (
@@ -135,7 +139,7 @@ const onConfigUpdateHandle=async()=>{
           width: { xs: "100%", md: "100%" }, 
           marginBottom:"15px"}}>
           <Typography variant="subtitle1" >
-            Technical Proficiency
+            Technical Proficiency ({TPMarks} Marks)
           </Typography>
           <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
             <Box sx={{width:"20%"}}>
@@ -144,12 +148,12 @@ const onConfigUpdateHandle=async()=>{
               />
             </Box>
             <Box sx={{width:"80%"}} >
-              <TextField name="questionCount" label={`Domian-specific (${DSKCount.question_count})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={DSKQuantity} onChange={(e) => setDSKQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`Hands on coding (${HCCount.question_count})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={HCQuantity} onChange={(e) => setHCQuantity(e.target.value)} 
-              />
+            <ACPTextField name="questionCount"
+               label={`Domian-specific (${DSKCount.question_count})`}
+               value={DSKQuantity} max={DSKCount.question_count} setQuantity={setDSKQuantity}/>
+              <ACPTextField name="questionCount"
+               label={`Hands on coding (${HCCount.question_count})`}
+               value={HCQuantity} max={HCCount.question_count} setQuantity={setHCQuantity}/>
             </Box>
           </Box>
         </Box>
@@ -160,7 +164,7 @@ const onConfigUpdateHandle=async()=>{
           width: { xs: "100%", md: "100%" }, 
           marginBottom:"15px"}}>
           <Typography variant="subtitle1" >
-            Cognitive Abilities
+            Cognitive Abilities ({CAMarks} Marks)
           </Typography>
           <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
             <Box sx={{width:"20%"}}>
@@ -185,7 +189,7 @@ const onConfigUpdateHandle=async()=>{
           width: { xs: "100%", md: "100%" }, 
           marginBottom:"15px"}}>
           <Typography variant="subtitle1" >
-            Communication Skills
+            Communication Skills ({CSMarks} Marks)
           </Typography>
           <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
             <Box sx={{width:"20%"}}>
@@ -216,7 +220,7 @@ const onConfigUpdateHandle=async()=>{
           width: { xs: "100%", md: "100%" }, 
           marginBottom:"15px"}}>
           <Typography variant="subtitle1" >
-            Personality & Behavioral
+            Personality & Behavioral ({PBMarks} Marks)
           </Typography>
           <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
             <Box sx={{width:"20%"}}>
@@ -249,6 +253,7 @@ const onConfigUpdateHandle=async()=>{
 
         <LoadingButton
             variant="outlined"
+            loading={isLoading}
             onClick={() => onConfigUpdateHandle()}
             sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >

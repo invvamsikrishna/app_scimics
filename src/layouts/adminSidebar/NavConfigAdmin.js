@@ -6,7 +6,7 @@ const getIcon = (src) => <Box component="img" src={`${PUBLIC_URL}${src}`} sx={{w
 const NavConfigAdmin = [
   {
     title: "Technical Proficiency",
-    // path: "/admin-dashboard/technical-proficiency-page",
+    path: "/admin-dashboard/technical-proficiency-page",
     icon: getIcon("/static/icons/admin-technical.svg"),
   },
   {
@@ -21,7 +21,7 @@ const NavConfigAdmin = [
   },
   {
     title: "Personality & Behavioral",
-    // path: "/admin-dashboard/personality-behavioral-page",
+    path: "/admin-dashboard/personality-behavioral-page",
     icon: getIcon("/static/icons/admin-personality.svg"),
   },
   {

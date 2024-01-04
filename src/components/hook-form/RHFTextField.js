@@ -97,3 +97,39 @@ export function URHFTextField({ name, label, onChange, InputLabelProps, ...other
     </>
   );
 }
+
+export function ACPTextField({ name, label, value, max, setQuantity, ...other }) {
+  const [errorText, setErrorText] = useState('');
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue < 0 || inputValue > max) {
+      setErrorText(`Value should be between 0 to ${max}`);
+    } else {
+      setErrorText('');
+      setQuantity(inputValue)
+    }
+  };
+  
+  const handleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuantity((prevValue) => Math.min(Number(prevValue) + 1, max));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuantity((prevValue) => Math.max(Number(prevValue) - 1, 0));
+    }
+  };
+
+  return (
+    <TextField name={name} label={label} type="number" sx={{ margin: 2, width: "20%" }}
+      value={value} onChange={handleInputChange} onKeyDown={handleArrowKeys}
+      inputProps={{
+        min: 0,
+        max: {max},
+      }}
+      error={Boolean(errorText)}
+      helperText={errorText}
+    />
+  );
+}

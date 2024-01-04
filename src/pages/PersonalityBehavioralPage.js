@@ -4,6 +4,7 @@ import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../components/AdminGeneratedQue";
+import { useSnackbar } from "../components/SnackBar";
 
 const PersonalityBehavioralPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ const PersonalityBehavioralPage = () => {
   const [questionCount4, setQuestionCount4] = useState(0);
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
+  const showAlert = useSnackbar();
 
   const onGenerateClicked = async () => {
     console.log("onGenerateClicked");
@@ -48,10 +50,8 @@ const PersonalityBehavioralPage = () => {
       icap_subcategory_id = 11
     }else if(items.category === "Project Management and Time Management") {
       icap_subcategory_id = 12
-    }else if(items.category === "Professional Etiquette and Interview Preparedness") {
+    }else {
       icap_subcategory_id = 13
-    }else{
-      icap_subcategory_id = null
     }
     try {
       setDisabledButtons(prev => [...prev, index]);
@@ -69,8 +69,20 @@ const PersonalityBehavioralPage = () => {
         "domain_id": null,
       });
       console.log(response);
+      showAlert("Question Approved successfully");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
+      showAlert("Question Approval failed");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     }
   }
   return (
