@@ -42,7 +42,7 @@ const TechnicalProficiencyPage = () => {
     const icap_category_id = 2;
     const icap_qscategory_id = 1;
     let icap_subcategory_id;
-    if (items.category === "coding questions") {
+    if (items.category === "coding questions with outputs as options") {
       icap_subcategory_id = 4
     } else {
       icap_subcategory_id = 3

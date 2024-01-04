@@ -29,7 +29,15 @@ const TestDescDialog = ({ title, formattedDuration }) => {
         Start Test
       </Button>
 
-      <Dialog sx={{boxShadow:"none !importent"}} open={isDialogOpen} maxWidth="md" fullWidth scroll={"body"} onClose={handleCancel}>
+      <Dialog open={isDialogOpen}
+        maxWidth="md"
+        fullWidth
+        scroll={"body"}
+        onClose={handleCancel}
+        PaperProps={{
+          elevation: 0,
+        }}
+        >
         <Box pt={3} px={4}>
           <Typography variant="subtitle1" fontSize={24} fontWeight={600} textAlign="center" sx={{ mb: 2 }}>
             Exam Instructions

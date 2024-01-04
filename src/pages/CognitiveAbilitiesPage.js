@@ -4,6 +4,7 @@ import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../components/AdminGeneratedQue";
+import { useSnackbar } from "../components/SnackBar";
 
 const CognitiveAbilitiesPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -12,6 +13,7 @@ const CognitiveAbilitiesPage = () => {
   const [questionCount2, setQuestionCount2] = useState(0);
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
+  const showAlert = useSnackbar();
 
   const onGenerateClicked = async () => {
     console.log("onGenerateClicked");
@@ -59,8 +61,20 @@ const CognitiveAbilitiesPage = () => {
         "domain_id": null,
       });
       console.log(response);
+      showAlert("Question Approved successfully");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
+      showAlert("Question Approval failed");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
     }
   }
   return (
