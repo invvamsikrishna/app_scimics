@@ -40,8 +40,15 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
   }, [exam.currentTest]);
 
   const handleClearTimer = () => {
-    var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => [QUES_STATUS[3], QUES_STATUS[4]].includes(e.status)).length;
+    var notVisited = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[0] || e.status == null).length;
+    var notAnswered = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[1]).length;
+    var answered = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[2]).length;
+    var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length;
+    var ansmarkReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length;
+
     var description = `Are you sure, you want to move to the next section? ${markReview > 0 ? `You currently have ${markReview} marked questions for review.` : ""}`;
+
+    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${notVisited} Not Visited`, `${notAnswered} Not Answered`, `${answered} Answerd`, `${markReview} Mark For Review`, `${ansmarkReview} Answered And Mark For Review`];
 
     if (exam.data.length - 1 <= exam.currentTest) {
       description = "Are you sure, you want to submit the exam?";
@@ -50,6 +57,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     showAlertDialog({
       title: "Confirmation ?",
       description: description,
+      points: points,
       agreeCallback: () => {
         timerRef.current.clearTimer();
       },
@@ -78,13 +86,13 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
   return (
     <>
       {exam.isLoading && (
-        <Box minHeight={200} display="flex" justifyContent="center" alignItems="center">
+        <Box minHeight="80vh" display="flex" justifyContent="center" alignItems="center">
           <CircularProgress />
         </Box>
       )}
 
       {!exam.isLoading && exam.errorMessage && (
-        <Box minHeight={200} display="flex" justifyContent="center" alignItems="center">
+        <Box minHeight="80vh" display="flex" justifyContent="center" alignItems="center">
           <Typography color="error">{exam.errorMessage}</Typography>
         </Box>
       )}

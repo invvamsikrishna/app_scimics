@@ -162,7 +162,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
                 </Grid>
 
                 <Grid item xs={12}>
-                  <RHFTextField name="email" label="Email address" />
+                  <RHFTextField name="email" label="Email address" disabled={true} />
                 </Grid>
 
                 <Grid item xs={2}>

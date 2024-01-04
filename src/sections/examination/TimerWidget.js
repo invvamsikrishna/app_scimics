@@ -31,9 +31,14 @@ const TimerWidget = forwardRef(({ handleFinish }, ref) => {
     console.log("clear timer");
   };
 
+  const getTimeRemaining = () => {
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  };
+
   useImperativeHandle(ref, () => ({
     startTimer,
     clearTimer,
+    getTimeRemaining,
   }));
 
   const minutes = Math.floor(timeLeft / 60);

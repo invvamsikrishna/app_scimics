@@ -92,77 +92,81 @@ const DashboardSidebar = ({ exam, isExam, isOpenSidebar, onCloseSidebar, getTest
         <Box component="img" src={`${PUBLIC_URL}/static/icons/logo.svg`} sx={{ width: 100 }} />
       </Box>
 
-      <List disablePadding sx={{ p: 1 }}>
-        {exam.data?.map((item, index) => (
-          <React.Fragment key={index}>
-            <ListItemStyle className={exam.currentTest == index ? classes.activeRootStyle : null}>
-              <ListItemIconStyle>
-                <Iconify icon={"healthicons:i-exam-multiple-choice"} width={16} height={16} />
-              </ListItemIconStyle>
+      {!exam.isLoading && !exam.errorMessage && (
+        <>
+          <List disablePadding sx={{ p: 1 }}>
+            {exam.data?.map((item, index) => (
+              <React.Fragment key={index}>
+                <ListItemStyle className={exam.currentTest == index ? classes.activeRootStyle : null}>
+                  <ListItemIconStyle>
+                    <Iconify icon={"healthicons:i-exam-multiple-choice"} width={16} height={16} />
+                  </ListItemIconStyle>
 
-              <ListItemText primary={item.testname} primaryTypographyProps={{ style: { fontSize: 14, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: "1", WebkitBoxOrient: "vertical" } }} />
-            </ListItemStyle>
+                  <ListItemText primary={item.testname} primaryTypographyProps={{ style: { fontSize: 14, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: "1", WebkitBoxOrient: "vertical" } }} />
+                </ListItemStyle>
 
-            {exam.currentTest == index && (
-              <Box py={1} pt={1} pb={2}>
-                <Grid container rowSpacing={1}>
-                  {exam.data[index].questions.map((item, index) => (
-                    <Grid key={index} item xs={2.4} sx={{ display: "flex", justifyContent: "center" }}>
-                      <QuesBadge value={index + 1} status={item.status} onClick={QUES_STATUS.slice(1, 5).includes(item.status) ? () => getTestQuestion(index) : null} />
+                {exam.currentTest == index && (
+                  <Box py={1} pt={1} pb={2}>
+                    <Grid container rowSpacing={1}>
+                      {exam.data[index].questions.map((item, index) => (
+                        <Grid key={index} item xs={2.4} sx={{ display: "flex", justifyContent: "center" }}>
+                          <QuesBadge value={index + 1} status={item.status} onClick={QUES_STATUS.slice(1, 5).includes(item.status) ? () => getTestQuestion(index) : null} />
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            )}
-          </React.Fragment>
-        ))}
-      </List>
+                  </Box>
+                )}
+              </React.Fragment>
+            ))}
+          </List>
 
-      <Box flexGrow={1} />
+          <Box flexGrow={1} />
 
-      <Divider />
+          <Divider />
 
-      <List>
-        <ListItemStyle2>
-          <ListItemIconStyle2>
-            <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[0] || e.status == null).length} status={QUES_STATUS[0]} />
-          </ListItemIconStyle2>
+          <List>
+            <ListItemStyle2>
+              <ListItemIconStyle2>
+                <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[0] || e.status == null).length} status={QUES_STATUS[0]} />
+              </ListItemIconStyle2>
 
-          <ListItemText disableTypography primary={"Not Visited"} />
-        </ListItemStyle2>
+              <ListItemText disableTypography primary={"Not Visited"} />
+            </ListItemStyle2>
 
-        <ListItemStyle2>
-          <ListItemIconStyle2>
-            <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[1]).length} status={QUES_STATUS[1]} />
-          </ListItemIconStyle2>
+            <ListItemStyle2>
+              <ListItemIconStyle2>
+                <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[1]).length} status={QUES_STATUS[1]} />
+              </ListItemIconStyle2>
 
-          <ListItemText disableTypography primary={"Not Answered"} />
-        </ListItemStyle2>
+              <ListItemText disableTypography primary={"Not Answered"} />
+            </ListItemStyle2>
 
-        <ListItemStyle2>
-          <ListItemIconStyle2>
-            <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[2]).length} status={QUES_STATUS[2]} />
-          </ListItemIconStyle2>
+            <ListItemStyle2>
+              <ListItemIconStyle2>
+                <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[2]).length} status={QUES_STATUS[2]} />
+              </ListItemIconStyle2>
 
-          <ListItemText disableTypography primary={"Answered"} />
-        </ListItemStyle2>
+              <ListItemText disableTypography primary={"Answered"} />
+            </ListItemStyle2>
 
-        <ListItemStyle2>
-          <ListItemIconStyle2>
-            <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length} status={QUES_STATUS[3]} />
-          </ListItemIconStyle2>
+            <ListItemStyle2>
+              <ListItemIconStyle2>
+                <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length} status={QUES_STATUS[3]} />
+              </ListItemIconStyle2>
 
-          <ListItemText disableTypography primary={"Mark For Review"} />
-        </ListItemStyle2>
+              <ListItemText disableTypography primary={"Mark For Review"} />
+            </ListItemStyle2>
 
-        <ListItemStyle2>
-          <ListItemIconStyle2>
-            <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length} status={QUES_STATUS[4]} />
-          </ListItemIconStyle2>
+            <ListItemStyle2>
+              <ListItemIconStyle2>
+                <QuesBadge value={exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length} status={QUES_STATUS[4]} />
+              </ListItemIconStyle2>
 
-          <ListItemText disableTypography primary={"Answered and Mark For Review"} />
-        </ListItemStyle2>
-      </List>
+              <ListItemText disableTypography primary={"Answered and Mark For Review"} />
+            </ListItemStyle2>
+          </List>
+        </>
+      )}
     </>
   );
 
