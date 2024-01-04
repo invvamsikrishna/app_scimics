@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-const CustomTextField = styled(TextField)({
+export const CustomTextField = styled(TextField)({
   borderRadius: 1,
   marginTop: "8px !important",
   "& .MuiInputBase-root": {

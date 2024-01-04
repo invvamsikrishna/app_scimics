@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Container, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Container, TextField, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/styles";
 import axios from "axios";
-
-const StyledRadio = styled(Radio)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  "&.Mui-checked": {
-    color: theme.palette.success.main,
-  },
-}));
+import AdminGeneratedQue from "../components/AdminGeneratedQue";
 
 const TechnicalProficiencyPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -18,6 +11,7 @@ const TechnicalProficiencyPage = () => {
   const [questionCount1, setQuestionCount1] = useState(0);
   const [questionCount2, setQuestionCount2] = useState(0);
   const [queArray, setQueArray] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
   const onGenerateClicked = async() => {
     console.log("onGenerateClicked");
@@ -29,7 +23,7 @@ const TechnicalProficiencyPage = () => {
           "stream": "Btech",
           "course": "CSE",
           "1Q_count":questionCount1,
-          "1Q_time":questionCount2,
+          "1Q_time":"2",
         });
         console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions)
@@ -40,8 +34,35 @@ const TechnicalProficiencyPage = () => {
       }
     }
   }
-  const onApproveQue = () => {
-    console.log("onApproveQue");
+
+  const onApproveQue = async(items, index) => {
+    const icap_category_id = 2;
+    const icap_qscategory_id = 1;
+    let icap_subcategory_id;
+    if (items.category === "CSEforBtech") {
+      icap_subcategory_id = 3
+    } else {
+      icap_subcategory_id = 4
+    }
+    try {
+      setDisabledButtons(prev => [...prev, index]);
+      const response = await axios.post("https://scimics-api.onrender.com/scimics/approveq", {
+        "question": items.question,
+        "option1": items.options[0],
+        "option2": items.options[1],
+        "option3": items.options[2],
+        "option4": items.options[3],
+        "answer": items.correct_answer,
+        "icap_category_id": icap_category_id,
+        "icap_subcategory_id": icap_subcategory_id,
+        "icap_qscategory_id": icap_qscategory_id,
+        "comprehension_id": null,
+        "domain_id": null,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
   return (
     <Page title="Technical Proficiency">
@@ -58,7 +79,7 @@ const TechnicalProficiencyPage = () => {
           </Typography>
 
           <TextField name="questionCount" label="Domain-Specific" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
-          <TextField name="questionCount" label="Hands-on Coding" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
+          <TextField name="questionCount" disabled label="Hands-on Coding" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
 
           <LoadingButton
             variant="outlined"
@@ -73,41 +94,16 @@ const TechnicalProficiencyPage = () => {
 
         {queArray === null ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please Generate Questions again!</Typography>
           </Box>
         ) : (queArray.length === 0 && isGenrated) ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please wait...</Typography>
           </Box>
         ) : ((queArray.length > 0 && isGenrated) && (
             queArray.map((items,index)=>{
               return(
-            <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, marginBottom:1 }}>
-            <Typography>Question {index+1} {items.category}</Typography>
-            <Box p={1} />
-
-            <Typography>{items.question}</Typography>
-            <Box p={1} />
-
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ width: "88%" }} >
-                <FormControl>
-                  <RadioGroup value={items.correct_answer}>
-                    {items.options.map((item,i)=>{
-                      return(
-                        <FormControlLabel
-                      key={i} value={item} label={item} 
-                      control={<StyledRadio />} />
-                      )})}
-                  </RadioGroup>
-                </FormControl>
-              </Box>
-              <Box sx={{ width: "10%", display: "flex", alignItems: "end", marginRight: "6" }} >
-                <Button fullWidth variant="contained" color="success" onClick={() => onApproveQue()}>Approve</Button>
-              </Box>
-            </Box>
-
-          </Box>
+                <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />
               )})
         ))}
 
@@ -115,12 +111,4 @@ const TechnicalProficiencyPage = () => {
     </Page>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     account: state.auth,
-//   };
-// };
-
 export default TechnicalProficiencyPage
-// connect(mapStateToProps, null)(TechnicalProficiencyPage);

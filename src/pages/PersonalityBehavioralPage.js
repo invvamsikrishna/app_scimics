@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Container, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Container, TextField, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/styles";
 import axios from "axios";
-
-const StyledRadio = styled(Radio)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  "&.Mui-checked": {
-    color: theme.palette.success.main,
-  },
-}));
+import AdminGeneratedQue from "../components/AdminGeneratedQue";
 
 const PersonalityBehavioralPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -20,6 +13,7 @@ const PersonalityBehavioralPage = () => {
   const [questionCount3, setQuestionCount3] = useState(0);
   const [questionCount4, setQuestionCount4] = useState(0);
   const [queArray, setQueArray] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
   const onGenerateClicked = async () => {
     console.log("onGenerateClicked");
@@ -43,8 +37,41 @@ const PersonalityBehavioralPage = () => {
       }
     }
   }
-  const onApproveQue = () => {
-    console.log("onApproveQue");
+
+  const onApproveQue = async(items,index) => {
+    const icap_category_id = 4;
+    const icap_qscategory_id = 1;
+    let icap_subcategory_id;
+    if (items.category === "Interpersonal and Team work Skills") {
+      icap_subcategory_id = 10
+    } else if(items.category === "Adaptability and Continuous Learning") {
+      icap_subcategory_id = 11
+    }else if(items.category === "Project Management and Time Management") {
+      icap_subcategory_id = 12
+    }else if(items.category === "Professional Etiquette and Interview Preparedness") {
+      icap_subcategory_id = 13
+    }else{
+      icap_subcategory_id = null
+    }
+    try {
+      setDisabledButtons(prev => [...prev, index]);
+      const response = await axios.post("https://scimics-api.onrender.com/scimics/approveq", {
+        "question": items.question,
+        "option1": items.options[0],
+        "option2": items.options[1],
+        "option3": items.options[2],
+        "option4": items.options[3],
+        "answer": items.correct_answer,
+        "icap_category_id": icap_category_id,
+        "icap_subcategory_id": icap_subcategory_id,
+        "icap_qscategory_id": icap_qscategory_id,
+        "comprehension_id": null,
+        "domain_id": null,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
   return (
     <Page title="Personality & Behavioral">
@@ -77,41 +104,16 @@ const PersonalityBehavioralPage = () => {
         <Box p={1} />
         {queArray === null ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please Generate Questions again!</Typography>
           </Box>
         ) : (queArray.length === 0 && isGenrated) ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please wait...</Typography>
           </Box>
         ) : ((queArray.length > 0 && isGenrated) && (
           queArray.map((items, index) => {
             return (
-              <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, marginBottom: 1 }}>
-                <Typography>Question {index + 1} {items.category}</Typography>
-                <Box p={1} />
-
-                <Typography>{items.question}</Typography>
-                <Box p={1} />
-
-                <Box sx={{ display: "flex" }}>
-                  <Box sx={{ width: "88%" }} >
-                    <FormControl>
-                      <RadioGroup value={items.correct_answer}>
-                        {items.options.map((item, i) => {
-                          return (
-                            <FormControlLabel
-                              key={i} value={item} label={item}
-                              control={<StyledRadio />} />
-                          )
-                        })}
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                  <Box sx={{ width: "10%", display: "flex", alignItems: "end", marginRight: "6" }} >
-                    <Button fullWidth variant="contained" color="success" onClick={() => onApproveQue()}>Approve</Button>
-                  </Box>
-                </Box>
-              </Box>
+              <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />
             )
           })
         ))}

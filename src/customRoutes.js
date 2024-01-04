@@ -19,6 +19,7 @@ import TechnicalProficiencyPage from "./pages/TechnicalProficiencyPage";
 import CommunicationSkillsPage from "./pages/CommunicationSkillsPage";
 import CognitiveAbilitiesPage from "./pages/CognitiveAbilitiesPage";
 import PersonalityBehavioralPage from "./pages/PersonalityBehavioralPage";
+import AdminConfigurationPage from "./pages/AdminConfigurationPage";
 
 const CustomeRouter = () => {
   return (
@@ -36,6 +37,7 @@ const CustomeRouter = () => {
           <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
           <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
           <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
+          <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
           <Route path="adminprofile" element={<AdminProfilePage />} />
          
       </Route>

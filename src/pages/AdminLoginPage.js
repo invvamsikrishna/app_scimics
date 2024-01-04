@@ -1,19 +1,22 @@
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Container, Typography, Box, Card, Stack, alpha } from "@mui/material";
+// import { yupResolver } from "@hookform/resolvers/yup";
+import { Container, Typography, Box, Card, Stack, alpha, InputLabel, CircularProgress, IconButton } from "@mui/material";
 import Page from "../components/Page";
-import { COMMON_ERROR_MSG, PUBLIC_URL } from "../constants";
+import { PUBLIC_URL } from "../constants";
 import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
-import { FormProvider, RHFTextField } from "../components/hook-form";
+import { FormProvider } from "../components/hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import AuthServices from "../services/AuthServices";
+import React, { useState } from "react";
+// import AuthServices from "../services/AuthServices";
 import { useSnackbar } from "../components/SnackBar";
-import { connect } from "react-redux";
-import { authSuccess } from "../actions/auth";
+// import { connect } from "react-redux";
+// import { authSuccess } from "../actions/auth";
+import { CustomTextField } from "../components/hook-form/RHFTextField";
+// import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export const useStyles = makeStyles((theme) => ({
   root: { position: "relative", minHeight: "100vh", overflow: "hidden" },
@@ -92,47 +95,48 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminLoginPage = ({ authSuccess }) => {
+const AdminLoginPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const showAlert = useSnackbar();
   const lgUp = useResponsive("up", "lg");
+  const [passwordType, setPasswordType] = useState("password");
+  // const [eyeIcon, setEyeIcon] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
 
-  const schema = Yup.object().shape({
-    email: Yup.string().email().required("Email address is required"),
-    password: Yup.string().required("Password is required"),
-  });
-
+  // const togglePasswordVisibility = () => {
+  //   setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
+  // };
   const defaultValues = {
     email: "",
     password: "",
   };
 
   const methods = useForm({
-    resolver: yupResolver(schema),
+    // resolver: yupResolver(schema),
     defaultValues,
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const onSubmit = async () => {
     setLoading(true);
-
-    try {
-      const response = await AuthServices.loginPerson(data);
-      const responseData = response.data?.data ?? {};
+    const mail ="admin@123.com";
+    const pass ="admin@123";
+    if(mail===email && pass===password){
       setLoading(false);
-
-      if (responseData.is_account_verified == true) {
-        authSuccess(responseData);
-        navigate("/admin-dashboard", { replace: true });
-      } else {
-        console.log("Wrong");
+      navigate("/admin-dashboard/cognitive-abilities-page", { replace: true });
+    }else{
+      showAlert("wrong credentials");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
       }
-    } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      }, 20000);
       setLoading(false);
     }
   };
@@ -172,8 +176,45 @@ const AdminLoginPage = ({ authSuccess }) => {
               <Box p={2} />
 
               <Stack spacing={2}>
-                <RHFTextField name="email" label="Email address*" placeholder="Enter email address" />
-                <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
+                <InputLabel shrink={false} htmlFor={"username"}>
+                  <Typography component="span" color="white" fontSize={12} fontWeight="normal">
+                  Email address*
+                  </Typography>
+                </InputLabel>
+
+                <CustomTextField 
+                onChange={(e)=>setEmail(e.target.value)}
+                name="email"
+                type="email"
+                placeholder="Enter email address"
+                endadornment={<React.Fragment>
+                {isLoading ? <CircularProgress color="primary" size={20} /> : null}
+              </React.Fragment>}
+                >
+                </CustomTextField>
+                
+                <InputLabel shrink={false} htmlFor={"username"}>
+                  <Typography component="span" color="white" fontSize={12} fontWeight="normal">
+                  Password*
+                  </Typography>
+                </InputLabel>
+
+                <CustomTextField 
+                onChange={(e)=>setPassword(e.target.value)}
+                name="password"
+                type={passwordType}
+                placeholder="Enter password"
+                endadornment={<React.Fragment>
+                {isLoading ? <CircularProgress color="primary" size={20} /> : null}
+                {/* {passwordType === "password" && (
+                    <IconButton onClick={togglePasswordVisibility} sx={{ p: 0, color: "white" }}>
+                      {eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                  )} */}
+              </React.Fragment>
+              }
+                >
+                </CustomTextField>
               </Stack>
 
               <Box p={2} />
@@ -187,4 +228,4 @@ const AdminLoginPage = ({ authSuccess }) => {
     </Page>
   );
 };
-export default connect(null, { authSuccess })(AdminLoginPage);
+export default AdminLoginPage;

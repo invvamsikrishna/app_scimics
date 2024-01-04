@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Container, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Container, TextField, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/styles";
 import axios from "axios";
-
-const StyledRadio = styled(Radio)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  "&.Mui-checked": {
-    color: theme.palette.success.main,
-  },
-}));
+import AdminGeneratedQue from "../components/AdminGeneratedQue";
 
 const CommunicationSkillsPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -20,6 +13,7 @@ const CommunicationSkillsPage = () => {
   const [questionCount3, setQuestionCount3] = useState(0);
   const [questionCount4, setQuestionCount4] = useState(0);
   const [queArray, setQueArray] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
   const onGenerateClicked = async () => {
     console.log("onGenerateClicked");
@@ -32,7 +26,7 @@ const CommunicationSkillsPage = () => {
           "2Q_a_count": questionCount1,
           "2Q_b_count": questionCount2,
           "2Q_c_count": questionCount3,
-          "2Q_d_count": questionCount4,
+          "2Q_d_count": questionCount4
         });
         console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions)
@@ -43,8 +37,39 @@ const CommunicationSkillsPage = () => {
       }
     }
   }
-  const onApproveQue = () => {
-    console.log("onApproveQue");
+
+  const onApproveQue = async(items,index) => {
+    const icap_category_id = 3;
+    const icap_qscategory_id = 1;
+    let icap_subcategory_id;
+    if (items.category === "English Listening") {
+      icap_subcategory_id = 6
+    } else if(items.category === "English Reading") {
+      icap_subcategory_id = 7
+    }else if(items.category === "English Speaking") {
+      icap_subcategory_id = 5
+    }else{
+      icap_subcategory_id = 8
+    }
+    try {
+      setDisabledButtons(prev => [...prev, index]);
+      const response = await axios.post("https://scimics-api.onrender.com/scimics/approveq", {
+        "question": items.question,
+        "option1": items.options[0],
+        "option2": items.options[1],
+        "option3": items.options[2],
+        "option4": items.options[3],
+        "answer": items.correct_answer,
+        "icap_category_id": icap_category_id,
+        "icap_subcategory_id": icap_subcategory_id,
+        "icap_qscategory_id": icap_qscategory_id,
+        "comprehension_id": null,
+        "domain_id": null,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
   return (
     <Page title="Communication Skills">
@@ -60,10 +85,10 @@ const CommunicationSkillsPage = () => {
             Number of Questions
           </Typography>
 
-          <TextField name="questionCount" type="number" label="English Speaking" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
+          <TextField name="questionCount" type="number" disabled label="English Speaking" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
           <TextField name="questionCount" type="number" label="English Listening" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
           <TextField name="questionCount" type="number" label="English Reading" sx={{ marginLeft: 3, width: "150px" }} value={questionCount3} onChange={(e) => setQuestionCount3(e.target.value)} />
-          <TextField name="questionCount" type="number" label="English Writing" sx={{ marginLeft: 3, width: "150px" }} value={questionCount4} onChange={(e) => setQuestionCount4(e.target.value)} />
+          <TextField name="questionCount" type="number" disabled label="English Writing" sx={{ marginLeft: 3, width: "150px" }} value={questionCount4} onChange={(e) => setQuestionCount4(e.target.value)} />
 
           <LoadingButton
             variant="outlined"
@@ -77,41 +102,16 @@ const CommunicationSkillsPage = () => {
         <Box p={1} />
         {queArray === null ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please Generate Questions again!</Typography>
           </Box>
         ) : (queArray.length === 0 && isGenrated) ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again! </Typography>
+            <Typography>Please wait...</Typography>
           </Box>
         ) : ((queArray.length > 0 && isGenrated) && (
           queArray.map((items, index) => {
             return (
-              <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, marginBottom: 1 }}>
-                <Typography>Question {index + 1} {items.category}</Typography>
-                <Box p={1} />
-
-                <Typography>{items.question}</Typography>
-                <Box p={1} />
-
-                <Box sx={{ display: "flex" }}>
-                  <Box sx={{ width: "88%" }} >
-                    <FormControl>
-                      <RadioGroup value={items.correct_answer}>
-                        {items.options.map((item, i) => {
-                          return (
-                            <FormControlLabel
-                              key={i} value={item} label={item}
-                              control={<StyledRadio />} />
-                          )
-                        })}
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                  <Box sx={{ width: "10%", display: "flex", alignItems: "end", marginRight: "6" }} >
-                    <Button fullWidth variant="contained" color="success" onClick={() => onApproveQue()}>Approve</Button>
-                  </Box>
-                </Box>
-              </Box>
+              <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />
             )
           })
         ))}

@@ -1,8 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { DescWidget, TestDescDialog } from "../common";
+import axios from "axios";
 
 const TestOverview = () => {
+  const [DSKQuantity,setDSKQuantity]=useState(0);
+  const [HCQuantity,setHCQuantity]=useState(0);
+  const [QAQuantity,setQAQuantity]=useState(0);
+  const [LRQuantity,setLRQuantity]=useState(0);
+  const [ELQuantity,setELQuantity]=useState(0);
+  const [ERQuantity,setERQuantity]=useState(0);
+  const [EWQuantity,setEWQuantity]=useState(0);
+  const [ESQuantity,setESQuantity]=useState(0);
+  const [ITWSQuantity,setITWSQuantity]=useState(0);
+  const [ACLQuantity,setACLQuantity]=useState(0);
+  const [PMTMQuantity,setPMTMQuantity]=useState(0);
+  const [PEIPQuantity,setPEIPQuantity]=useState(0);
+  const [TPTime,setTPTime]=useState(0);
+  const [CATime,setCATime]=useState(0);
+  const [CSTime,setCSTime]=useState(0);
+  const [PBTime,setPBTime]=useState(0);
+  const totalMinutes = TPTime + CATime + CSTime + PBTime;
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://scimics-api.onrender.com/scimics/getconfig");
+        console.log(response.data.data);
+        setDSKQuantity(response.data.data.tp_dsk_total);
+        setHCQuantity(response.data.data.tp_hc_total);
+        setTPTime(response.data.data.tp_time);
+        setQAQuantity(response.data.data.ca_qa_total);
+        setLRQuantity(response.data.data.ca_lr_total);
+        setCATime(response.data.data.ca_time);
+        setELQuantity(response.data.data.cs_l_total);
+        setERQuantity(response.data.data.cs_r_total);
+        setEWQuantity(response.data.data.cs_w_total);
+        setESQuantity(response.data.data.cs_s_total);
+        setCSTime(response.data.data.cs_time);
+        setITWSQuantity(response.data.data.pb_itws_total);
+        setACLQuantity(response.data.data.pb_acl_total);
+        setPMTMQuantity(response.data.data.pb_pmtm_total);
+        setPEIPQuantity(response.data.data.pb_peip_total);
+        setPBTime(response.data.data.pb_time);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  },[])
   return (
     <>
       <Box px={4} py={4} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "85%" } }}>
@@ -15,12 +60,12 @@ const TestOverview = () => {
         </Typography>
 
         <Typography variant="subtitle2" fontSize={13} fontWeight="normal" color="text.subtitle">
-          Total Test Duration: 3hrs
+          Total Test Duration: {totalMinutes / 60}hrs
         </Typography>
 
         <Box p={2} />
 
-        <TestDescDialog />
+        <TestDescDialog totalMinutes={totalMinutes} />
       </Box>
 
       <Box p={3} />
@@ -32,7 +77,7 @@ const TestOverview = () => {
       <Box sx={{ width: { xs: "100%", md: "85%" } }}>
         <DescWidget
           title="Cognitive Abilities"
-          desc={["Duration: 30 Min", "Number of Questions: 20"]}
+          desc={[`Duration: ${CATime} Min`, `Number of Questions: ${QAQuantity + LRQuantity}`]}
           children={[
             { desc: ["Types of Questions: MCQs"] },
             {
@@ -54,7 +99,7 @@ const TestOverview = () => {
 
         <DescWidget
           title="Technical Proficiency"
-          desc={["Duration: 30 Min", "Number of Questions: 20"]}
+          desc={[`Duration: ${TPTime} Min`, `Number of Questions: ${DSKQuantity + HCQuantity }`]}
           children={[
             { desc: ["Types of Questions: MCQs"] },
             { underline: 1, desc: ["Domain-Specific Knowledge"] },
@@ -69,7 +114,7 @@ const TestOverview = () => {
 
         <DescWidget
           title="Communication Skills"
-          desc={["Duration: 45 Min", "Number of Questions: 15"]}
+          desc={[`Duration: ${CSTime} Min`, `Number of Questions: ${(ELQuantity +ERQuantity +ESQuantity +EWQuantity)*5 }`]}
           children={[
             { desc: ["Types of Questions: MCQs, Audio, Written test"] },
             { underline: 1, desc: ["English Speaking"] },
@@ -83,7 +128,7 @@ const TestOverview = () => {
 
         <DescWidget
           title="Personality and Behavioral"
-          desc={["Duration: 30 Min", "Number of Questions: 20"]}
+          desc={[`Duration: ${PBTime} Min`, `Number of Questions: ${ITWSQuantity +ACLQuantity +PMTMQuantity +PEIPQuantity }`]}
           children={[
             { desc: ["Types of Questions: MCQs"] },
             {

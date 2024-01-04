@@ -46,8 +46,8 @@ const AdminAccountPopover = ({ account, authLogout }) => {
       title: "Logout",
       description: "Are you sure, you want to log out?",
       agreeCallback: () => {
-        authLogout();
-        navigate("/login");
+        // authLogout();
+        navigate("/admin-login");
       },
     });
   };

@@ -1,32 +1,33 @@
-import Iconify from "../../components/Iconify";
+import { Box } from "@mui/material";
+import { PUBLIC_URL } from "../../constants";
 
-const getIcon = (name) => <Iconify icon={name} width={16} height={16} />;
+const getIcon = (src) => <Box component="img" src={`${PUBLIC_URL}${src}`} sx={{width:16, height:16}} />;
 
 const NavConfigAdmin = [
   {
     title: "Technical Proficiency",
-    path: "/admin-dashboard/technical-proficiency-page",
-    icon: getIcon("bxs:dashboard"),
+    // path: "/admin-dashboard/technical-proficiency-page",
+    icon: getIcon("/static/icons/admin-technical.svg"),
   },
   {
     title: "Communication Skills",
-    path: "/admin-dashboard/communication-skills-page",
-    icon: getIcon("streamline:desktop-code-solid"),
+    // path: "/admin-dashboard/communication-skills-page",
+    icon: getIcon("/static/icons/admin-communication.svg"),
   },
   {
     title: "Cognitive Abilities",
     path: "/admin-dashboard/cognitive-abilities-page",
-    icon: getIcon("streamline:group-meeting-call-solid"),
+    icon: getIcon("/static/icons/admin-cognitive.svg"),
   },
   {
     title: "Personality & Behavioral",
-    path: "/admin-dashboard/personality-behavioral-page",
-    icon: getIcon("solar:pen-new-square-bold"),
+    // path: "/admin-dashboard/personality-behavioral-page",
+    icon: getIcon("/static/icons/admin-personality.svg"),
   },
   {
     title: "Configuration",
-    path: "/admin-dashboard",
-    icon: getIcon("solar:pen-new-square-bold"),
+    path: "/admin-dashboard/admin-configuration-page",
+    icon: getIcon("/static/icons/admin-config.svg"),
   },
 ];
 
