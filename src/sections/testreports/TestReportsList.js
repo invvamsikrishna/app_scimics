@@ -5,6 +5,9 @@ import React, { useEffect } from "react";
 import { getMyTestReports } from "../../actions/report";
 import { connect } from "react-redux";
 import { fDateTime } from "../../services/formatTime";
+import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
+import { useRowData } from "./RowDataContext";
 
 export const useStyles = makeStyles((theme) => ({
   customTable: {
@@ -15,10 +18,17 @@ export const useStyles = makeStyles((theme) => ({
 
 const TestReportsList = ({ account, report, getMyTestReports }) => {
   const classes = useStyles();
-
+  // console.log(report);
   useEffect(() => {
     getMyTestReports(account.user?.user_pk);
   }, []);
+  const navigate = useNavigate();
+  const { setRowData } = useRowData();
+  const onShowPdfClick = (rowData) => {
+    // console.log(rowData);
+    setRowData(rowData);
+    navigate("/user/viewpdf");
+  }
 
   const columns = [
     {
@@ -105,6 +115,52 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
         },
       },
     },
+    {
+      name: "icap_report_pk",
+      label: "Action",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const rowData = {
+            icap_report_pk: value,
+            user_id: tableMeta.rowData[12],
+            firstname: tableMeta.rowData[13],
+            lastname: tableMeta.rowData[14],
+            createdon: tableMeta.rowData[15]
+          };
+          // var data = tableMeta.rowData;
+          return <LoadingButton
+            variant="outlined"
+            onClick={() => onShowPdfClick(rowData)}
+            sx={{
+              color: "#5a64c1",
+              backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7",
+            }}
+          >
+            Show PDF
+          </LoadingButton>;
+        },
+      },
+    },
+    {
+      name: "user_id",
+      label: "user_id",
+      options: { display: "false" },
+    },
+    {
+      name: "firstname",
+      label: "firstname",
+      options: { display: "false" },
+    },
+    {
+      name: "lastname",
+      label: "lastname",
+      options: { display: "false" },
+    },{
+      name: "createdon",
+      label: "createdon",
+      options: { display: "false" },
+    },
+
   ];
 
   const options = {

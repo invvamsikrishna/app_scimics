@@ -14,7 +14,7 @@ export const getMyTestReports = (id) => async (dispatch) => {
       payload: responseData,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     dispatch({
       type: "REPORT_LOAD_ERROR",
       payload: err.message,

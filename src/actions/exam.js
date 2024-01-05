@@ -22,7 +22,7 @@ export const getExamQuestions = () => async (dispatch) => {
       type: "EXAM_NEXT_QUES",
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     dispatch({
       type: "EXAM_LOAD_ERROR",
       payload: err.message,
@@ -42,7 +42,7 @@ export const getNextQuestion = () => (dispatch) => {
       type: "EXAM_NEXT_QUES",
     });
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
   }
 };
 export const getTestQuestion = (value) => (dispatch) => {
@@ -88,7 +88,7 @@ export const getNextTest = () => (dispatch) => {
 
     return true;
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     return err.message;
   }
 };

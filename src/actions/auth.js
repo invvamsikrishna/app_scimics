@@ -5,7 +5,7 @@ export const getProfile = () => async (dispatch) => {
   // try {
   //   const response = await AuthServices.getProfile();
   //   const responseData = response.data;
-  //   // console.log(responseData);
+  //   console.log(responseData);
   //   let data = {};
   //   if (responseData.message == "success") {
   //     data = responseData.body;

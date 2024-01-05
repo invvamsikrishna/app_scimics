@@ -10,6 +10,7 @@ import UserServices from "../../services/UserServices";
 import { useSnackbar } from "../../components/SnackBar";
 import { LoadingButton } from "@mui/lab";
 import { useAlertDialog } from "../../components/dialog/AlertDialog";
+import TexttoSpeachCheck from "../../components/TexttoSpeachCheck";
 
 const StyledRadio = styled(Radio)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -26,19 +27,97 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
 
   const [isLoading, setLoading] = useState(false);
 
+  const synthesis = window.speechSynthesis;
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSpeakingPause, setIsSpeakingPause] = useState(false);
+  const [raviIndiaVoice, setRaviIndiaVoice] = useState(null);
+
   useEffect(() => {
     getExamQuestions();
+
+    const voices = synthesis.getVoices();
+    const findingVoice = voices.find((voice) => voice.name === 'Microsoft Ravi - English (India)' && voice.lang === 'en-IN');
+    setRaviIndiaVoice(findingVoice);
+    const onEnd = () => {
+      setIsSpeaking(false);
+    };
+    stop();
+    synthesis.addEventListener('end', onEnd);
+    return () => {
+      synthesis.removeEventListener('end', onEnd);
+    };
   }, []);
 
+  const comprehensionText = exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension ?? "-";
+// console.log(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk  );
+const speak = () => {
+    if (synthesis && comprehensionText && raviIndiaVoice) {
+      const utterance = new SpeechSynthesisUtterance(comprehensionText);
+      utterance.voice = raviIndiaVoice;
+      synthesis.speak(utterance);
+      setIsSpeaking(true);
+      // console.log("playing");
+      // console.log(utterance);
+
+    } else {
+      // console.log("play error");
+    }
+  };
+
+  const pause = () => {
+    if (synthesis) {
+      synthesis.pause();
+      setIsSpeakingPause(true);
+    }
+  };
+
+  const resume = () => {
+    if (synthesis) {
+      synthesis.resume();
+      setIsSpeakingPause(false);
+      setIsSpeaking(true);
+    }
+  };
+
+ const stop = () => {
+    if (synthesis) {
+      synthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  const replay = () => {
+    setIsSpeakingPause(false);
+    stop();
+    speak();
+  };
+  const onPlayingNext=(comp)=>{
+    // console.log(comp);
+    if(exam.data[exam.currentTest]?.questions[exam.currentQues+1]?.comprehension_pk === comp){
+      // console.log("playing");
+      // console.log(exam.data[exam.currentTest]?.questions[exam.currentQues+1]?.comprehension_pk);
+    }else{
+      // console.log("stoping");
+      stop();
+    }
+  }
+const onPlayingPrev=(comp)=>{
+  if(exam.data[exam.currentTest]?.questions[exam.currentQues-1]?.comprehension_pk === comp){
+    // console.log("playing");
+    // console.log(exam.data[exam.currentTest]?.questions[exam.currentQues-1]?.comprehension_pk === comp);
+  }else{
+    // console.log("stoping");
+    stop();
+  }
+}
   useEffect(() => {
     if (exam.currentTest != null) {
       if (exam.data[exam.currentTest]?.duration != null) {
-        console.log("start timer");
+        // console.log("start timer");
         timerRef.current.startTimer(exam.data[exam.currentTest].duration);
       }
     }
   }, [exam.currentTest]);
-
   const handleClearTimer = () => {
     var notVisited = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[0] || e.status == null).length;
     var notAnswered = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[1]).length;
@@ -115,10 +194,17 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
                 <Typography variant="subtitle1" fontWeight={500} sx={{ mb: 2 }}>
                   Comprehension
                 </Typography>
-
-                <Typography variant="subtitle1" fontWeight="normal" textAlign="justify">
+              {exam.currentTest === 2 && exam.data[exam.currentTest]?.questions[exam.currentQues]?.category === "English Listening" ?
+                <TexttoSpeachCheck 
+                isSpeaking={isSpeaking} speak={speak} isSpeakingPause={isSpeakingPause}
+                pause={pause} resume={resume} stop={stop} replay={replay}
+                />
+              :
+              <Typography variant="subtitle1" fontWeight="normal" textAlign="justify">
                   {exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension ?? "-"}
                 </Typography>
+            }
+                
               </Box>
 
               <Box p={1} />
@@ -161,15 +247,15 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
             </div>
 
             <div>
-              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} disabled={exam.currentQues <= 0} onClick={() => getPrevQuestion()}>
+              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} disabled={exam.currentQues <= 0} onClick={() => {getPrevQuestion(); onPlayingPrev(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk)}}>
                 Previous
               </Button>
 
-              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} disabled={exam.data[exam.currentTest]?.questions?.length - 1 <= exam.currentQues} onClick={() => getNextQuestion()}>
+              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} disabled={exam.data[exam.currentTest]?.questions?.length - 1 <= exam.currentQues} onClick={() => {getNextQuestion(); onPlayingNext(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk)}}>
                 Next
               </Button>
 
-              <LoadingButton loading={isLoading} variant="contained" color="success" onClick={handleClearTimer}>
+              <LoadingButton loading={isLoading} variant="contained" color="success" onClick={()=>{handleClearTimer(); stop()}}>
                 Finish
               </LoadingButton>
             </div>

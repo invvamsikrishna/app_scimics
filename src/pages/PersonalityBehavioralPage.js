@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box, Container, TextField, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../components/AdminGeneratedQue";
 import { useSnackbar } from "../components/SnackBar";
+import { AGTextField } from "../components/hook-form/RHFTextField";
 
 const PersonalityBehavioralPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ const PersonalityBehavioralPage = () => {
   const showAlert = useSnackbar();
 
   const onGenerateClicked = async () => {
-    console.log("onGenerateClicked");
+    // console.log("onGenerateClicked");
     if (questionCount1 > 0 || questionCount2 > 0 || questionCount3 > 0 || questionCount4 > 0) {
       setLoading(true);
       setGenrated(true);
@@ -30,7 +31,7 @@ const PersonalityBehavioralPage = () => {
           "6Q_c_count": questionCount3,
           "6Q_d_count": questionCount4,
         });
-        console.log(response.data.data.MCQ_Questions[0].questions);
+        // console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions)
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -68,7 +69,7 @@ const PersonalityBehavioralPage = () => {
         "comprehension_id": null,
         "domain_id": null,
       });
-      console.log(response);
+      // console.log(response);
       showAlert("Question Approved successfully");
       setTimeout(() => {
         if (showAlert.close) {
@@ -98,12 +99,10 @@ const PersonalityBehavioralPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-
-          <TextField name="questionCount" type="number" label="Interpersonal & Team-work Skills" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
-          <TextField name="questionCount" type="number" label="Adaptability & Continuous Learning" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
-          <TextField name="questionCount" type="number" label="Project & Time Management" sx={{ marginLeft: 3, width: "150px" }} value={questionCount3} onChange={(e) => setQuestionCount3(e.target.value)} />
-          <TextField name="questionCount" type="number" label="Professional Etiquette & Interview Preparedness" sx={{ marginLeft: 3, width: "150px" }} value={questionCount4} onChange={(e) => setQuestionCount4(e.target.value)} />
-
+          <AGTextField name="ITSQuestionCount" label="Interpersonal & Team-work Skills" value={questionCount1} setQuestionCount={setQuestionCount1}/>
+          <AGTextField name="ACLQuestionCount" label="Adaptability & Continuous Learning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
+          <AGTextField name="PTMQuestionCount" label="Project & Time Management" value={questionCount3} setQuestionCount={setQuestionCount3}/>
+          <AGTextField name="PEIPuestionCount" label="Professional Etiquette & Interview Preparedness" value={questionCount4} setQuestionCount={setQuestionCount4}/>
           <LoadingButton
             variant="outlined"
             loading={isLoading}

@@ -28,7 +28,7 @@ const TimerWidget = forwardRef(({ handleFinish }, ref) => {
   const clearTimer = () => {
     clearInterval(timerIdRef.current);
     setTimeLeft(0);
-    console.log("clear timer");
+    // console.log("clear timer");
   };
 
   const getTimeRemaining = () => {

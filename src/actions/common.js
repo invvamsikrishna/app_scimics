@@ -17,7 +17,7 @@ export const getAllColleges = () => async (dispatch) => {
 
     return true;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err.response?.data?.error ?? COMMON_ERROR_MSG;
   }
 };
@@ -38,7 +38,7 @@ export const getAllCoursesById = (id) => async (dispatch) => {
 
     return true;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err.response?.data?.error ?? COMMON_ERROR_MSG;
   }
 };

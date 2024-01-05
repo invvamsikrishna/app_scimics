@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box, Container,  TextField, Typography } from "@mui/material";
+import { Box, Container,  Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../components/AdminGeneratedQue";
 import { useSnackbar } from "../components/SnackBar";
+import { AGTextField } from "../components/hook-form/RHFTextField";
 
 const CognitiveAbilitiesPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const CognitiveAbilitiesPage = () => {
   const showAlert = useSnackbar();
 
   const onGenerateClicked = async () => {
-    console.log("onGenerateClicked");
+    // console.log("onGenerateClicked");
     if (questionCount1 > 0 || questionCount2 > 0) {
       setLoading(true);
       setGenrated(true);
@@ -26,7 +27,7 @@ const CognitiveAbilitiesPage = () => {
           "3Q_a_count": questionCount1,
           "3Q_b_count": questionCount2,
         });
-        console.log(response.data.data.MCQ_Questions[0].questions);
+        // console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions)
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -60,7 +61,7 @@ const CognitiveAbilitiesPage = () => {
         "comprehension_id": null,
         "domain_id": null,
       });
-      console.log(response);
+      // console.log(response);
       showAlert("Question Approved successfully");
       setTimeout(() => {
         if (showAlert.close) {
@@ -90,10 +91,8 @@ const CognitiveAbilitiesPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-
-          <TextField name="questionCount" label="Quantitative Aptitude" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount1} onChange={(e) => setQuestionCount1(e.target.value)} />
-          <TextField name="questionCount" label="Logical Reasoning" type="number" sx={{ marginLeft: 3, width: "150px" }} value={questionCount2} onChange={(e) => setQuestionCount2(e.target.value)} />
-
+          <AGTextField name="QAQuestionCount" label="Quantitative Aptitude" value={questionCount1} setQuestionCount={setQuestionCount1}/>
+          <AGTextField name="LRQuestionCount" label="Logical Reasoning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
           <LoadingButton
             variant="outlined"
             loading={isLoading}

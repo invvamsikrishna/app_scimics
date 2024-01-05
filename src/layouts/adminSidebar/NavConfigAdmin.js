@@ -5,19 +5,19 @@ const getIcon = (src) => <Box component="img" src={`${PUBLIC_URL}${src}`} sx={{w
 
 const NavConfigAdmin = [
   {
+    title: "Cognitive Abilities",
+    path: "/admin-dashboard/cognitive-abilities-page",
+    icon: getIcon("/static/icons/admin-cognitive.svg"),
+  },
+  {
     title: "Technical Proficiency",
     path: "/admin-dashboard/technical-proficiency-page",
     icon: getIcon("/static/icons/admin-technical.svg"),
   },
   {
     title: "Communication Skills",
-    // path: "/admin-dashboard/communication-skills-page",
+    path: "/admin-dashboard/communication-skills-page",
     icon: getIcon("/static/icons/admin-communication.svg"),
-  },
-  {
-    title: "Cognitive Abilities",
-    path: "/admin-dashboard/cognitive-abilities-page",
-    icon: getIcon("/static/icons/admin-cognitive.svg"),
   },
   {
     title: "Personality & Behavioral",

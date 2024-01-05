@@ -1,50 +1,52 @@
-import { Box, Container, TextField, Typography} from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { ACPTextField } from "../components/hook-form/RHFTextField";
+import { ACQCTextField, ACTTextField } from "../components/hook-form/RHFTextField";
+import { useSnackbar } from "../components/SnackBar";
 
 const AdminConfigurationPage = () => {
   const [isLoading, setLoading] = useState(false);
+  const showAlert = useSnackbar();
 
-  const [DSKQuantity,setDSKQuantity]=useState(0);
-  const [HCQuantity,setHCQuantity]=useState(0);
-  const [TPTime,setTPTime]=useState(0);
-  const [qaQuantity,setQAQuantity]=useState(0);
-  const [lrQuantity,setLRQuantity]=useState(0);
-  const [CATime,setCATime]=useState(0);
-  const [ELQuantity,setELQuantity]=useState(0);
-  const [ERQuantity,setERQuantity]=useState(0);
-  const [EWQuantity,setEWQuantity]=useState(0);
-  const [ESQuantity,setESQuantity]=useState(0);
-  const [CSTime,setCSTime]=useState(0);
-  const [ITWSQuantity,setITWSQuantity]=useState(0);
-  const [ACLQuantity,setACLQuantity]=useState(0);
-  const [PMTMQuantity,setPMTMQuantity]=useState(0);
-  const [PEIPQuantity,setPEIPQuantity]=useState(0);
-  const [PBTime,setPBTime]=useState(0);
-  const [DSKCount,setDSKCount]=useState({});
-  const [HCCount,setHCCount]=useState({});
-  const [qaCount,setQACount]=useState({});
-  const [lrCount,setLRCount]=useState({});
-  const [ELCount,setELCount]=useState({});
-  const [ERCount,setERCount]=useState({});
-  const [EWCount,setEWCount]=useState({});
-  const [ESCount,setESCount]=useState({});
-  const [ITWSCount,setITWSCount]=useState({});
-  const [ACLCount,setACLCount]=useState({});
-  const [PMTMCount,setPMTMCount]=useState({});
-  const [PEIPCount,setPEIPCount]=useState({});
-  const [CSMarks,setCSMarks]=useState(0);
-  const [TPMarks,setTPMarks]=useState(0);
-  const [CAMarks,setCAMarks]=useState(0);
-  const [PBMarks,setPBMarks]=useState(0);
-  
-  const questionsCountFetch =async () => {
+  const [DSKQuantity, setDSKQuantity] = useState(0);
+  const [HCQuantity, setHCQuantity] = useState(0);
+  const [TPTime, setTPTime] = useState(0);
+  const [QAQuantity, setQAQuantity] = useState(0);
+  const [LRQuantity, setLRQuantity] = useState(0);
+  const [CATime, setCATime] = useState(0);
+  const [ELQuantity, setELQuantity] = useState(0);
+  const [ERQuantity, setERQuantity] = useState(0);
+  const [EWQuantity, setEWQuantity] = useState(0);
+  const [ESQuantity, setESQuantity] = useState(0);
+  const [CSTime, setCSTime] = useState(0);
+  const [ITWSQuantity, setITWSQuantity] = useState(0);
+  const [ACLQuantity, setACLQuantity] = useState(0);
+  const [PMTMQuantity, setPMTMQuantity] = useState(0);
+  const [PEIPQuantity, setPEIPQuantity] = useState(0);
+  const [PBTime, setPBTime] = useState(0);
+  const [DSKCount, setDSKCount] = useState({});
+  const [HCCount, setHCCount] = useState({});
+  const [qaCount, setQACount] = useState({});
+  const [lrCount, setLRCount] = useState({});
+  const [ELCount, setELCount] = useState({});
+  const [ERCount, setERCount] = useState({});
+  const [EWCount, setEWCount] = useState({});
+  const [ESCount, setESCount] = useState({});
+  const [ITWSCount, setITWSCount] = useState({});
+  const [ACLCount, setACLCount] = useState({});
+  const [PMTMCount, setPMTMCount] = useState({});
+  const [PEIPCount, setPEIPCount] = useState({});
+  const [CSMarks, setCSMarks] = useState(0);
+  const [TPMarks, setTPMarks] = useState(0);
+  const [CAMarks, setCAMarks] = useState(0);
+  const [PBMarks, setPBMarks] = useState(0);
+
+  const questionsCountFetch = async () => {
     try {
       const response = await axios.get("https://scimics-api.onrender.com/scimics/questioncount");
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setQACount(response.data.data[0])
       setLRCount(response.data.data[1])
       setDSKCount(response.data.data[2])
@@ -57,17 +59,16 @@ const AdminConfigurationPage = () => {
       setACLCount(response.data.data[9])
       setPMTMCount(response.data.data[10])
       setPEIPCount(response.data.data[11])
-      
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  useEffect(()=>{
-    const fetchData = async () => {
+const fetchData = async () => {
       try {
         const response = await axios.get("https://scimics-api.onrender.com/scimics/getconfig");
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setDSKQuantity(response.data.data.tp_dsk_total);
         setHCQuantity(response.data.data.tp_hc_total);
         setTPTime(response.data.data.tp_time);
@@ -88,170 +89,198 @@ const AdminConfigurationPage = () => {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
-    
-    questionsCountFetch();
-  },[])
-  
- useEffect(()=>{
-  setCSMarks((ESQuantity*5)+(EWQuantity*5)+(ELQuantity*5)+(ERQuantity*5));
-  setTPMarks((DSKQuantity*1)+(HCQuantity*1));
-  setCAMarks((qaQuantity*1)+(lrQuantity*1));
-  setPBMarks((ITWSQuantity*1)+(ACLQuantity*1)+(PMTMQuantity*1)+(PEIPQuantity*1));
- },[ESQuantity,EWQuantity,ELQuantity,ERQuantity,DSKQuantity,HCQuantity,qaQuantity,lrQuantity,ITWSQuantity,ACLQuantity,PMTMQuantity,PEIPQuantity])
 
-const onConfigUpdateHandle=async()=>{
-  console.log("onConfigUpdateHandle");
-  setLoading(true)
-  try {
-    const response = await axios.post("https://scimics-api.onrender.com/scimics/updateconfig", {
-        "ca_qa_total":qaQuantity,
-        "ca_lr_total":lrQuantity,
-        "ca_time":CATime,
-        "tp_dsk_total":DSKQuantity,
-        "tp_hc_total":HCQuantity,
-        "tp_time":TPTime,
-        "cs_s_total":ESQuantity,
-        "cs_w_total":EWQuantity,
-        "cs_l_total":ELQuantity,
-        "cs_r_total":ERQuantity,
-        "cs_time":CSTime,
-        "pb_itws_total":ITWSQuantity,
-        "pb_acl_total":ACLQuantity,
-        "pb_pmtm_total":PMTMQuantity,
-        "pb_peip_total":PEIPQuantity,
-        "pb_time":PBTime,
-    });
-    console.log(response);
+  useEffect(() => {
+    fetchData();
+    questionsCountFetch();
+  }, [])
+
+  useEffect(() => {
+    setCSMarks((ESQuantity * 5) + (EWQuantity * 5) + (ELQuantity * 5) + (ERQuantity * 5));
+    setTPMarks((DSKQuantity * 1) + (HCQuantity * 1));
+    setCAMarks((QAQuantity * 1) + (LRQuantity * 1));
+    setPBMarks((ITWSQuantity * 1) + (ACLQuantity * 1) + (PMTMQuantity * 1) + (PEIPQuantity * 1));
+  }, [ESQuantity, EWQuantity, ELQuantity, ERQuantity, DSKQuantity, HCQuantity, QAQuantity, LRQuantity, ITWSQuantity, ACLQuantity, PMTMQuantity, PEIPQuantity])
+
+  const onConfigUpdateHandle = async () => {
+    // console.log("onConfigUpdateHandle");
+    setLoading(true)
+    if(CATime > 0 || TPTime > 0 || CSTime > 0 || PBTime > 0 || ESQuantity > 0 ||  EWQuantity > 0 ||  ELQuantity > 0 ||  ERQuantity > 0 ||  DSKQuantity > 0 ||  HCQuantity > 0 ||  QAQuantity > 0 ||  LRQuantity > 0 ||  ITWSQuantity > 0 ||  ACLQuantity > 0 ||  PMTMQuantity > 0 ||  PEIPQuantity > 0){
+    try {
+      const response = await axios.post("https://scimics-api.onrender.com/scimics/updateconfig", {
+        "ca_qa_total": QAQuantity,
+        "ca_lr_total": LRQuantity,
+        "ca_time": CATime,
+        "tp_dsk_total": DSKQuantity,
+        "tp_hc_total": HCQuantity,
+        "tp_time": TPTime,
+        "cs_s_total": ESQuantity,
+        "cs_w_total": EWQuantity,
+        "cs_l_total": ELQuantity,
+        "cs_r_total": ERQuantity,
+        "cs_time": CSTime,
+        "pb_itws_total": ITWSQuantity,
+        "pb_acl_total": ACLQuantity,
+        "pb_pmtm_total": PMTMQuantity,
+        "pb_peip_total": PEIPQuantity,
+        "pb_time": PBTime,
+      });
+      // console.log(response);
+      setLoading(false);
+      showAlert("Configuration Updated successfully");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+      showAlert("Configuration failed to update");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
+    }
+  }else{
     setLoading(false);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    setLoading(false);
+    showAlert("All values shouldn't be 0");
+      setTimeout(() => {
+        if (showAlert.close) {
+          showAlert.close();
+      }
+      }, 20000);
   }
-}
+  }
   return (
     <Page title="Configuration">
       <Container maxWidth="xl" sx={{ py: 1 }}>
-        <Box px={5} py={1} 
-          sx={{ 
-          bgcolor: "background.primary", 
-          borderRadius: "12px", 
-          width: { xs: "100%", md: "100%" }, 
-          marginBottom:"15px"}}>
-          <Typography variant="subtitle1" >
-            Technical Proficiency ({TPMarks} Marks)
-          </Typography>
-          <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
-            <Box sx={{width:"20%"}}>
-              <TextField name="sessionTime" label="Time (min)" type="number"  sx={{width: "80%"}} 
-              value={TPTime} onChange={(e) => setTPTime(e.target.value)} 
-              />
-            </Box>
-            <Box sx={{width:"80%"}} >
-            <ACPTextField name="questionCount"
-               label={`Domian-specific (${DSKCount.question_count})`}
-               value={DSKQuantity} max={DSKCount.question_count} setQuantity={setDSKQuantity}/>
-              <ACPTextField name="questionCount"
-               label={`Hands on coding (${HCCount.question_count})`}
-               value={HCQuantity} max={HCCount.question_count} setQuantity={setHCQuantity}/>
-            </Box>
-          </Box>
-        </Box>
-        <Box px={5} py={1} 
-          sx={{ 
-          bgcolor: "background.primary", 
-          borderRadius: "12px", 
-          width: { xs: "100%", md: "100%" }, 
-          marginBottom:"15px"}}>
+        <Box px={5} py={1}
+          sx={{
+            bgcolor: "background.primary",
+            borderRadius: "12px",
+            width: { xs: "100%", md: "100%" },
+            marginBottom: "15px"
+          }}>
           <Typography variant="subtitle1" >
             Cognitive Abilities ({CAMarks} Marks)
           </Typography>
-          <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
-            <Box sx={{width:"20%"}}>
-              <TextField name="sessionTime" label="Time (min)" type="number"  sx={{width: "80%"}} 
-              value={CATime} onChange={(e) => setCATime(e.target.value)} 
-              />
+          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <Box sx={{ width: "20%" }}>
+              <ACTTextField name="CASessionTime" value={CATime} 
+                // min={(QAQuantity*1)+(LRQuantity*1)} 
+                setTime={setCATime}/>
             </Box>
-            <Box sx={{width:"80%"}} >
-              <TextField name="questionCount" label={`Quantitative Aptitude (${qaCount.question_count})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={qaQuantity} onChange={(e) => setQAQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`Logical Reasoning (${lrCount.question_count})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={lrQuantity} onChange={(e) => setLRQuantity(e.target.value)} 
-              />
+            <Box sx={{ width: "80%" }} >
+              <ACQCTextField name="qaCount"
+                label={`Quantitative Aptitude (${qaCount.question_count})`}
+                value={QAQuantity} max={qaCount.question_count*1} setQuantity={setQAQuantity} />
+              <ACQCTextField name="lrCount"
+                label={`Logical Reasoning (${lrCount.question_count})`}
+                value={LRQuantity} max={lrCount.question_count*1} setQuantity={setLRQuantity} />
             </Box>
           </Box>
         </Box>
-        <Box px={5} py={1} 
-          sx={{ 
-          bgcolor: "background.primary", 
-          borderRadius: "12px", 
-          width: { xs: "100%", md: "100%" }, 
-          marginBottom:"15px"}}>
+        <Box px={5} py={1}
+          sx={{
+            bgcolor: "background.primary",
+            borderRadius: "12px",
+            width: { xs: "100%", md: "100%" },
+            marginBottom: "15px"
+          }}>
+          <Typography variant="subtitle1" >
+            Technical Proficiency ({TPMarks} Marks)
+          </Typography>
+          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <Box sx={{ width: "20%" }}>
+              <ACTTextField name="TPSessionTime" value={TPTime} 
+                // min={(DSKQuantity*1)+(HCQuantity*1)} 
+                setTime={setTPTime}/>
+            </Box>
+            <Box sx={{ width: "80%" }} >
+              <ACQCTextField name="DSKCount"
+                label={`Domian-specific (${DSKCount.question_count})`}
+                value={DSKQuantity} max={DSKCount.question_count*1} setQuantity={setDSKQuantity} />
+              <ACQCTextField name="HCCount"
+                label={`Hands on coding (${HCCount.question_count})`}
+                value={HCQuantity} max={HCCount.question_count*1} setQuantity={setHCQuantity} />
+            </Box>
+          </Box>
+        </Box>
+
+        <Box px={5} py={1}
+          sx={{
+            bgcolor: "background.primary",
+            borderRadius: "12px",
+            width: { xs: "100%", md: "100%" },
+            marginBottom: "15px"
+          }}>
           <Typography variant="subtitle1" >
             Communication Skills ({CSMarks} Marks)
           </Typography>
-          <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
-            <Box sx={{width:"20%"}}>
-              <TextField name="sessionTime" label="Time (min)" type="number"  sx={{width: "80%"}} 
-              value={CSTime} onChange={(e) => setCSTime(e.target.value)} 
-              />
+          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <Box sx={{ width: "20%" }}>
+              <ACTTextField name="CSSessionTime" value={CSTime} 
+                // min={(ESQuantity*5)+(ELQuantity*5)+(ERQuantity*5)+(EWQuantity*5)} 
+                setTime={setCSTime}/>
             </Box>
-            <Box sx={{width:"80%"}} >
-              <TextField name="questionCount" label={`English Listening (${ELCount.question_count/5})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={ELQuantity} onChange={(e) => setELQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`English Reading (${ERCount.question_count/5})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={ERQuantity} onChange={(e) => setERQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`English Writing (${EWCount.question_count*0})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={EWQuantity} onChange={(e) => setEWQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`English Speaking (${ESCount.question_count*0})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={ESQuantity} onChange={(e) => setESQuantity(e.target.value)} 
-              />
+            <Box sx={{ width: "80%" }} >
+              <ACQCTextField name="ESCount"
+                label={`English Speaking (${ESCount.question_count * 0})`}
+                value={ESQuantity} max={ESCount.question_count * 0} setQuantity={setESQuantity} />
+              <ACQCTextField name="ELCount"
+                label={`English Listening (${ELCount.question_count / 5})`}
+                value={ELQuantity} max={ELCount.question_count/5} setQuantity={setELQuantity} />
+              <ACQCTextField name="ERCount"
+                label={`English Reading (${ERCount.question_count / 5})`}
+                value={ERQuantity} max={ERCount.question_count/5} setQuantity={setERQuantity} />
+              <ACQCTextField name="EWCount"
+                label={`English Writing (${EWCount.question_count * 0})`}
+                value={EWQuantity} max={EWCount.question_count*0} setQuantity={setEWQuantity} />
             </Box>
           </Box>
         </Box>
-        <Box px={5} py={1} 
-          sx={{ 
-          bgcolor: "background.primary", 
-          borderRadius: "12px", 
-          width: { xs: "100%", md: "100%" }, 
-          marginBottom:"15px"}}>
+        <Box px={5} py={1}
+          sx={{
+            bgcolor: "background.primary",
+            borderRadius: "12px",
+            width: { xs: "100%", md: "100%" },
+            marginBottom: "15px"
+          }}>
           <Typography variant="subtitle1" >
             Personality & Behavioral ({PBMarks} Marks)
           </Typography>
-          <Box sx={{width:"100%", display:"flex", alignItems:"center"}}>
-            <Box sx={{width:"20%"}}>
-              <TextField name="sessionTime" label="Time (min)" type="number"  sx={{width: "80%"}} 
-              value={PBTime} onChange={(e) => setPBTime(e.target.value)} 
-              />
+          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <Box sx={{ width: "20%" }}>
+              <ACTTextField name="PBSessionTime" value={PBTime} 
+              // min={(ITWSQuantity*1)+(ACLQuantity*1)+(PMTMQuantity*1)+(PEIPQuantity*1)} 
+              setTime={setPBTime}/>
             </Box>
-            <Box sx={{width:"80%"}} >
-              <TextField name="questionCount" label={`I.T.W.S (${ITWSCount.question_count})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={ITWSQuantity} onChange={(e) => setITWSQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`A.C.L (${ACLCount.question_count})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={ACLQuantity} onChange={(e) => setACLQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`P.M.T.M (${PMTMCount.question_count})`} type="number" sx={{margin: 2, width: "20%" }} 
-              value={PMTMQuantity} onChange={(e) => setPMTMQuantity(e.target.value)} 
-              />
-              <TextField name="questionCount" label={`P.E.I.P (${PEIPCount.question_count})`} type="number" sx={{ margin: 2, width: "20%" }} 
-              value={PEIPQuantity} onChange={(e) => setPEIPQuantity(e.target.value)} 
-              />
+            <Box sx={{ width: "80%" }} >
+              <ACQCTextField name="ITWSCount"
+                label={`I.T.W.S (${ITWSCount.question_count})`}
+                value={ITWSQuantity} max={ITWSCount.question_count*1} setQuantity={setITWSQuantity} />
+              <ACQCTextField name="ACLCount"
+                label={`A.C.L (${ACLCount.question_count})`}
+                value={ACLQuantity} max={ACLCount.question_count*1} setQuantity={setACLQuantity} />
+              <ACQCTextField name="PMTMCount"
+                label={`P.M.T.M (${PMTMCount.question_count})`}
+                value={PMTMQuantity} max={PMTMCount.question_count*1} setQuantity={setPMTMQuantity} />
+              <ACQCTextField name="PEIPCount"
+                label={`P.E.I.P (${PEIPCount.question_count})`}
+                value={PEIPQuantity} max={PEIPCount.question_count*1} setQuantity={setPEIPQuantity} />
             </Box>
           </Box>
         </Box>
 
-        <Box  
-          sx={{ 
-          display:"flex",
-          justifyContent:"end"
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "end"
           }}>
 
-        <LoadingButton
+          <LoadingButton
             variant="outlined"
             loading={isLoading}
             onClick={() => onConfigUpdateHandle()}

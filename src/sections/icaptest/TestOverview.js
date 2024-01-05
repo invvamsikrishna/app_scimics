@@ -29,7 +29,7 @@ const TestOverview = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("https://scimics-api.onrender.com/scimics/getconfig");
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setDSKQuantity(response.data.data.tp_dsk_total);
         setHCQuantity(response.data.data.tp_hc_total);
         setTPTime(response.data.data.tp_time);

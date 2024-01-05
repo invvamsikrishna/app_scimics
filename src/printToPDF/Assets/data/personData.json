@@ -1,0 +1,82 @@
+[
+    {
+        "firstName":"Panigrahi",
+        "lastName":"Kiran Babu",
+        "id":"4072554",
+        "universityName":"Sri Venkateswara University College of Engineering",
+        "region": "Andhra Pradesh",
+        "course": "Computer Science and Engineering",
+        "batch": 2024,
+        "applicationValidity":"01 September, 2024",
+        "assessedOn":"01-06-2023",
+        "overallScore":602,
+        "scoreMinRange":200,
+        "scoreMaxRange":800,
+        "institutePercentile":30,
+        "nationalPercentile":64,
+        "regionalPercentile":60,
+        "examCondectedOn":"Network Engineer",
+        "personalityData":
+        [
+            {
+              "zscore": 0.5,
+              "personality": "Openness"
+            },
+            {
+              "zscore": 0.1,
+              "personality": "Conscientiousness"
+            },
+            {
+              "zscore": -1.5,
+              "personality": "Extraversion"
+            },
+            {
+              "zscore": 1.8,
+              "personality": "Agreeableness"
+            },
+            {
+              "zscore": -0.5,
+              "personality": "Emotional Stability"
+            }
+        ],
+        "skillAnalisisData":
+        [
+            {
+              "persentageScore": 67,
+              "skills": "Analytical",
+              "helpLinks":["Increase your analytical skills","Ace MCQs"]
+            },
+            {
+                "persentageScore": 33,
+                "skills": "Quantitative",
+                "helpLinks":["Maths Tips","Improve Maths Calculation","Steps to Improve Math"]
+        
+            },
+            {
+                "persentageScore": 45,
+                "skills": "English",
+                "helpLinks":["Book: Word Power Made Easy","Understanding words in context","Understanding RC"]
+            },
+            {
+                "persentageScore": 20,
+                "skills": "Domain",
+                "helpLinks":["Electrical Courses from NPTEL","EE & CSE from MIT","EE Fun"]
+            },
+            {
+                "persentageScore": 33,
+                "skills": "Computer Fundamentals",
+                "helpLinks":["Programming from Coursera"]
+            },
+            {
+                "persentageScore": 96,
+                "skills": "Coding",
+                "helpLinks":["Overview of C++", "Let us C - Yashwant Kanetkar","MITs Intro to Programming","Programming from Coursera"]
+            },
+            {
+                "persentageScore": 5,
+                "skills": "WET",
+                "helpLinks":["Book: Word Power Made Easy","Improve Writing Skills","Check your Grammar","Blog"]
+            }
+        ]
+    }
+]
