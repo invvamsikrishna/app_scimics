@@ -95,8 +95,8 @@ const Page2 = ({ id, firstName, lastName,
                         <Typography sx={{ textAlign: "justify", padding: "0px 30px" }}>You have an above average overall score, which is an indicator of your performance across sections and past academics. You therefore have a good chance of being shortlisted and selected for opportunities across job roles given your sectional scores suffice respective job role criteria.</Typography>
                     </Box>
                 </Box>
-                <Box sx={{ width: "100%", height: "3px", backgroundColor: "blue", marginTop: "40px" }} />
-                <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%", color: "white", margin: "40px 0px" }}>
+                {/* <Box sx={{ width: "100%", height: "3px", backgroundColor: "blue", marginTop: "40px" }} /> */}
+                <Box sx={{ display: "flex", justifyContent: "space-evenly", width: "100%", color: "white", margin: "100px 0px" }}>
                     <Box sx={{ width: "31%" }}>
                         <Typography sx={{ fontSize: "25px" }}>SCIMICS Score</Typography>
                         <CircularWithValueLabeled value={overallScore} scoreMinRange={scoreMinRange} scoreMaxRange={scoreMaxRange} />
@@ -128,16 +128,16 @@ const Page2 = ({ id, firstName, lastName,
                         <Typography sx={{ textAlign: "center" }}>{setOpennessMessage} | {setConscientiousnessMessage} | {setExtraversionMessage} | {setAgreeablenessMessage} | {setEmotionalStabilityMessage}</Typography>
                     </Box>
                 </Box>
-                <Box sx={{ width: "100%", height: "3px", backgroundColor: "blue" }} />
+                {/* <Box sx={{ width: "100%", height: "3px", backgroundColor: "blue" }} /> */}
                 <Box sx={{color:"white", display:"flex",flexDirection:"column", gap:"10px", padding:"30px"}}>
                     <Typography sx={{fontSize:"30px", fontWeight:"bold"}}>Skill-wise Performance</Typography>
-                    <SkillWiseComponent analyticalSkillScore={analyticalSkillScore}
+                    {/* <SkillWiseComponent analyticalSkillScore={analyticalSkillScore}
         QuantitativeSkillScore={QuantitativeSkillScore}
         EnglishSkillScore={EnglishSkillScore} 
         DomainSkillScore={DomainSkillScore}
         ComputerSkillScore={ComputerSkillScore}
         CodingSkillScore={CodingSkillScore}
-        WETSkillScore={WETSkillScore}/>
+        WETSkillScore={WETSkillScore}/> */}
                     <Box sx={{display:"flex", alignItems:"center"}}>
                         <Box sx={{width:"15px", height:"15px", borderRadius:"50%", backgroundColor:"#66a91e"}}/>
                         <Box sx={{display:"flex"}}>

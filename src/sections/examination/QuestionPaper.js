@@ -42,6 +42,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
       setIsSpeaking(false);
     };
     stop();
+    setIsSpeakingPause(false);
     synthesis.addEventListener('end', onEnd);
     return () => {
       synthesis.removeEventListener('end', onEnd);

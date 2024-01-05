@@ -10,7 +10,7 @@ const StyledBox = styled(Box)({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0px 3%',
-  backgroundColor:"yellow"
+  // backgroundColor:"yellow"
 })
 const StyledInternalBox = styled(Box)({
   display: 'flex',
