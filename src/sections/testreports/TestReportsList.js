@@ -136,7 +136,7 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
               backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7",
             }}
           >
-            Show PDF
+            Show Report
           </LoadingButton>;
         },
       },

@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { alpha } from "@mui/material/styles";
@@ -8,25 +8,27 @@ import { connect } from "react-redux";
 import { authLogout } from "../../actions/auth";
 import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
-const MENU_OPTIONS = [
-  {
-    label: "Home",
-    icon: "eva:home-fill",
-    linkTo: "/admin-dashboard",
-  },
-  {
-    label: "Profile",
-    icon: "eva:person-fill",
-    linkTo: "/admin-dashboard/adminprofile",
-  },
-  {
-    label: "Settings",
-    icon: "eva:settings-2-fill",
-    linkTo: "/admin-dashboard",
-  },
-];
+// const MENU_OPTIONS = [
+//   {
+//     label: "Home",
+//     icon: "eva:home-fill",
+//     linkTo: "/admin-dashboard/",
+//   },
+//   {
+//     label: "Profile",
+//     icon: "eva:person-fill",
+//     linkTo: "/admin-dashboard/adminprofile",
+//   },
+//   {
+//     label: "Settings",
+//     icon: "eva:settings-2-fill",
+//     linkTo: "/admin-dashboard",
+//   },
+// ];
 
-const AdminAccountPopover = ({ account, authLogout }) => {
+const AdminAccountPopover = (
+  // { account, authLogout }
+  ) => {
   const anchorRef = useRef(null);
   const navigate = useNavigate();
   const showAlertDialog = useAlertDialog();
@@ -72,7 +74,9 @@ const AdminAccountPopover = ({ account, authLogout }) => {
           }),
         }}
       >
-        <Avatar src={account.user?.pic} sx={{ bgcolor: "#009BA5", color: "white" }} />
+        <Avatar 
+        // src={account.user?.pic} 
+        sx={{ bgcolor: "#009BA5", color: "white" }} />
       </IconButton>
 
       <MenuPopover
@@ -91,14 +95,15 @@ const AdminAccountPopover = ({ account, authLogout }) => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.user?.firstname} {account.user?.lastname}
+            {/* {account.user?.firstname} {account.user?.lastname} */}
+          Admin
           </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
+          {/* <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
             India
-          </Typography>
+          </Typography> */}
         </Box>
 
-        <Divider sx={{ borderStyle: "dashed" }} />
+        {/* <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
@@ -106,7 +111,7 @@ const AdminAccountPopover = ({ account, authLogout }) => {
               {option.label}
             </MenuItem>
           ))}
-        </Stack>
+        </Stack> */}
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
@@ -118,10 +123,11 @@ const AdminAccountPopover = ({ account, authLogout }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    account: state.auth,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     account: state.auth,
+//   };
+// };
 
-export default connect(mapStateToProps, { authLogout })(AdminAccountPopover);
+export default AdminAccountPopover;
+// connect(mapStateToProps, { authLogout })(AdminAccountPopover);

@@ -41,7 +41,7 @@ const CustomeRouter = () => {
           <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
           <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
           <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
-          <Route path="adminprofile" element={<AdminProfilePage />} />
+          {/* <Route path="adminprofile" element={<AdminProfilePage />} /> */}
          
       </Route>
       <Route path="/" element={<ProtectedRoute />}>
