@@ -15,10 +15,74 @@ const CognitiveAbilitiesPage = () => {
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const showAlert = useSnackbar();
+  const [disableGenerate,setDisableGenerate] = useState(true);
+  const [errorText1, setErrorText1] = useState('');
+  const [errorText2, setErrorText2] = useState('');
+  const [anstoChange,setAnstoChange] = useState('');
+  // console.log(anstoChange);
+
+  const QAhandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount2 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 20) {
+      setErrorText1(`Value should be between 0 to 20`);
+    } else {
+      setErrorText1('');
+      setQuestionCount1(inputValue)
+    }
+  };
+  
+  const LRhandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount1 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 20) {
+      setErrorText2(`Value should be between 0 to 20`);
+    } else {
+      setErrorText2('');
+      setQuestionCount2(inputValue)
+    }
+  };
+  
+  const QAhandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 20));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount1((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount2 == 0);
+        return newValue;
+      });
+    }
+  };
+
+  const LRhandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 20));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount2((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount1 == 0);
+        return newValue;
+      });
+    }
+  };
 
   const onGenerateClicked = async () => {
-    // console.log("onGenerateClicked");
-    if (questionCount1 > 0 || questionCount2 > 0) {
+    if (questionCount1 >= 1 || questionCount2 >= 1) {
       setLoading(true);
       setGenrated(true);
       try {
@@ -78,8 +142,9 @@ const CognitiveAbilitiesPage = () => {
       }, 20000);
     }
   }
+
   return (
-    <Page title="Cognitive Abilities">
+    <Page title="Cognitive Abilities Generate Page">
       <Container maxWidth="xl" sx={{ py: 4 }}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Cognitive Abilities
@@ -91,12 +156,13 @@ const CognitiveAbilitiesPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-          <AGTextField name="QAQuestionCount" label="Quantitative Aptitude" value={questionCount1} setQuestionCount={setQuestionCount1}/>
-          <AGTextField name="LRQuestionCount" label="Logical Reasoning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
+          <AGTextField errorText={errorText1} handleInputChange={QAhandleInputChange} handleArrowKeys={QAhandleArrowKeys} name="QAQuestionCount" label="Quantitative Aptitude" value={questionCount1} setQuestionCount={setQuestionCount1}/>
+          <AGTextField errorText={errorText2} handleInputChange={LRhandleInputChange} handleArrowKeys={LRhandleArrowKeys} name="LRQuestionCount" label="Logical Reasoning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
           <LoadingButton
             variant="outlined"
             loading={isLoading}
             onClick={() => onGenerateClicked()}
+            disabled={disableGenerate}
             sx={{ marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >
             Generate
@@ -115,7 +181,7 @@ const CognitiveAbilitiesPage = () => {
         ) : ((queArray.length > 0 && isGenrated) && (
           queArray.map((items, index) => {
             return (
-              <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />
+              <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setAnstoChange={setAnstoChange} />
             )
           })
         ))}
@@ -123,4 +189,11 @@ const CognitiveAbilitiesPage = () => {
     </Page>
   );
 };
+
+// const mapStateToProps = (state) => {
+//   return {
+//     account: state.auth,
+//   };
+// };
+
 export default CognitiveAbilitiesPage;

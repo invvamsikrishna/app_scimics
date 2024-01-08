@@ -9,13 +9,14 @@ import { useSnackbar } from "../components/SnackBar";
 const AdminConfigurationPage = () => {
   const [isLoading, setLoading] = useState(false);
   const showAlert = useSnackbar();
-
-  const [DSKQuantity, setDSKQuantity] = useState(0);
-  const [HCQuantity, setHCQuantity] = useState(0);
-  const [TPTime, setTPTime] = useState(0);
+  const [isUpdateDisable,setUpdateDisable] = useState(true);
+  
   const [QAQuantity, setQAQuantity] = useState(0);
   const [LRQuantity, setLRQuantity] = useState(0);
   const [CATime, setCATime] = useState(0);
+  const [DSKQuantity, setDSKQuantity] = useState(0);
+  const [HCQuantity, setHCQuantity] = useState(0);
+  const [TPTime, setTPTime] = useState(0);
   const [ELQuantity, setELQuantity] = useState(0);
   const [ERQuantity, setERQuantity] = useState(0);
   const [EWQuantity, setEWQuantity] = useState(0);
@@ -26,10 +27,11 @@ const AdminConfigurationPage = () => {
   const [PMTMQuantity, setPMTMQuantity] = useState(0);
   const [PEIPQuantity, setPEIPQuantity] = useState(0);
   const [PBTime, setPBTime] = useState(0);
-  const [DSKCount, setDSKCount] = useState({});
-  const [HCCount, setHCCount] = useState({});
+
   const [qaCount, setQACount] = useState({});
   const [lrCount, setLRCount] = useState({});
+  const [DSKCount, setDSKCount] = useState({});
+  const [HCCount, setHCCount] = useState({});
   const [ELCount, setELCount] = useState({});
   const [ERCount, setERCount] = useState({});
   const [EWCount, setEWCount] = useState({});
@@ -46,7 +48,6 @@ const AdminConfigurationPage = () => {
   const questionsCountFetch = async () => {
     try {
       const response = await axios.get("https://scimics-api.onrender.com/scimics/questioncount");
-      // console.log(response.data.data);
       setQACount(response.data.data[0])
       setLRCount(response.data.data[1])
       setDSKCount(response.data.data[2])
@@ -65,30 +66,29 @@ const AdminConfigurationPage = () => {
     }
   };
 
-const fetchData = async () => {
-      try {
-        const response = await axios.get("https://scimics-api.onrender.com/scimics/getconfig");
-        // console.log(response.data.data);
-        setDSKQuantity(response.data.data.tp_dsk_total);
-        setHCQuantity(response.data.data.tp_hc_total);
-        setTPTime(response.data.data.tp_time);
-        setQAQuantity(response.data.data.ca_qa_total);
-        setLRQuantity(response.data.data.ca_lr_total);
-        setCATime(response.data.data.ca_time);
-        setELQuantity(response.data.data.cs_l_total);
-        setERQuantity(response.data.data.cs_r_total);
-        setEWQuantity(response.data.data.cs_w_total);
-        setESQuantity(response.data.data.cs_s_total);
-        setCSTime(response.data.data.cs_time);
-        setITWSQuantity(response.data.data.pb_itws_total);
-        setACLQuantity(response.data.data.pb_acl_total);
-        setPMTMQuantity(response.data.data.pb_pmtm_total);
-        setPEIPQuantity(response.data.data.pb_peip_total);
-        setPBTime(response.data.data.pb_time);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://scimics-api.onrender.com/scimics/getconfig");
+      setDSKQuantity(response.data.data.tp_dsk_total);
+      setHCQuantity(response.data.data.tp_hc_total);
+      setTPTime(response.data.data.tp_time);
+      setQAQuantity(response.data.data.ca_qa_total);
+      setLRQuantity(response.data.data.ca_lr_total);
+      setCATime(response.data.data.ca_time);
+      setELQuantity(response.data.data.cs_l_total);
+      setERQuantity(response.data.data.cs_r_total);
+      setEWQuantity(response.data.data.cs_w_total);
+      setESQuantity(response.data.data.cs_s_total);
+      setCSTime(response.data.data.cs_time);
+      setITWSQuantity(response.data.data.pb_itws_total);
+      setACLQuantity(response.data.data.pb_acl_total);
+      setPMTMQuantity(response.data.data.pb_pmtm_total);
+      setPEIPQuantity(response.data.data.pb_peip_total);
+      setPBTime(response.data.data.pb_time);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -96,63 +96,85 @@ const fetchData = async () => {
   }, [])
 
   useEffect(() => {
-    setCSMarks((ESQuantity * 5) + (EWQuantity * 5) + (ELQuantity * 5) + (ERQuantity * 5));
-    setTPMarks((DSKQuantity * 1) + (HCQuantity * 1));
+    if (CATime == 0 || TPTime == 0 || CSTime == 0 || PBTime == 0) {
+      setUpdateDisable(true)
+      // console.log("zero");
+    }else if(CATime > 0 && (QAQuantity == 0 && LRQuantity == 0)){
+      setUpdateDisable(true)
+      // console.log("zero");
+    }else if(TPTime > 0 && (DSKQuantity == 0 && HCQuantity == 0)){
+      setUpdateDisable(true)
+      // console.log("zero");
+    }else if(CSTime > 0 && (ELQuantity == 0 && ERQuantity == 0)){
+      setUpdateDisable(true)
+      // console.log("zero");
+    }else if(PBTime > 0 && (ITWSQuantity == 0 && ACLQuantity == 0 && PMTMQuantity == 0 && PEIPQuantity == 0)){
+      setUpdateDisable(true)
+      // console.log("zero");
+    }
+    else {
+      // console.log("not zero");
+      setUpdateDisable(false)
+    }
+
     setCAMarks((QAQuantity * 1) + (LRQuantity * 1));
+    setTPMarks((DSKQuantity * 1) + (HCQuantity * 1));
+    setCSMarks((ESQuantity * 5) + (EWQuantity * 5) + (ELQuantity * 5) + (ERQuantity * 5));
     setPBMarks((ITWSQuantity * 1) + (ACLQuantity * 1) + (PMTMQuantity * 1) + (PEIPQuantity * 1));
-  }, [ESQuantity, EWQuantity, ELQuantity, ERQuantity, DSKQuantity, HCQuantity, QAQuantity, LRQuantity, ITWSQuantity, ACLQuantity, PMTMQuantity, PEIPQuantity])
+  }, [CATime, TPTime, CSTime, PBTime, QAQuantity, LRQuantity, DSKQuantity, HCQuantity, ESQuantity, ELQuantity, ERQuantity, EWQuantity, ITWSQuantity, ACLQuantity, PMTMQuantity, PEIPQuantity])
 
   const onConfigUpdateHandle = async () => {
-    // console.log("onConfigUpdateHandle");
+    
     setLoading(true)
-    if(CATime > 0 || TPTime > 0 || CSTime > 0 || PBTime > 0 || ESQuantity > 0 ||  EWQuantity > 0 ||  ELQuantity > 0 ||  ERQuantity > 0 ||  DSKQuantity > 0 ||  HCQuantity > 0 ||  QAQuantity > 0 ||  LRQuantity > 0 ||  ITWSQuantity > 0 ||  ACLQuantity > 0 ||  PMTMQuantity > 0 ||  PEIPQuantity > 0){
-    try {
-      const response = await axios.post("https://scimics-api.onrender.com/scimics/updateconfig", {
-        "ca_qa_total": QAQuantity,
-        "ca_lr_total": LRQuantity,
-        "ca_time": CATime,
-        "tp_dsk_total": DSKQuantity,
-        "tp_hc_total": HCQuantity,
-        "tp_time": TPTime,
-        "cs_s_total": ESQuantity,
-        "cs_w_total": EWQuantity,
-        "cs_l_total": ELQuantity,
-        "cs_r_total": ERQuantity,
-        "cs_time": CSTime,
-        "pb_itws_total": ITWSQuantity,
-        "pb_acl_total": ACLQuantity,
-        "pb_pmtm_total": PMTMQuantity,
-        "pb_peip_total": PEIPQuantity,
-        "pb_time": PBTime,
-      });
-      // console.log(response);
+    if (CATime > 0 || TPTime > 0 || CSTime > 0 || PBTime > 0 || ESQuantity > 0 || EWQuantity > 0 || ELQuantity > 0 || ERQuantity > 0 || DSKQuantity > 0 || HCQuantity > 0 || QAQuantity > 0 || LRQuantity > 0 || ITWSQuantity > 0 || ACLQuantity > 0 || PMTMQuantity > 0 || PEIPQuantity > 0) {
+      try {
+        const response = await axios.post("https://scimics-api.onrender.com/scimics/updateconfig", {
+          "ca_qa_total": QAQuantity,
+          "ca_lr_total": LRQuantity,
+          "ca_time": CATime,
+          "tp_dsk_total": DSKQuantity,
+          "tp_hc_total": HCQuantity,
+          "tp_time": TPTime,
+          "cs_s_total": ESQuantity,
+          "cs_w_total": EWQuantity,
+          "cs_l_total": ELQuantity,
+          "cs_r_total": ERQuantity,
+          "cs_time": CSTime,
+          "pb_itws_total": ITWSQuantity,
+          "pb_acl_total": ACLQuantity,
+          "pb_pmtm_total": PMTMQuantity,
+          "pb_peip_total": PEIPQuantity,
+          "pb_time": PBTime,
+        });
+        // console.log(response);
+        setLoading(false);
+        showAlert("Configuration Updated successfully");
+        setTimeout(() => {
+          if (showAlert.close) {
+            showAlert.close();
+          }
+        }, 20000);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+        showAlert("Configuration failed to update");
+        setTimeout(() => {
+          if (showAlert.close) {
+            showAlert.close();
+          }
+        }, 20000);
+      }
+    } else {
       setLoading(false);
-      showAlert("Configuration Updated successfully");
+      showAlert("All values shouldn't be 0");
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
-      }, 20000);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-      showAlert("Configuration failed to update");
-      setTimeout(() => {
-        if (showAlert.close) {
-          showAlert.close();
-      }
+        }
       }, 20000);
     }
-  }else{
-    setLoading(false);
-    showAlert("All values shouldn't be 0");
-      setTimeout(() => {
-        if (showAlert.close) {
-          showAlert.close();
-      }
-      }, 20000);
   }
-  }
+
   return (
     <Page title="Configuration">
       <Container maxWidth="xl" sx={{ py: 1 }}>
@@ -168,20 +190,20 @@ const fetchData = async () => {
           </Typography>
           <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
             <Box sx={{ width: "20%" }}>
-              <ACTTextField name="CASessionTime" value={CATime} 
-                // min={(QAQuantity*1)+(LRQuantity*1)} 
-                setTime={setCATime}/>
+              <ACTTextField name="CASessionTime" value={CATime}
+                setTime={setCATime} />
             </Box>
             <Box sx={{ width: "80%" }} >
               <ACQCTextField name="qaCount"
-                label={`Quantitative Aptitude (${qaCount.question_count})`}
-                value={QAQuantity} max={qaCount.question_count*1} setQuantity={setQAQuantity} />
+                label={`(${qaCount.question_count}) Quantitative Aptitude`}
+                value={QAQuantity} max={qaCount.question_count * 1} setQuantity={setQAQuantity} />
               <ACQCTextField name="lrCount"
-                label={`Logical Reasoning (${lrCount.question_count})`}
-                value={LRQuantity} max={lrCount.question_count*1} setQuantity={setLRQuantity} />
+                label={`(${lrCount.question_count}) Logical Reasoning`}
+                value={LRQuantity} max={lrCount.question_count * 1} setQuantity={setLRQuantity} />
             </Box>
           </Box>
         </Box>
+
         <Box px={5} py={1}
           sx={{
             bgcolor: "background.primary",
@@ -194,17 +216,16 @@ const fetchData = async () => {
           </Typography>
           <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
             <Box sx={{ width: "20%" }}>
-              <ACTTextField name="TPSessionTime" value={TPTime} 
-                // min={(DSKQuantity*1)+(HCQuantity*1)} 
-                setTime={setTPTime}/>
+              <ACTTextField name="TPSessionTime" value={TPTime}
+                setTime={setTPTime} />
             </Box>
             <Box sx={{ width: "80%" }} >
               <ACQCTextField name="DSKCount"
-                label={`Domian-specific (${DSKCount.question_count})`}
-                value={DSKQuantity} max={DSKCount.question_count*1} setQuantity={setDSKQuantity} />
+                label={`(${DSKCount.question_count}) Domian Specific`}
+                value={DSKQuantity} max={DSKCount.question_count * 1} setQuantity={setDSKQuantity} />
               <ACQCTextField name="HCCount"
-                label={`Hands on coding (${HCCount.question_count})`}
-                value={HCQuantity} max={HCCount.question_count*1} setQuantity={setHCQuantity} />
+                label={`(${HCCount.question_count}) Hands-on Coding`}
+                value={HCQuantity} max={HCCount.question_count * 1} setQuantity={setHCQuantity} />
             </Box>
           </Box>
         </Box>
@@ -221,26 +242,26 @@ const fetchData = async () => {
           </Typography>
           <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
             <Box sx={{ width: "20%" }}>
-              <ACTTextField name="CSSessionTime" value={CSTime} 
-                // min={(ESQuantity*5)+(ELQuantity*5)+(ERQuantity*5)+(EWQuantity*5)} 
-                setTime={setCSTime}/>
+              <ACTTextField name="CSSessionTime" value={CSTime}
+                setTime={setCSTime} />
             </Box>
             <Box sx={{ width: "80%" }} >
-              <ACQCTextField name="ESCount"
-                label={`English Speaking (${ESCount.question_count * 0})`}
+              <ACQCTextField name="ESCount" disabled
+                label={`(${ESCount.question_count * 0}) Speaking`}
                 value={ESQuantity} max={ESCount.question_count * 0} setQuantity={setESQuantity} />
               <ACQCTextField name="ELCount"
-                label={`English Listening (${ELCount.question_count / 5})`}
-                value={ELQuantity} max={ELCount.question_count/5} setQuantity={setELQuantity} />
+                label={`(${ELCount.question_count / 5}) Listening`}
+                value={ELQuantity} max={ELCount.question_count / 5} setQuantity={setELQuantity} />
               <ACQCTextField name="ERCount"
-                label={`English Reading (${ERCount.question_count / 5})`}
-                value={ERQuantity} max={ERCount.question_count/5} setQuantity={setERQuantity} />
-              <ACQCTextField name="EWCount"
-                label={`English Writing (${EWCount.question_count * 0})`}
-                value={EWQuantity} max={EWCount.question_count*0} setQuantity={setEWQuantity} />
+                label={`(${ERCount.question_count / 5}) Reading`}
+                value={ERQuantity} max={ERCount.question_count / 5} setQuantity={setERQuantity} />
+              <ACQCTextField name="EWCount" disabled
+                label={`(${EWCount.question_count * 0}) Writing`}
+                value={EWQuantity} max={EWCount.question_count * 0} setQuantity={setEWQuantity} />
             </Box>
           </Box>
         </Box>
+
         <Box px={5} py={1}
           sx={{
             bgcolor: "background.primary",
@@ -253,36 +274,32 @@ const fetchData = async () => {
           </Typography>
           <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
             <Box sx={{ width: "20%" }}>
-              <ACTTextField name="PBSessionTime" value={PBTime} 
-              // min={(ITWSQuantity*1)+(ACLQuantity*1)+(PMTMQuantity*1)+(PEIPQuantity*1)} 
-              setTime={setPBTime}/>
+              <ACTTextField name="PBSessionTime" value={PBTime}
+                setTime={setPBTime} />
             </Box>
             <Box sx={{ width: "80%" }} >
               <ACQCTextField name="ITWSCount"
-                label={`I.T.W.S (${ITWSCount.question_count})`}
-                value={ITWSQuantity} max={ITWSCount.question_count*1} setQuantity={setITWSQuantity} />
+                label={`(${ITWSCount.question_count}) I.T.W.S`}
+                value={ITWSQuantity} max={ITWSCount.question_count * 1} setQuantity={setITWSQuantity} />
               <ACQCTextField name="ACLCount"
-                label={`A.C.L (${ACLCount.question_count})`}
-                value={ACLQuantity} max={ACLCount.question_count*1} setQuantity={setACLQuantity} />
+                label={`(${ACLCount.question_count}) A.C.L`}
+                value={ACLQuantity} max={ACLCount.question_count * 1} setQuantity={setACLQuantity} />
               <ACQCTextField name="PMTMCount"
-                label={`P.M.T.M (${PMTMCount.question_count})`}
-                value={PMTMQuantity} max={PMTMCount.question_count*1} setQuantity={setPMTMQuantity} />
+                label={`(${PMTMCount.question_count}) P.M.T.M`}
+                value={PMTMQuantity} max={PMTMCount.question_count * 1} setQuantity={setPMTMQuantity} />
               <ACQCTextField name="PEIPCount"
-                label={`P.E.I.P (${PEIPCount.question_count})`}
-                value={PEIPQuantity} max={PEIPCount.question_count*1} setQuantity={setPEIPQuantity} />
+                label={`(${PEIPCount.question_count}) P.E.I.P `}
+                value={PEIPQuantity} max={PEIPCount.question_count * 1} setQuantity={setPEIPQuantity} />
             </Box>
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "end"
-          }}>
-
+        <Box sx={{ display: "flex", justifyContent: "end" }}>
           <LoadingButton
             variant="outlined"
             loading={isLoading}
+            // disabled={checkDisable}
+            disabled={isUpdateDisable}
             onClick={() => onConfigUpdateHandle()}
             sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >

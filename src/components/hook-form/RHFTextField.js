@@ -98,6 +98,7 @@ export function URHFTextField({ name, label, onChange, InputLabelProps, ...other
   );
 }
 
+//AdminCongigurationQuestionCountTextField
 export function ACQCTextField({ name, label, value, max, setQuantity, ...other }) {
   const [errorText, setErrorText] = useState('');
 
@@ -135,6 +136,7 @@ export function ACQCTextField({ name, label, value, max, setQuantity, ...other }
   );
 }
 
+//AdminConfigurationTimeTextField
 export function ACTTextField({ name, value, setTime, ...other }) {
   const [errorText, setErrorText] = useState('');
 
@@ -172,32 +174,12 @@ export function ACTTextField({ name, value, setTime, ...other }) {
   );
 }
 
-export function AGTextField({ name, value, label, setQuestionCount, ...other }) {
-  const [errorText, setErrorText] = useState('');
-
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    if (inputValue < 0 || inputValue > 20) {
-      setErrorText(`Value should be between 0 to 20`);
-    } else {
-      setErrorText('');
-      setQuestionCount(inputValue)
-    }
-  };
-  
-  const handleArrowKeys = (e) => {
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount((prevValue) => Math.min(Number(prevValue) + 1, 20));
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setQuestionCount((prevValue) => Math.max(Number(prevValue) - 1, 0));
-    }
-  };
+// AdminGeneratingquestionsTextField
+export function AGTextField({ name, value, label, setQuestionCount,errorText,handleInputChange,handleArrowKeys, ...other }) {
   
   return (
     <TextField name={name} label={label} type="number" sx={{ marginLeft: 3, width: "150px" }}
-      value={value} onChange={(e)=>handleInputChange(e)} onKeyDown={handleArrowKeys}
+      value={value} onChange={(e)=>handleInputChange(e)} onKeyDown={(e)=>handleArrowKeys(e)}
       inputProps={{
         min: 0,
         max: 20,

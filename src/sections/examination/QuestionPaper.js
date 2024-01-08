@@ -126,10 +126,9 @@ const onPlayingPrev=(comp)=>{
     var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length;
     var ansmarkReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length;
 
-    var description = `Are you sure, you want to move to the next section? You currently have:`
-    // ${markReview > 0 ? `You currently have ${markReview} marked questions for review.` : ""}`;
+    var description = "Are you sure, you want to move to the next section? You currently have:"
 
-    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${(notVisited*1)+(notAnswered*1)+(markReview*1)} Not Answered`, `${(markReview*1)+(ansmarkReview*1)} Marked For Review`];
+    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${(notVisited*1)+(notAnswered*1)+(markReview*1)} Not Answered`, `${(markReview*1)+(ansmarkReview*1)} Marked For Review`, `You can't revisit this section, even if you have MARKED some questions for "Review".`];
 
     if (exam.data.length - 1 <= exam.currentTest) {
       description = "Are you sure, you want to submit the exam?";

@@ -31,7 +31,7 @@ const AdminDashboardSidebar = ({ isOpenSidebar, onCloseSidebar, getTestQuestion 
     <>
       <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
         <Box component="img" src={`${PUBLIC_URL}/static/icons/logo.svg`} sx={{ width: 100 }} />
-      </Box>
+        </Box>
       <NavSection navConfig={NavConfigAdmin} />
       <Box flexGrow={1} />
     </>

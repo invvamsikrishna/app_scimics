@@ -4,27 +4,27 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { alpha } from "@mui/material/styles";
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from "@mui/material";
 import MenuPopover from "../../components/MenuPopover";
-import { connect } from "react-redux";
-import { authLogout } from "../../actions/auth";
+// import { connect } from "react-redux";
+// import { authLogout } from "../../actions/auth";
 import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
-// const MENU_OPTIONS = [
-//   {
-//     label: "Home",
-//     icon: "eva:home-fill",
-//     linkTo: "/admin-dashboard/",
-//   },
-//   {
-//     label: "Profile",
-//     icon: "eva:person-fill",
-//     linkTo: "/admin-dashboard/adminprofile",
-//   },
-//   {
-//     label: "Settings",
-//     icon: "eva:settings-2-fill",
-//     linkTo: "/admin-dashboard",
-//   },
-// ];
+const MENU_OPTIONS = [
+  // {
+  //   label: "Home",
+  //   icon: "eva:home-fill",
+  //   linkTo: "/admin-dashboard/",
+  // },
+  {
+    label: "Admin Profile",
+    icon: "eva:person-fill",
+    linkTo: "/admin-dashboard/adminprofile",
+  },
+  // {
+  //   label: "Settings",
+  //   icon: "eva:settings-2-fill",
+  //   linkTo: "/admin-dashboard",
+  // },
+];
 
 const AdminAccountPopover = (
   // { account, authLogout }
@@ -49,7 +49,7 @@ const AdminAccountPopover = (
       description: "Are you sure, you want to log out?",
       agreeCallback: () => {
         // authLogout();
-        navigate("/admin-login");
+        navigate("/adminpanellogin");
       },
     });
   };
@@ -93,17 +93,17 @@ const AdminAccountPopover = (
           },
         }}
       >
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
+        {/* <Box sx={{ my: 1.5, px: 2.5 }}>
+          <Typography variant="subtitle2" noWrap> */}
             {/* {account.user?.firstname} {account.user?.lastname} */}
-          Admin
-          </Typography>
+          {/* Admin
+          </Typography> */}
           {/* <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
             India
           </Typography> */}
-        </Box>
+        {/* </Box> */}
 
-        {/* <Divider sx={{ borderStyle: "dashed" }} />
+        {/* <Divider sx={{ borderStyle: "dashed" }} /> */}
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
@@ -111,7 +111,7 @@ const AdminAccountPopover = (
               {option.label}
             </MenuItem>
           ))}
-        </Stack> */}
+        </Stack>
 
         <Divider sx={{ borderStyle: "dashed" }} />
 

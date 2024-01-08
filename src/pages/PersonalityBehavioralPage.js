@@ -17,9 +17,132 @@ const PersonalityBehavioralPage = () => {
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const showAlert = useSnackbar();
+  const [disableGenerate,setDisableGenerate] = useState(true);
+  const [errorText1, setErrorText1] = useState('');
+  const [errorText2, setErrorText2] = useState('');
+  const [errorText3, setErrorText3] = useState('');
+  const [errorText4, setErrorText4] = useState('');
+  const ITShandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText1(`Value should be between 0 to 10`);
+    } else {
+      setErrorText1('');
+      setQuestionCount1(inputValue)
+    }
+  };
+  
+  const ITShandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount1((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount4 == 0);
+        return newValue;
+      });
+    }
+  };
+  
+  const ACLhandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount1 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText2(`Value should be between 0 to 10`);
+    } else {
+      setErrorText2('');
+      setQuestionCount2(inputValue)
+    }
+  };
+  
+  const ACLhandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount2((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount1 == 0 && questionCount3 == 0 && questionCount4 == 0);
+        return newValue;
+      });
+    }
+  };
+  
+  const PTMhandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount2 >= 1 || questionCount1 >= 1 || questionCount4 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText3(`Value should be between 0 to 10`);
+    } else {
+      setErrorText3('');
+      setQuestionCount3(inputValue)
+    }
+  };
+  
+  const PTMhandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount3((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount1 == 0 && questionCount4 == 0);
+        return newValue;
+      });
+    }
+  };
+  
+  const PEIPhandleInputChange = (e) => {
+    const inputValue = e.target.value;
+    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount1 >= 1){
+      setDisableGenerate(false)
+    }else{
+      setDisableGenerate(true)
+    }
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText4(`Value should be between 0 to 10`);
+    } else {
+      setErrorText4('');
+      setQuestionCount4(inputValue)
+    }
+  };
+  
+  const PEIPhandleArrowKeys = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
+      setDisableGenerate(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setQuestionCount4((prevValue) => {
+        const newValue = Math.max(Number(prevValue) - 1, 0);
+        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount1 == 0);
+        return newValue;
+      });
+    }
+  };
 
   const onGenerateClicked = async () => {
-    // console.log("onGenerateClicked");
     if (questionCount1 > 0 || questionCount2 > 0 || questionCount3 > 0 || questionCount4 > 0) {
       setLoading(true);
       setGenrated(true);
@@ -87,7 +210,7 @@ const PersonalityBehavioralPage = () => {
     }
   }
   return (
-    <Page title="Personality & Behavioral">
+    <Page title="Personality & Behavioral Generate Page">
       <Container maxWidth="xl" sx={{ py: 4 }}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Personality & Behavioral
@@ -99,12 +222,13 @@ const PersonalityBehavioralPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-          <AGTextField name="ITSQuestionCount" label="Interpersonal & Team-work Skills" value={questionCount1} setQuestionCount={setQuestionCount1}/>
-          <AGTextField name="ACLQuestionCount" label="Adaptability & Continuous Learning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
-          <AGTextField name="PTMQuestionCount" label="Project & Time Management" value={questionCount3} setQuestionCount={setQuestionCount3}/>
-          <AGTextField name="PEIPuestionCount" label="Professional Etiquette & Interview Preparedness" value={questionCount4} setQuestionCount={setQuestionCount4}/>
+          <AGTextField errorText={errorText1} handleInputChange={ITShandleInputChange} handleArrowKeys={ITShandleArrowKeys} name="ITSQuestionCount" label="Interpersonal & Team-work Skills" value={questionCount1} setQuestionCount={setQuestionCount1}/>
+          <AGTextField errorText={errorText2} handleInputChange={ACLhandleInputChange} handleArrowKeys={ACLhandleArrowKeys} name="ACLQuestionCount" label="Adaptability & Continuous Learning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
+          <AGTextField errorText={errorText3} handleInputChange={PTMhandleInputChange} handleArrowKeys={PTMhandleArrowKeys} name="PTMQuestionCount" label="Project & Time Management" value={questionCount3} setQuestionCount={setQuestionCount3}/>
+          <AGTextField errorText={errorText4} handleInputChange={PEIPhandleInputChange} handleArrowKeys={PEIPhandleArrowKeys} name="PEIPQuestionCount" label="Professional Etiquette & Interview Preparedness" value={questionCount4} setQuestionCount={setQuestionCount4}/>
           <LoadingButton
             variant="outlined"
+            disabled={disableGenerate}
             loading={isLoading}
             onClick={() => onGenerateClicked()}
             sx={{marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
