@@ -12,6 +12,7 @@ import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import Iconify from "../../components/Iconify";
 import { connect } from "react-redux";
 import { getTestQuestion } from "../../actions/exam";
+import { useSpeechSynthesis } from "../../components/createContextCodes/SpeechSynthesisContext";
 
 const DRAWER_WIDTH = 240;
 
@@ -38,6 +39,7 @@ const DashboardSidebar = ({ exam, isExam, isOpenSidebar, onCloseSidebar, getTest
   const classes = useStyles();
 
   const isDesktop = useResponsive("up", "lg");
+  const { stop } = useSpeechSynthesis();
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -110,7 +112,7 @@ const DashboardSidebar = ({ exam, isExam, isOpenSidebar, onCloseSidebar, getTest
                     <Grid container rowSpacing={1}>
                       {exam.data[index].questions.map((item, index) => (
                         <Grid key={index} item xs={2.4} sx={{ display: "flex", justifyContent: "center" }}>
-                          <QuesBadge value={index + 1} status={item.status} onClick={QUES_STATUS.slice(1, 5).includes(item.status) ? () => getTestQuestion(index) : null} />
+                          <QuesBadge value={index + 1} status={item.status} onClick={QUES_STATUS.slice(1, 5).includes(item.status) ? () => {getTestQuestion(index); stop();} : null} />
                         </Grid>
                       ))}
                     </Grid>

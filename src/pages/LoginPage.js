@@ -150,7 +150,7 @@ const LoginPage = ({ authSuccess }) => {
       }
     },
     onError: () => {
-      // console.log("Login Failed");
+      console.log("Login Failed");
     },
   });
 

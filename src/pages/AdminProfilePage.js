@@ -121,7 +121,7 @@ const AdminProfilePage = ({ account,
                 </Grid>
 
                 <Grid item xs={12}>
-                  <RHFTextField name="email" label="Email address" />
+                  <RHFTextField name="email" label="Email address" value="admin@123.com" />
                 </Grid>
 
                 <Grid item xs={2}>

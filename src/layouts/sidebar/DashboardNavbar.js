@@ -5,6 +5,7 @@ import AccountPopover from "./AccountPopover";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAlertDialog } from "../../components/dialog/AlertDialog";
+import { useSpeechSynthesis } from "../../components/createContextCodes/SpeechSynthesisContext";
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -34,6 +35,7 @@ export default function DashboardNavbar({ account, isExam, onOpenSidebar }) {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState(document.title);
+  const { stop } = useSpeechSynthesis();
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -47,6 +49,7 @@ export default function DashboardNavbar({ account, isExam, onOpenSidebar }) {
   }, []);
 
   const handleExit = () => {
+    stop();
     showAlertDialog({
       title: "Confirmation ?",
       description: `Are you sure, you want to exit?`,

@@ -4,6 +4,7 @@ import Router from "./customRoutes";
 import ThemeProvider from "./theme";
 import { AlertDialogProvider } from "./components/dialog/AlertDialog";
 import { RowDataProvider } from "./components/createContextCodes/RowDataContext";
+import { SpeechSynthesisProvider } from "./components/createContextCodes/SpeechSynthesisContext";
 
 const clientId = "136010808221-qcqe91l44c3i8060ib6novlgnmjkc8ot.apps.googleusercontent.com";
 
@@ -14,7 +15,9 @@ function App() {
         <SnackbarProvider>
           <AlertDialogProvider>
             <RowDataProvider>
-              <Router />
+              <SpeechSynthesisProvider>
+                <Router />
+              </SpeechSynthesisProvider>
             </RowDataProvider>
           </AlertDialogProvider>
         </SnackbarProvider>
