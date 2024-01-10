@@ -192,7 +192,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
              
           }}>
-          <Typography variant="subtitle1" >
+          <Typography variant="subtitle2" >
             Cognitive Abilities ({CAMarks} Marks)
           </Typography>
           <Box p={1} />
@@ -221,7 +221,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
              
           }}>
-          <Typography variant="subtitle1" >
+          <Typography variant="subtitle2" >
             Technical Proficiency ({TPMarks} Marks)
           </Typography>
         <Box p={1} />
@@ -249,7 +249,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
              
           }}>
-          <Typography variant="subtitle1" >
+          <Typography variant="subtitle2" >
             Communication Skills ({CSMarks} Marks)
           </Typography>
         <Box p={1} />
@@ -283,7 +283,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
              
           }}>
-          <Typography variant="subtitle1" >
+          <Typography variant="subtitle2" >
             Personality & Behavioral ({PBMarks} Marks)
           </Typography>
         <Box p={1} />

@@ -238,7 +238,7 @@ export function ACTTextField({ name, value, setTime, ...other }) {
 export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, ...other }) {
 
   return (
-    <TextField name={name} label={label} type="number" sx={{ marginLeft: 3, width: "150px" }}
+    <TextField name={name} label={label} type="number" sx={{ marginRight: 3, width: "20%" }}
       value={value} onChange={(e) => handleInputChange(e)} onKeyDown={(e) => handleArrowKeys(e)}
       inputProps={{
         min: 0,
