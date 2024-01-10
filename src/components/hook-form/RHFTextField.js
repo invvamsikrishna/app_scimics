@@ -5,6 +5,10 @@ import React, { useEffect, useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
+import InputAdornment from '@mui/material/InputAdornment';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 export const CustomTextField = styled(TextField)({
   borderRadius: 1,
   marginTop: "8px !important",
@@ -105,32 +109,60 @@ export function ACQCTextField({ name, label, value, max, setQuantity, ...other }
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     if (inputValue < 0 || inputValue > max) {
-      setErrorText(`Value should be between 0 to ${max}`);
+      setErrorText(`Value: 0 to ${max}`);
     } else {
       setErrorText('');
       setQuantity(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp = (e) => {
+    e.preventDefault();
+    setQuantity((prevValue) => Math.min(Number(prevValue) + 1, max));
+  }
+
+  const handleArrowButtonDown = (e) => {
+    e.preventDefault();
+    setQuantity((prevValue) => Math.max(Number(prevValue) - 1, 0));
+  }
+
   const handleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuantity((prevValue) => Math.min(Number(prevValue) + 1, max));
+      handleArrowButtonUp(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuantity((prevValue) => Math.max(Number(prevValue) - 1, 0));
     }
   };
-  
+
   return (
-    <TextField name={name} label={label} type="number" sx={{ margin: 2, width: "20%" }}
-      value={value} onChange={(e)=>handleInputChange(e)} onKeyDown={handleArrowKeys}
+    <TextField name={name} label={label} type="number" sx={{   marginRight:2, width: "20%" }}
+      value={value} onChange={(e) => handleInputChange(e)} onKeyDown={handleArrowKeys}
       inputProps={{
         min: 0,
         max: max,
       }}
       error={Boolean(errorText)}
       helperText={errorText}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment
+            position="end"
+            sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonUp(e)}>
+              <ArrowDropUpIcon />
+            </IconButton>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonDown(e)}>
+              <ArrowDropDownIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
       {...other}
     />
   );
@@ -143,49 +175,95 @@ export function ACTTextField({ name, value, setTime, ...other }) {
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     if (inputValue < 0 || inputValue > 60) {
-      setErrorText(`Time should be between 0min to 60min`);
+      setErrorText('Time: 1 - 60min');
     } else {
       setErrorText('');
       setTime(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp = (e) => {
+    e.preventDefault();
+    setTime((prevValue) => Math.min(Number(prevValue) + 1, 60));
+  }
+
+  const handleArrowButtonDown = (e) => {
+    e.preventDefault();
+    setTime((prevValue) => Math.max(Number(prevValue) - 1, 0));
+  }
+
   const handleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setTime((prevValue) => Math.min(Number(prevValue) + 1, 60));
+      handleArrowButtonUp(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setTime((prevValue) => Math.max(Number(prevValue) - 1, 0));
     }
   };
-  
+
   return (
-    <TextField name={name} label="Time (Min)" type="number" sx={{ width: "80%" }}
-      value={value} onChange={(e)=>handleInputChange(e)} onKeyDown={handleArrowKeys}
+    <TextField name={name} label="Time (Min)" type="number" sx={{  width: "85%" }}
+      value={value} onChange={(e) => handleInputChange(e)} onKeyDown={handleArrowKeys}
       inputProps={{
         min: 0,
         max: 60,
       }}
       error={Boolean(errorText)}
       helperText={errorText}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment
+            position="end"
+            sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonUp(e)}>
+              <ArrowDropUpIcon />
+            </IconButton>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonDown(e)}>
+              <ArrowDropDownIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
       {...other}
     />
   );
 }
 
 // AdminGeneratingquestionsTextField
-export function AGTextField({ name, value, label, setQuestionCount,errorText,handleInputChange,handleArrowKeys, ...other }) {
-  
+export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, ...other }) {
+
   return (
     <TextField name={name} label={label} type="number" sx={{ marginLeft: 3, width: "150px" }}
-      value={value} onChange={(e)=>handleInputChange(e)} onKeyDown={(e)=>handleArrowKeys(e)}
+      value={value} onChange={(e) => handleInputChange(e)} onKeyDown={(e) => handleArrowKeys(e)}
       inputProps={{
         min: 0,
         max: 20,
       }}
       error={Boolean(errorText)}
       helperText={errorText}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment
+            position="end"
+            sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonUp(e)}>
+              <ArrowDropUpIcon />
+            </IconButton>
+            <IconButton
+              sx={{ width: "10%", height: "10%" }}
+              edge="end" onClick={(e) => handleArrowButtonDown(e)}>
+              <ArrowDropDownIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
       {...other}
     />
   );

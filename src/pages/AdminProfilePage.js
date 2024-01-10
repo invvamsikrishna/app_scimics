@@ -5,31 +5,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Avatar, Box, Container, Stack, Typography, Grid, Button, Divider, TextField, MenuItem } from "@mui/material";
 import Page from "../components/Page";
 import { FormProvider, RHFTextField, URHFTextField } from "../components/hook-form";
-import { 
-  // COMMON_ERROR_MSG, PROFILE_FILE_SIZE, PUBLIC_URL, UPDATE_PROFILE_SUCCESS_MSG, UPDATE_PSWD_SUCCESS_MSG,
-   phoneRegExp } from "../constants";
-import { connect } from "react-redux";
+// import { COMMON_ERROR_MSG, PROFILE_FILE_SIZE, PUBLIC_URL, UPDATE_PROFILE_SUCCESS_MSG, UPDATE_PSWD_SUCCESS_MSG,} from "../constants";
+// import { connect } from "react-redux";
 import { LoadingButton } from "@mui/lab";
-import { useSnackbar } from "../components/SnackBar";
+// import { useSnackbar } from "../components/SnackBar";
 // import UserServices from "../services/UserServices";
 // import { authUpdated } from "../actions/auth";
 
 const AdminProfilePage = ({ account,
   //  common, authUpdated, getAllColleges, getAllCoursesById 
   }) => {
-  const showAlert = useSnackbar();
+  // const showAlert = useSnackbar();
 
   const [isLoading, setLoading] = useState(false);
 
   const schema = Yup.object().shape({
     email: Yup.string(),
-    phone: Yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone Name is required"),
     password: Yup.string(),
   });
 
   const defaultValues = {
     email: account?.user?.email ?? "",
-    phone: account?.user?.phone ?? "",
     password: "",
   };
 
@@ -72,7 +68,7 @@ const AdminProfilePage = ({ account,
     //   resetField("password");
     // } catch (err) {
     //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-    //   setLoading(false);
+      // setLoading(false);
     // }
   };
 
@@ -121,36 +117,23 @@ const AdminProfilePage = ({ account,
                 </Grid>
 
                 <Grid item xs={12}>
-                  <RHFTextField name="email" label="Email address" value="admin@123.com" />
-                </Grid>
-
-                <Grid item xs={2}>
-                  <URHFTextField name="country" value="+91" label="Country Code" disabled />
-                </Grid>
-
-                <Grid item xs={10}>
-                  <RHFTextField type="number" name="phone" label="Phone number" />
+                  <RHFTextField disabled name="email" label="Email address" value="admin@123.com" />
                 </Grid>
 
                 {/* {account.user?.signin_source === "EMAIL" && ( */}
                   <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
-                    <Grid item xs={8} md={9}>
+                    <Grid item xs={8} md={8}>
                       <RHFTextField name="password" label="Change Password" />
                     </Grid>
 
-                    <Grid item xs={4} md={3}>
-                      <LoadingButton variant="contained" loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
+                    <Grid item xs={4} md={4}>
+                      <LoadingButton variant="contained" fullWidth loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
                         Update Password
                       </LoadingButton>
                     </Grid>
                   </Grid>
                 {/* )} */}
 
-                <Grid item xs={12} sx={{ textAlign: "right" }}>
-                  <LoadingButton type="submit" loading={isLoading} variant="contained" sx={{height: "47px", minWidth: "150px", fontWeight: "normal" }}>
-                    Update Profile
-                  </LoadingButton>
-                </Grid>
               </Grid>
             </Grid>
           </FormProvider>

@@ -85,8 +85,29 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     var ansmarkReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length;
 
     var description = "Are you sure, you want to move to the next section? You currently have:"
-
-    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`, `${(markReview * 1) + (ansmarkReview * 1)} Marked For Review`, `You can't revisit this section, even if you have MARKED some questions for "Review".`];
+    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
+    
+    // var points = ["loading..."];
+    // if((((notVisited*1) + (notAnswered*1) + (markReview*1)) === 0) && (((markReview*1) + (ansmarkReview*1)) === 0)){
+    //   console.log("ans if1",((notVisited*1) + (notAnswered*1) + (markReview*1)));
+    //   console.log("mark if1",((markReview*1) + (ansmarkReview*1)));
+    //   points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `You can't revisit this section, even if you have MARKED some questions for "Review".`]
+    // }
+    // else if((((notVisited*1) + (notAnswered*1)+ (markReview*1)) === 0) && (((ansmarkReview*1)+ (markReview*1)) > 1)){
+    //   console.log("ans if2",((notVisited*1) + (notAnswered*1) + (markReview*1)));
+    //   console.log("mark if2",((markReview*1) + (ansmarkReview*1)));
+    //   points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
+    // }
+    // else if((((notVisited*1) + (notAnswered*1) + (markReview*1)) > 1) && (((markReview*1) + (ansmarkReview*1)) > 1)){
+    //   console.log("ans if3",((notVisited*1) + (notAnswered*1) + (markReview*1)));
+    //   console.log("mark if3",((markReview*1) + (ansmarkReview*1)));
+      // points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
+    // }
+    // else{
+    //   console.log("ans else",((notVisited*1) + (notAnswered*1) + (markReview*1)));
+    //   console.log("mark else",((markReview*1) + (ansmarkReview*1)));
+      // points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`You can't revisit this section, even if you have MARKED some questions for "Review".`]
+    // }
 
     if (exam.data.length - 1 <= exam.currentTest) {
       description = "Are you sure, you want to submit the exam?";

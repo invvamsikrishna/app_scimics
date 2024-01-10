@@ -19,11 +19,11 @@ const MENU_OPTIONS = [
     icon: "eva:person-fill",
     linkTo: "/user/profile",
   },
-  {
-    label: "Settings",
-    icon: "eva:settings-2-fill",
-    linkTo: "./account",
-  },
+  // {
+  //   label: "Settings",
+  //   icon: "eva:settings-2-fill",
+  //   linkTo: "./account",
+  // },
 ];
 
 const AccountPopover = ({ account, authLogout }) => {

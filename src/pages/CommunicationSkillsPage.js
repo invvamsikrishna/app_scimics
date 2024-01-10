@@ -17,7 +17,7 @@ const CommunicationSkillsPage = () => {
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const showAlert = useSnackbar();
-  const [disableGenerate,setDisableGenerate] = useState(true);
+  const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState('');
   const [errorText2, setErrorText2] = useState('');
   const [errorText3, setErrorText3] = useState('');
@@ -25,9 +25,9 @@ const CommunicationSkillsPage = () => {
 
   const EShandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -37,27 +37,37 @@ const CommunicationSkillsPage = () => {
       setQuestionCount1(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const EShandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp1(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown1(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount1((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
-  
+
   const ELhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount1 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount1 >= 1 || questionCount3 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -67,26 +77,37 @@ const CommunicationSkillsPage = () => {
       setQuestionCount2(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount1 == 0 && questionCount3 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const ELhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp2(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown2(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount2((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount1 == 0 && questionCount3 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
+
   const ERhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount1 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount1 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -96,27 +117,37 @@ const CommunicationSkillsPage = () => {
       setQuestionCount3(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp3 = (e) => {
+    e.preventDefault();
+    setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown3 = (e) => {
+    e.preventDefault();
+    setQuestionCount3((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount1 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const ERhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp3(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown3(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount3((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount1 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
-  
+
   const EWhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount1 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount1 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -126,21 +157,32 @@ const CommunicationSkillsPage = () => {
       setQuestionCount4(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp4 = (e) => {
+    e.preventDefault();
+    setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown4 = (e) => {
+    e.preventDefault();
+    setQuestionCount4((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount1 == 0);
+      return newValue;
+    });
+  }
+
   const EWhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp4(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown4(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount4((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount1 == 0);
-        return newValue;
-      });
     }
   };
+
   const onGenerateClicked = async () => {
     if (questionCount1 > 0 || questionCount2 > 0 || questionCount3 > 0 || questionCount4 > 0) {
       setLoading(true);
@@ -163,17 +205,17 @@ const CommunicationSkillsPage = () => {
     }
   }
 
-  const onApproveQue = async(items,index) => {
+  const onApproveQue = async (items, index) => {
     const icap_category_id = 3;
     const icap_qscategory_id = 1;
     let icap_subcategory_id;
     if (items.category === "English Listening") {
       icap_subcategory_id = 6
-    } else if(items.category === "English Reading") {
+    } else if (items.category === "English Reading") {
       icap_subcategory_id = 7
-    }else if(items.category === "English Speaking") {
+    } else if (items.category === "English Speaking") {
       icap_subcategory_id = 5
-    }else{
+    } else {
       icap_subcategory_id = 8
     }
     try {
@@ -196,7 +238,7 @@ const CommunicationSkillsPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -204,10 +246,11 @@ const CommunicationSkillsPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     }
   }
+
   return (
     <Page title="Communication Skills Generate Page">
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -220,16 +263,16 @@ const CommunicationSkillsPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-          <AGTextField disabled errorText={errorText1} handleInputChange={EShandleInputChange} handleArrowKeys={EShandleArrowKeys} name="ESQuestionCount" label="English Speaking" value={questionCount1} setQuestionCount={setQuestionCount1}/>
-          <AGTextField errorText={errorText2} handleInputChange={ELhandleInputChange} handleArrowKeys={ELhandleArrowKeys} name="ELQuestionCount" label="English Listening" value={questionCount2} setQuestionCount={setQuestionCount2}/>
-          <AGTextField errorText={errorText3} handleInputChange={ERhandleInputChange} handleArrowKeys={ERhandleArrowKeys} name="ERQuestionCount" label="English Reading" value={questionCount3} setQuestionCount={setQuestionCount3}/>
-          <AGTextField disabled errorText={errorText4} handleInputChange={EWhandleInputChange} handleArrowKeys={EWhandleArrowKeys} name="EWQuestionCount" label="English Writing" value={questionCount4} setQuestionCount={setQuestionCount4}/>
+          <AGTextField disabled handleArrowButtonUp={handleArrowButtonUp1} handleArrowButtonDown={handleArrowButtonDown1} errorText={errorText1} handleInputChange={EShandleInputChange} handleArrowKeys={EShandleArrowKeys} name="ESQuestionCount" label="English Speaking" value={questionCount1} setQuestionCount={setQuestionCount1} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp2} handleArrowButtonDown={handleArrowButtonDown2} errorText={errorText2} handleInputChange={ELhandleInputChange} handleArrowKeys={ELhandleArrowKeys} name="ELQuestionCount" label="English Listening" value={questionCount2} setQuestionCount={setQuestionCount2} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp3} handleArrowButtonDown={handleArrowButtonDown3} errorText={errorText3} handleInputChange={ERhandleInputChange} handleArrowKeys={ERhandleArrowKeys} name="ERQuestionCount" label="English Reading" value={questionCount3} setQuestionCount={setQuestionCount3} />
+          <AGTextField disabled handleArrowButtonUp={handleArrowButtonUp4} handleArrowButtonDown={handleArrowButtonDown4} errorText={errorText4} handleInputChange={EWhandleInputChange} handleArrowKeys={EWhandleArrowKeys} name="EWQuestionCount" label="English Writing" value={questionCount4} setQuestionCount={setQuestionCount4} />
           <LoadingButton
             variant="outlined"
             disabled={disableGenerate}
             loading={isLoading}
             onClick={() => onGenerateClicked()}
-            sx={{marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
+            sx={{ marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >
             Generate
           </LoadingButton>

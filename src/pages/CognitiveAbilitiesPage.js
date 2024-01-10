@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container,  Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
@@ -15,69 +15,88 @@ const CognitiveAbilitiesPage = () => {
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const showAlert = useSnackbar();
-  const [disableGenerate,setDisableGenerate] = useState(true);
+  const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState('');
   const [errorText2, setErrorText2] = useState('');
-  const [anstoChange,setAnstoChange] = useState('');
-  // console.log(anstoChange);
+  const [anstoChange, setAnstoChange] = useState('');
 
   const QAhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
-    if (inputValue < 0 || inputValue > 20) {
-      setErrorText1(`Value should be between 0 to 20`);
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText1(`Value should be between 0 to 10`);
     } else {
       setErrorText1('');
       setQuestionCount1(inputValue)
     }
   };
-  
+
   const LRhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount1 >= 1){
+    if (inputValue >= 1 || questionCount1 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
-    if (inputValue < 0 || inputValue > 20) {
-      setErrorText2(`Value should be between 0 to 20`);
+    if (inputValue < 0 || inputValue > 10) {
+      setErrorText2(`Value should be between 0 to 10`);
     } else {
       setErrorText2('');
       setQuestionCount2(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0);
+      return newValue;
+    });
+  }
+
+  const handleArrowButtonUp2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount1 == 0);
+      return newValue;
+    });
+  }
+
   const QAhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 20));
-      setDisableGenerate(false)
+      handleArrowButtonUp1(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown1(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount1((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0);
-        return newValue;
-      });
     }
   };
 
   const LRhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 20));
-      setDisableGenerate(false)
+      handleArrowButtonUp2(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown2(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount2((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount1 == 0);
-        return newValue;
-      });
     }
   };
 
@@ -130,7 +149,7 @@ const CognitiveAbilitiesPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -138,7 +157,7 @@ const CognitiveAbilitiesPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     }
   }
@@ -156,8 +175,8 @@ const CognitiveAbilitiesPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-          <AGTextField errorText={errorText1} handleInputChange={QAhandleInputChange} handleArrowKeys={QAhandleArrowKeys} name="QAQuestionCount" label="Quantitative Aptitude" value={questionCount1} setQuestionCount={setQuestionCount1}/>
-          <AGTextField errorText={errorText2} handleInputChange={LRhandleInputChange} handleArrowKeys={LRhandleArrowKeys} name="LRQuestionCount" label="Logical Reasoning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp1} handleArrowButtonDown={handleArrowButtonDown1} errorText={errorText1} handleInputChange={QAhandleInputChange} handleArrowKeys={QAhandleArrowKeys} name="QAQuestionCount" label="Quantitative Aptitude" value={questionCount1} setQuestionCount={setQuestionCount1} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp2} handleArrowButtonDown={handleArrowButtonDown2} errorText={errorText2} handleInputChange={LRhandleInputChange} handleArrowKeys={LRhandleArrowKeys} name="LRQuestionCount" label="Logical Reasoning" value={questionCount2} setQuestionCount={setQuestionCount2} />
           <LoadingButton
             variant="outlined"
             loading={isLoading}

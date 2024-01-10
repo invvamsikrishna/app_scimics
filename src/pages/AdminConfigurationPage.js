@@ -1,16 +1,17 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, IconButton, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import { ACQCTextField, ACTTextField } from "../components/hook-form/RHFTextField";
 import { useSnackbar } from "../components/SnackBar";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const AdminConfigurationPage = () => {
   const [isLoading, setLoading] = useState(false);
   const showAlert = useSnackbar();
-  const [isUpdateDisable,setUpdateDisable] = useState(true);
-  
+  const [isUpdateDisable, setUpdateDisable] = useState(true);
+
   const [QAQuantity, setQAQuantity] = useState(0);
   const [LRQuantity, setLRQuantity] = useState(0);
   const [CATime, setCATime] = useState(0);
@@ -99,16 +100,16 @@ const AdminConfigurationPage = () => {
     if (CATime == 0 || TPTime == 0 || CSTime == 0 || PBTime == 0) {
       setUpdateDisable(true)
       // console.log("zero");
-    }else if(CATime > 0 && (QAQuantity == 0 && LRQuantity == 0)){
+    } else if (CATime > 0 && (QAQuantity == 0 && LRQuantity == 0)) {
       setUpdateDisable(true)
       // console.log("zero");
-    }else if(TPTime > 0 && (DSKQuantity == 0 && HCQuantity == 0)){
+    } else if (TPTime > 0 && (DSKQuantity == 0 && HCQuantity == 0)) {
       setUpdateDisable(true)
       // console.log("zero");
-    }else if(CSTime > 0 && (ELQuantity == 0 && ERQuantity == 0)){
+    } else if (CSTime > 0 && (ELQuantity == 0 && ERQuantity == 0)) {
       setUpdateDisable(true)
       // console.log("zero");
-    }else if(PBTime > 0 && (ITWSQuantity == 0 && ACLQuantity == 0 && PMTMQuantity == 0 && PEIPQuantity == 0)){
+    } else if (PBTime > 0 && (ITWSQuantity == 0 && ACLQuantity == 0 && PMTMQuantity == 0 && PEIPQuantity == 0)) {
       setUpdateDisable(true)
       // console.log("zero");
     }
@@ -124,7 +125,7 @@ const AdminConfigurationPage = () => {
   }, [CATime, TPTime, CSTime, PBTime, QAQuantity, LRQuantity, DSKQuantity, HCQuantity, ESQuantity, ELQuantity, ERQuantity, EWQuantity, ITWSQuantity, ACLQuantity, PMTMQuantity, PEIPQuantity])
 
   const onConfigUpdateHandle = async () => {
-    
+
     setLoading(true)
     if (CATime > 0 || TPTime > 0 || CSTime > 0 || PBTime > 0 || ESQuantity > 0 || EWQuantity > 0 || ELQuantity > 0 || ERQuantity > 0 || DSKQuantity > 0 || HCQuantity > 0 || QAQuantity > 0 || LRQuantity > 0 || ITWSQuantity > 0 || ACLQuantity > 0 || PMTMQuantity > 0 || PEIPQuantity > 0) {
       try {
@@ -178,17 +179,25 @@ const AdminConfigurationPage = () => {
   return (
     <Page title="Configuration">
       <Container maxWidth="xl" sx={{ py: 1 }}>
-        <Box px={5} py={1}
+      <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
+          Configuraion<IconButton ><InfoOutlinedIcon sx={{fontSize:16}}/></IconButton>
+        </Typography>
+
+        <Box p={1} />
+
+        <Box px={5} py={0}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
-            marginBottom: "15px"
+             
           }}>
           <Typography variant="subtitle1" >
             Cognitive Abilities ({CAMarks} Marks)
           </Typography>
-          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+          <Box p={1} />
+
+          <Box sx={{ width: "100%", height:"80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
               <ACTTextField name="CASessionTime" value={CATime}
                 setTime={setCATime} />
@@ -203,18 +212,20 @@ const AdminConfigurationPage = () => {
             </Box>
           </Box>
         </Box>
+        <Box p={1} />
 
-        <Box px={5} py={1}
+        <Box px={5} py={0}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
-            marginBottom: "15px"
+             
           }}>
           <Typography variant="subtitle1" >
             Technical Proficiency ({TPMarks} Marks)
           </Typography>
-          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <Box p={1} />
+          <Box sx={{ width: "100%", height:"80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
               <ACTTextField name="TPSessionTime" value={TPTime}
                 setTime={setTPTime} />
@@ -229,18 +240,20 @@ const AdminConfigurationPage = () => {
             </Box>
           </Box>
         </Box>
+        <Box p={1} />
 
-        <Box px={5} py={1}
+        <Box px={5} py={0}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
-            marginBottom: "15px"
+             
           }}>
           <Typography variant="subtitle1" >
             Communication Skills ({CSMarks} Marks)
           </Typography>
-          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <Box p={1} />
+          <Box sx={{ width: "100%", height:"80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
               <ACTTextField name="CSSessionTime" value={CSTime}
                 setTime={setCSTime} />
@@ -261,18 +274,20 @@ const AdminConfigurationPage = () => {
             </Box>
           </Box>
         </Box>
+        <Box p={1} />
 
-        <Box px={5} py={1}
+        <Box px={5} py={0}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
-            marginBottom: "15px"
+             
           }}>
           <Typography variant="subtitle1" >
             Personality & Behavioral ({PBMarks} Marks)
           </Typography>
-          <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <Box p={1} />
+          <Box sx={{ width: "100%", height:"80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
               <ACTTextField name="PBSessionTime" value={PBTime}
                 setTime={setPBTime} />
@@ -293,6 +308,7 @@ const AdminConfigurationPage = () => {
             </Box>
           </Box>
         </Box>
+        <Box p={1} />
 
         <Box sx={{ display: "flex", justifyContent: "end" }}>
           <LoadingButton

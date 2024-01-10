@@ -9,15 +9,15 @@ const StyledRadio = styled(Radio)(({ theme }) => ({
     },
 }));
 const AdminGeneratedQue = ({ items, index, onApproveQue, disabledButtons, value, setAnstoChange, anstoChange }) => {
-    const [ChangingAnswer,setChangingAnswer]=useState("")
-    const [isChanaged,setisChanaged]=useState(false)
-    useEffect(()=>{
-        if(!isChanaged){
-            setChangingAnswer(items.correct_answer)
-        }else{
-            setChangingAnswer(anstoChange)
-        }
-    },[value])
+    // const [ChangingAnswer,setChangingAnswer]=useState("")
+    // const [isChanaged,setisChanaged]=useState(false)
+    // useEffect(()=>{
+    //     if(!isChanaged){
+    //         setChangingAnswer(items.correct_answer)
+    //     }else{
+    //         setChangingAnswer(anstoChange)
+    //     }
+    // },[value])
     return (
         <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, marginBottom: 1 }}>
             <Typography>Question {index + 1} <span style={{ color: "gray" }}>(Category: {items.category})</span></Typography>
@@ -29,7 +29,9 @@ const AdminGeneratedQue = ({ items, index, onApproveQue, disabledButtons, value,
             <Box sx={{ display: "flex" }}>
                 <Box sx={{ width: "88%" }} >
                     <FormControl>
-                        <RadioGroup value={ChangingAnswer} onChange={(e) => {setAnstoChange(e.target.value); setisChanaged(true)}}>
+                        <RadioGroup value={items.correct_answer} 
+                        // onChange={(e) => {setAnstoChange(e.target.value); setisChanaged(true)}}
+                        >
                             {items.options.map((item, i) => {
                                 return (
                                     <FormControlLabel

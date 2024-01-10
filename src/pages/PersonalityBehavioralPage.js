@@ -17,16 +17,17 @@ const PersonalityBehavioralPage = () => {
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const showAlert = useSnackbar();
-  const [disableGenerate,setDisableGenerate] = useState(true);
+  const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState('');
   const [errorText2, setErrorText2] = useState('');
   const [errorText3, setErrorText3] = useState('');
   const [errorText4, setErrorText4] = useState('');
+
   const ITShandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -36,27 +37,37 @@ const PersonalityBehavioralPage = () => {
       setQuestionCount1(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown1 = (e) => {
+    e.preventDefault();
+    setQuestionCount1((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const ITShandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp1(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown1(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount1((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
-  
+
   const ACLhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount1 >= 1 || questionCount3 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount1 >= 1 || questionCount3 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -66,27 +77,37 @@ const PersonalityBehavioralPage = () => {
       setQuestionCount2(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown2 = (e) => {
+    e.preventDefault();
+    setQuestionCount2((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount1 == 0 && questionCount3 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const ACLhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp2(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown2(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount2((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount1 == 0 && questionCount3 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
-  
+
   const PTMhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount1 >= 1 || questionCount4 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount1 >= 1 || questionCount4 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -96,27 +117,37 @@ const PersonalityBehavioralPage = () => {
       setQuestionCount3(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp3 = (e) => {
+    e.preventDefault();
+    setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown3 = (e) => {
+    e.preventDefault();
+    setQuestionCount3((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount1 == 0 && questionCount4 == 0);
+      return newValue;
+    });
+  }
+
   const PTMhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp3(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown3(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount3((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount1 == 0 && questionCount4 == 0);
-        return newValue;
-      });
     }
   };
-  
+
   const PEIPhandleInputChange = (e) => {
     const inputValue = e.target.value;
-    if(inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount1 >= 1){
+    if (inputValue >= 1 || questionCount2 >= 1 || questionCount3 >= 1 || questionCount1 >= 1) {
       setDisableGenerate(false)
-    }else{
+    } else {
       setDisableGenerate(true)
     }
     if (inputValue < 0 || inputValue > 10) {
@@ -126,19 +157,29 @@ const PersonalityBehavioralPage = () => {
       setQuestionCount4(inputValue)
     }
   };
-  
+
+  const handleArrowButtonUp4 = (e) => {
+    e.preventDefault();
+    setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setDisableGenerate(false)
+  }
+
+  const handleArrowButtonDown4 = (e) => {
+    e.preventDefault();
+    setQuestionCount4((prevValue) => {
+      const newValue = Math.max(Number(prevValue) - 1, 0);
+      setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount1 == 0);
+      return newValue;
+    });
+  }
+
   const PEIPhandleArrowKeys = (e) => {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
-      setDisableGenerate(false)
+      handleArrowButtonUp4(e)
     } else if (e.key === 'ArrowDown') {
+      handleArrowButtonDown4(e)
+    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
       e.preventDefault();
-      setQuestionCount4((prevValue) => {
-        const newValue = Math.max(Number(prevValue) - 1, 0);
-        setDisableGenerate(newValue == 0 && questionCount2 == 0 && questionCount3 == 0 && questionCount1 == 0);
-        return newValue;
-      });
     }
   };
 
@@ -164,17 +205,17 @@ const PersonalityBehavioralPage = () => {
     }
   }
 
-  const onApproveQue = async(items,index) => {
+  const onApproveQue = async (items, index) => {
     const icap_category_id = 4;
     const icap_qscategory_id = 1;
     let icap_subcategory_id;
     if (items.category === "Interpersonal and Team work Skills") {
       icap_subcategory_id = 10
-    } else if(items.category === "Adaptability and Continuous Learning") {
+    } else if (items.category === "Adaptability and Continuous Learning") {
       icap_subcategory_id = 11
-    }else if(items.category === "Project Management and Time Management") {
+    } else if (items.category === "Project Management and Time Management") {
       icap_subcategory_id = 12
-    }else {
+    } else {
       icap_subcategory_id = 13
     }
     try {
@@ -197,7 +238,7 @@ const PersonalityBehavioralPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -205,10 +246,11 @@ const PersonalityBehavioralPage = () => {
       setTimeout(() => {
         if (showAlert.close) {
           showAlert.close();
-      }
+        }
       }, 20000);
     }
   }
+
   return (
     <Page title="Personality & Behavioral Generate Page">
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -222,16 +264,16 @@ const PersonalityBehavioralPage = () => {
           <Typography variant="subtitle1" color="gray" >
             Number of Questions
           </Typography>
-          <AGTextField errorText={errorText1} handleInputChange={ITShandleInputChange} handleArrowKeys={ITShandleArrowKeys} name="ITSQuestionCount" label="Interpersonal & Team-work Skills" value={questionCount1} setQuestionCount={setQuestionCount1}/>
-          <AGTextField errorText={errorText2} handleInputChange={ACLhandleInputChange} handleArrowKeys={ACLhandleArrowKeys} name="ACLQuestionCount" label="Adaptability & Continuous Learning" value={questionCount2} setQuestionCount={setQuestionCount2}/>
-          <AGTextField errorText={errorText3} handleInputChange={PTMhandleInputChange} handleArrowKeys={PTMhandleArrowKeys} name="PTMQuestionCount" label="Project & Time Management" value={questionCount3} setQuestionCount={setQuestionCount3}/>
-          <AGTextField errorText={errorText4} handleInputChange={PEIPhandleInputChange} handleArrowKeys={PEIPhandleArrowKeys} name="PEIPQuestionCount" label="Professional Etiquette & Interview Preparedness" value={questionCount4} setQuestionCount={setQuestionCount4}/>
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp1} handleArrowButtonDown={handleArrowButtonDown1} errorText={errorText1} handleInputChange={ITShandleInputChange} handleArrowKeys={ITShandleArrowKeys} name="ITSQuestionCount" label="Interpersonal & Team-work Skills" value={questionCount1} setQuestionCount={setQuestionCount1} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp2} handleArrowButtonDown={handleArrowButtonDown2} errorText={errorText2} handleInputChange={ACLhandleInputChange} handleArrowKeys={ACLhandleArrowKeys} name="ACLQuestionCount" label="Adaptability & Continuous Learning" value={questionCount2} setQuestionCount={setQuestionCount2} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp3} handleArrowButtonDown={handleArrowButtonDown3} errorText={errorText3} handleInputChange={PTMhandleInputChange} handleArrowKeys={PTMhandleArrowKeys} name="PTMQuestionCount" label="Project & Time Management" value={questionCount3} setQuestionCount={setQuestionCount3} />
+          <AGTextField handleArrowButtonUp={handleArrowButtonUp4} handleArrowButtonDown={handleArrowButtonDown4} errorText={errorText4} handleInputChange={PEIPhandleInputChange} handleArrowKeys={PEIPhandleArrowKeys} name="PEIPQuestionCount" label="Professional Etiquette & Interview Preparedness" value={questionCount4} setQuestionCount={setQuestionCount4} />
           <LoadingButton
             variant="outlined"
             disabled={disableGenerate}
             loading={isLoading}
             onClick={() => onGenerateClicked()}
-            sx={{marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
+            sx={{ marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7", }}
           >
             Generate
           </LoadingButton>
