@@ -28,7 +28,7 @@ const CognitiveAbilitiesPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText1(`Value should be between 0 to 10`);
+      setErrorText1("Value: 0 to 10");
     } else {
       setErrorText1("");
       setQuestionCount1(inputValue);
@@ -43,7 +43,7 @@ const CognitiveAbilitiesPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText2(`Value should be between 0 to 10`);
+      setErrorText2("Value: 0 to 10");
     } else {
       setErrorText2("");
       setQuestionCount2(inputValue);
@@ -154,7 +154,7 @@ const CognitiveAbilitiesPage = () => {
 
   return (
     <Page title="Cognitive Abilities Generate Page">
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: 1 }}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Cognitive Abilities
         </Typography>

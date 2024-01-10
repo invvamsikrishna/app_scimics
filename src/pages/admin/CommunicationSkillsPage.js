@@ -16,7 +16,7 @@ const CommunicationSkillsPage = () => {
   const [questionCount4, setQuestionCount4] = useState(0);
   const [queArray, setQueArray] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
-  const { showSnackbar } = useAlertContext();
+  const showSnackbar = useAlertContext();
   const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState("");
   const [errorText2, setErrorText2] = useState("");
@@ -31,7 +31,7 @@ const CommunicationSkillsPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText1(`Value should be between 0 to 10`);
+      setErrorText1("Value: 0 to 10");
     } else {
       setErrorText1("");
       setQuestionCount1(inputValue);
@@ -71,7 +71,7 @@ const CommunicationSkillsPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText2(`Value should be between 0 to 10`);
+      setErrorText2("Value: 0 to 10");
     } else {
       setErrorText2("");
       setQuestionCount2(inputValue);
@@ -111,7 +111,7 @@ const CommunicationSkillsPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText3(`Value should be between 0 to 10`);
+      setErrorText3("Value: 0 to 10");
     } else {
       setErrorText3("");
       setQuestionCount3(inputValue);
@@ -151,7 +151,7 @@ const CommunicationSkillsPage = () => {
       setDisableGenerate(true);
     }
     if (inputValue < 0 || inputValue > 10) {
-      setErrorText4(`Value should be between 0 to 10`);
+      setErrorText4("Value: 0 to 10");
     } else {
       setErrorText4("");
       setQuestionCount4(inputValue);
@@ -243,71 +243,74 @@ const CommunicationSkillsPage = () => {
 
   return (
     <Page title="Communication Skills Generate Page">
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: 1 }}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Communication Skills
         </Typography>
         <Box p={1} />
 
-        <Box px={5} py={5} sx={{ display: "flex", alignItems: "center", bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
+        <Box px={2} py={1} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, height: "125px" }}>
           <Typography variant="subtitle1" color="gray">
             Number of Questions
           </Typography>
-          <AGTextField
-            disabled
-            handleArrowButtonUp={handleArrowButtonUp1}
-            handleArrowButtonDown={handleArrowButtonDown1}
-            errorText={errorText1}
-            handleInputChange={EShandleInputChange}
-            handleArrowKeys={EShandleArrowKeys}
-            name="ESQuestionCount"
-            label="English Speaking"
-            value={questionCount1}
-            setQuestionCount={setQuestionCount1}
-          />
-          <AGTextField
-            handleArrowButtonUp={handleArrowButtonUp2}
-            handleArrowButtonDown={handleArrowButtonDown2}
-            errorText={errorText2}
-            handleInputChange={ELhandleInputChange}
-            handleArrowKeys={ELhandleArrowKeys}
-            name="ELQuestionCount"
-            label="English Listening"
-            value={questionCount2}
-            setQuestionCount={setQuestionCount2}
-          />
-          <AGTextField
-            handleArrowButtonUp={handleArrowButtonUp3}
-            handleArrowButtonDown={handleArrowButtonDown3}
-            errorText={errorText3}
-            handleInputChange={ERhandleInputChange}
-            handleArrowKeys={ERhandleArrowKeys}
-            name="ERQuestionCount"
-            label="English Reading"
-            value={questionCount3}
-            setQuestionCount={setQuestionCount3}
-          />
-          <AGTextField
-            disabled
-            handleArrowButtonUp={handleArrowButtonUp4}
-            handleArrowButtonDown={handleArrowButtonDown4}
-            errorText={errorText4}
-            handleInputChange={EWhandleInputChange}
-            handleArrowKeys={EWhandleArrowKeys}
-            name="EWQuestionCount"
-            label="English Writing"
-            value={questionCount4}
-            setQuestionCount={setQuestionCount4}
-          />
-          <LoadingButton
-            variant="outlined"
-            disabled={disableGenerate}
-            loading={isLoading}
-            onClick={() => onGenerateClicked()}
-            sx={{ marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
-          >
-            Generate
-          </LoadingButton>
+          <Box p={1} />
+          <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "start", width: { xs: "100%", md: "100%" } }}>
+            <AGTextField
+              disabled
+              handleArrowButtonUp={handleArrowButtonUp1}
+              handleArrowButtonDown={handleArrowButtonDown1}
+              errorText={errorText1}
+              handleInputChange={EShandleInputChange}
+              handleArrowKeys={EShandleArrowKeys}
+              name="ESQuestionCount"
+              label="English Speaking"
+              value={questionCount1}
+              setQuestionCount={setQuestionCount1}
+            />
+            <AGTextField
+              handleArrowButtonUp={handleArrowButtonUp2}
+              handleArrowButtonDown={handleArrowButtonDown2}
+              errorText={errorText2}
+              handleInputChange={ELhandleInputChange}
+              handleArrowKeys={ELhandleArrowKeys}
+              name="ELQuestionCount"
+              label="English Listening"
+              value={questionCount2}
+              setQuestionCount={setQuestionCount2}
+            />
+            <AGTextField
+              handleArrowButtonUp={handleArrowButtonUp3}
+              handleArrowButtonDown={handleArrowButtonDown3}
+              errorText={errorText3}
+              handleInputChange={ERhandleInputChange}
+              handleArrowKeys={ERhandleArrowKeys}
+              name="ERQuestionCount"
+              label="English Reading"
+              value={questionCount3}
+              setQuestionCount={setQuestionCount3}
+            />
+            <AGTextField
+              disabled
+              handleArrowButtonUp={handleArrowButtonUp4}
+              handleArrowButtonDown={handleArrowButtonDown4}
+              errorText={errorText4}
+              handleInputChange={EWhandleInputChange}
+              handleArrowKeys={EWhandleArrowKeys}
+              name="EWQuestionCount"
+              label="English Writing"
+              value={questionCount4}
+              setQuestionCount={setQuestionCount4}
+            />
+            <LoadingButton
+              variant="outlined"
+              disabled={disableGenerate}
+              loading={isLoading}
+              onClick={() => onGenerateClicked()}
+              sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 3, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
+            >
+              Generate
+            </LoadingButton>
+          </Box>
         </Box>
         <Box p={1} />
         {queArray === null ? (

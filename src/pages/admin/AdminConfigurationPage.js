@@ -196,7 +196,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
           }}
         >
-          <Typography variant="subtitle1">Cognitive Abilities ({CAMarks} Marks)</Typography>
+          <Typography variant="subtitle2">Cognitive Abilities ({CAMarks} Marks)</Typography>
           <Box p={1} />
 
           <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
@@ -220,7 +220,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
           }}
         >
-          <Typography variant="subtitle1">Technical Proficiency ({TPMarks} Marks)</Typography>
+          <Typography variant="subtitle2">Technical Proficiency ({TPMarks} Marks)</Typography>
           <Box p={1} />
           <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
@@ -243,7 +243,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
           }}
         >
-          <Typography variant="subtitle1">Communication Skills ({CSMarks} Marks)</Typography>
+          <Typography variant="subtitle2">Communication Skills ({CSMarks} Marks)</Typography>
           <Box p={1} />
           <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
@@ -268,7 +268,7 @@ const AdminConfigurationPage = () => {
             width: { xs: "100%", md: "100%" },
           }}
         >
-          <Typography variant="subtitle1">Personality & Behavioral ({PBMarks} Marks)</Typography>
+          <Typography variant="subtitle2">Personality & Behavioral ({PBMarks} Marks)</Typography>
           <Box p={1} />
           <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
             <Box sx={{ width: "20%" }}>
