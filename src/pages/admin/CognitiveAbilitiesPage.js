@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Tooltip, Typography } from "@mui/material";
 import Page from "../../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../../components/AdminGeneratedQue";
 import { AGTextField } from "../../components/hook-form/RHFTextField";
 import { useAlertContext } from "../../components/AlertProvider";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+
+export const generatePageInformation = [
+  "Question quantity must be between 1 to 10.",
+  "Either one of the Questions quantity must be greater than 1."
+]
 
 const CognitiveAbilitiesPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -53,10 +59,12 @@ const CognitiveAbilitiesPage = () => {
   const handleArrowButtonUp1 = (e) => {
     e.preventDefault();
     setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setErrorText1("");
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown1 = (e) => {
+    setErrorText1("");
     e.preventDefault();
     setQuestionCount1((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -68,10 +76,12 @@ const CognitiveAbilitiesPage = () => {
   const handleArrowButtonUp2 = (e) => {
     e.preventDefault();
     setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setErrorText2("");
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown2 = (e) => {
+    setErrorText2("");
     e.preventDefault();
     setQuestionCount2((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -152,51 +162,76 @@ const CognitiveAbilitiesPage = () => {
     }
   };
 
+  const onHandleRemoveError = () => {
+    setErrorText1("");
+    setErrorText2("");
+  }
+
   return (
     <Page title="Cognitive Abilities Generate Page">
-      <Container maxWidth="xl" sx={{ py: 1 }}>
+      <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Cognitive Abilities
+          <Tooltip title={<ul >
+            {generatePageInformation.map((info, index) => (
+              <li key={index} style={{ marginLeft: '8px' }}
+              >{info}</li>
+            ))}
+          </ul>} placement="right" arrow>
+            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
+          </Tooltip>
         </Typography>
 
         <Box p={1} />
 
-        <Box px={5} py={5} sx={{ display: "flex", alignItems: "center", bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
+        <Box px={2} py={1} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, minHeight: "145px" }}>
           <Typography variant="subtitle1" color="gray">
             Number of Questions
           </Typography>
-          <AGTextField
-            handleArrowButtonUp={handleArrowButtonUp1}
-            handleArrowButtonDown={handleArrowButtonDown1}
-            errorText={errorText1}
-            handleInputChange={QAhandleInputChange}
-            handleArrowKeys={QAhandleArrowKeys}
-            name="QAQuestionCount"
-            label="Quantitative Aptitude"
-            value={questionCount1}
-            setQuestionCount={setQuestionCount1}
-          />
-          <AGTextField
-            handleArrowButtonUp={handleArrowButtonUp2}
-            handleArrowButtonDown={handleArrowButtonDown2}
-            errorText={errorText2}
-            handleInputChange={LRhandleInputChange}
-            handleArrowKeys={LRhandleArrowKeys}
-            name="LRQuestionCount"
-            label="Logical Reasoning"
-            value={questionCount2}
-            setQuestionCount={setQuestionCount2}
-          />
-          <LoadingButton
-            variant="outlined"
-            loading={isLoading}
-            onClick={() => onGenerateClicked()}
-            disabled={disableGenerate}
-            sx={{ marginLeft: 3, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
-          >
-            Generate
-          </LoadingButton>
+          <Box p={1} />
+          <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                handleArrowButtonUp={handleArrowButtonUp1}
+                handleArrowButtonDown={handleArrowButtonDown1}
+                errorText={errorText1}
+                handleInputChange={QAhandleInputChange}
+                handleArrowKeys={QAhandleArrowKeys}
+                name="QAQuestionCount"
+                label="Quantitative Aptitude"
+                value={questionCount1}
+                setQuestionCount={setQuestionCount1}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                handleArrowButtonUp={handleArrowButtonUp2}
+                handleArrowButtonDown={handleArrowButtonDown2}
+                errorText={errorText2}
+                handleInputChange={LRhandleInputChange}
+                handleArrowKeys={LRhandleArrowKeys}
+                name="LRQuestionCount"
+                label="Logical Reasoning"
+                value={questionCount2}
+                setQuestionCount={setQuestionCount2}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}></Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}></Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <LoadingButton
+                variant="outlined"
+                loading={isLoading}
+                onClick={() => onGenerateClicked()}
+                disabled={disableGenerate}
+                sx={{ marginTop: 1, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 4, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
+              >
+                Generate
+              </LoadingButton>
+            </Box>
+          </Box>
         </Box>
+
         <Box p={1} />
 
         {queArray === null ? (

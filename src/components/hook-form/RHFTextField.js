@@ -103,27 +103,28 @@ export function URHFTextField({ name, label, onChange, InputLabelProps, ...other
 }
 
 //AdminCongigurationQuestionCountTextField
-export function ACQCTextField({ name, label, value, max, setQuantity, ...other }) {
-  const [errorText, setErrorText] = useState('');
+export function ACQCTextField({ name, label, value, max, setCount, errorText, setErrorText, startErrorText, endErrorText, ...other }) {
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     if (inputValue < 0 || inputValue > max) {
-      setErrorText(`Value: 0 to ${max}`);
+      setErrorText(`${startErrorText} ${max} ${endErrorText}`);
     } else {
       setErrorText('');
-      setQuantity(inputValue)
+      setCount(inputValue)
     }
   };
 
   const handleArrowButtonUp = (e) => {
-    e.preventDefault();
-    setQuantity((prevValue) => Math.min(Number(prevValue) + 1, max));
+      setErrorText('');
+      e.preventDefault();
+    setCount((prevValue) => Math.min(Number(prevValue) + 1, max));
   }
 
   const handleArrowButtonDown = (e) => {
-    e.preventDefault();
-    setQuantity((prevValue) => Math.max(Number(prevValue) - 1, 0));
+      setErrorText('');
+      e.preventDefault();
+    setCount((prevValue) => Math.max(Number(prevValue) - 1, 0));
   }
 
   const handleArrowKeys = (e) => {
@@ -137,77 +138,11 @@ export function ACQCTextField({ name, label, value, max, setQuantity, ...other }
   };
 
   return (
-    <TextField name={name} label={label} type="number" sx={{   marginRight:2, width: "20%" }}
-      value={value} onChange={(e) => handleInputChange(e)} onKeyDown={handleArrowKeys}
+    <TextField type="number" sx={{ marginTop: 1, width: "90%", marginRight:1 }}
+    name={name} label={label} value={value} onChange={(e) => handleInputChange(e)} onKeyDown={handleArrowKeys}
       inputProps={{
         min: 0,
         max: max,
-      }}
-      error={Boolean(errorText)}
-      helperText={errorText}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment
-            position="end"
-            sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
-            <IconButton
-              sx={{ width: "10%", height: "10%" }}
-              edge="end" onClick={(e) => handleArrowButtonUp(e)}>
-              <ArrowDropUpIcon />
-            </IconButton>
-            <IconButton
-              sx={{ width: "10%", height: "10%" }}
-              edge="end" onClick={(e) => handleArrowButtonDown(e)}>
-              <ArrowDropDownIcon />
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      {...other}
-    />
-  );
-}
-
-//AdminConfigurationTimeTextField
-export function ACTTextField({ name, value, setTime, ...other }) {
-  const [errorText, setErrorText] = useState('');
-
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    if (inputValue < 0 || inputValue > 60) {
-      setErrorText('Time: 1 - 60min');
-    } else {
-      setErrorText('');
-      setTime(inputValue)
-    }
-  };
-
-  const handleArrowButtonUp = (e) => {
-    e.preventDefault();
-    setTime((prevValue) => Math.min(Number(prevValue) + 1, 60));
-  }
-
-  const handleArrowButtonDown = (e) => {
-    e.preventDefault();
-    setTime((prevValue) => Math.max(Number(prevValue) - 1, 0));
-  }
-
-  const handleArrowKeys = (e) => {
-    if (e.key === 'ArrowUp') {
-      handleArrowButtonUp(e)
-    } else if (e.key === 'ArrowDown') {
-      handleArrowButtonDown(e)
-    } else if (e.key === '-' || e.key === '.' || e.key === 'e' || e.key === '+') {
-      e.preventDefault();
-    }
-  };
-
-  return (
-    <TextField name={name} label="Time (Min)" type="number" sx={{  width: "85%" }}
-      value={value} onChange={(e) => handleInputChange(e)} onKeyDown={handleArrowKeys}
-      inputProps={{
-        min: 0,
-        max: 60,
       }}
       error={Boolean(errorText)}
       helperText={errorText}
@@ -238,7 +173,7 @@ export function ACTTextField({ name, value, setTime, ...other }) {
 export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, ...other }) {
 
   return (
-    <TextField name={name} label={label} type="number" sx={{ marginRight: 3, width: "20%" }}
+    <TextField name={name} label={label} type="number" sx={{ marginTop: 1, width: "85%", marginRight:1 }}
       value={value} onChange={(e) => handleInputChange(e)} onKeyDown={(e) => handleArrowKeys(e)}
       inputProps={{
         min: 0,

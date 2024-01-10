@@ -76,7 +76,6 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
   const handleClearTimer = () => {
     var notVisited = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[0] || e.status == null).length;
     var notAnswered = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[1]).length;
-    var answered = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[2]).length;
     var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length;
     var ansmarkReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length;
 

@@ -104,7 +104,7 @@ const LoginPage = ({ authSuccess }) => {
   const [isLoading, setLoading] = useState(false);
 
   const schema = Yup.object().shape({
-    email: Yup.string().email().required("Email address is required"),
+    email: Yup.string().email("Invalid email Id...").required("Email address is required"),
     password: Yup.string().required("Password is required"),
   });
 

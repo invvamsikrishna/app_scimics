@@ -1,9 +1,9 @@
-import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Box, Container, Tooltip, Typography } from "@mui/material";
 import Page from "../../components/Page";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { ACQCTextField, ACTTextField } from "../../components/hook-form/RHFTextField";
+import { ACQCTextField } from "../../components/hook-form/RHFTextField";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useAlertContext } from "../../components/AlertProvider";
 
@@ -45,6 +45,23 @@ const AdminConfigurationPage = () => {
   const [TPMarks, setTPMarks] = useState(0);
   const [CAMarks, setCAMarks] = useState(0);
   const [PBMarks, setPBMarks] = useState(0);
+
+  const [errorTextCA, setErrorTextCA] = useState('');
+  const [errorTextTP, setErrorTextTP] = useState('');
+  const [errorTextCS, setErrorTextCS] = useState('');
+  const [errorTextPB, setErrorTextPB] = useState('');
+  const [errorTextQA, setErrorTextQA] = useState('');
+  const [errorTextLR, setErrorTextLR] = useState('');
+  const [errorTextDS, setErrorTextDS] = useState('');
+  const [errorTextHC, setErrorTextHC] = useState('');
+  const [errorTextS, setErrorTextS] = useState('');
+  const [errorTextL, setErrorTextL] = useState('');
+  const [errorTextR, setErrorTextR] = useState('');
+  const [errorTextW, setErrorTextW] = useState('');
+  const [errorTextIT, setErrorTextIT] = useState('');
+  const [errorTextAC, setErrorTextAC] = useState('');
+  const [errorTextPM, setErrorTextPM] = useState('');
+  const [errorTextPE, setErrorTextPE] = useState('');
 
   const questionsCountFetch = async () => {
     try {
@@ -175,110 +192,163 @@ const AdminConfigurationPage = () => {
     }
   };
 
+  const onHandleRemoveError = () => {
+    setErrorTextCA("");
+    setErrorTextTP("");
+    setErrorTextCS("");
+    setErrorTextPB("");
+    setErrorTextQA("");
+    setErrorTextLR("");
+    setErrorTextDS("");
+    setErrorTextHC("");
+    setErrorTextS("");
+    setErrorTextL("");
+    setErrorTextR("");
+    setErrorTextW("");
+    setErrorTextIT("");
+    setErrorTextAC("");
+    setErrorTextPM("");
+    setErrorTextPE("");
+  }
+  
+  const ConfigurationInfo = [
+    "The Configuration which is visible and updated, that will replicate in the exam page for user.",
+    "Time must be between 1 Minute to 60 Minutes.",
+    "Either one of the Questions quantity must be greater than 1."
+  ]
+
   return (
     <Page title="Configuration">
-      <Container maxWidth="xl" sx={{ py: 1 }}>
+      <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Configuraion
-          <IconButton>
-            <InfoOutlinedIcon sx={{ fontSize: 16 }} />
-          </IconButton>
+          <Tooltip title={<ul >
+              {ConfigurationInfo.map((info, index) => (
+                <li key={index} style={{ marginLeft: '8px' }}
+                >{info}</li>
+              ))}
+            </ul>} placement="right" arrow>
+              <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
+            </Tooltip>
         </Typography>
 
         <Box p={1} />
 
         <Box
-          px={5}
-          py={0}
+          px={4}
+          py={1}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
+            minHeight: "140px"
           }}
         >
-          <Typography variant="subtitle2">Cognitive Abilities ({CAMarks} Marks)</Typography>
+          <Typography variant="subtitle2">Cognitive Abilities ({CAMarks} Marks) </Typography>
           <Box p={1} />
 
-          <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
-            <Box sx={{ width: "20%" }}>
-              <ACTTextField name="CASessionTime" value={CATime} setTime={setCATime} />
+          <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="CASessionTime" label="Time (Min)" max={60} errorText={errorTextCA} setErrorText={setErrorTextCA} startErrorText="Time: 1 - " endErrorText="Min" value={CATime} setCount={setCATime} />
             </Box>
-            <Box sx={{ width: "80%" }}>
-              <ACQCTextField name="qaCount" label={`(${qaCount.question_count}) Quantitative Aptitude`} value={QAQuantity} max={qaCount.question_count * 1} setQuantity={setQAQuantity} />
-              <ACQCTextField name="lrCount" label={`(${lrCount.question_count}) Logical Reasoning`} value={LRQuantity} max={lrCount.question_count * 1} setQuantity={setLRQuantity} />
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="qaCount" label={`(${qaCount.question_count}) Quantitative Aptitude`} value={QAQuantity} max={qaCount.question_count * 1} setCount={setQAQuantity} errorText={errorTextQA} setErrorText={setErrorTextQA} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="lrCount" label={`(${lrCount.question_count}) Logical Reasoning`} value={LRQuantity} max={lrCount.question_count * 1} setCount={setLRQuantity} errorText={errorTextLR} setErrorText={setErrorTextLR} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
           </Box>
         </Box>
         <Box p={1} />
 
         <Box
-          px={5}
-          py={0}
+          px={4}
+          py={1}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
+            minHeight: "140px"
           }}
         >
           <Typography variant="subtitle2">Technical Proficiency ({TPMarks} Marks)</Typography>
           <Box p={1} />
-          <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
-            <Box sx={{ width: "20%" }}>
-              <ACTTextField name="TPSessionTime" value={TPTime} setTime={setTPTime} />
+
+          <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="TPSessionTime" label="Time (Min)" max={60} errorText={errorTextTP} setErrorText={setErrorTextTP} startErrorText="Time: 1 - " endErrorText="Min" value={TPTime} setCount={setTPTime} />
             </Box>
-            <Box sx={{ width: "80%" }}>
-              <ACQCTextField name="DSKCount" label={`(${DSKCount.question_count}) Domian Specific`} value={DSKQuantity} max={DSKCount.question_count * 1} setQuantity={setDSKQuantity} />
-              <ACQCTextField name="HCCount" label={`(${HCCount.question_count}) Hands-on Coding`} value={HCQuantity} max={HCCount.question_count * 1} setQuantity={setHCQuantity} />
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="DSKCount" label={`(${DSKCount.question_count}) Domian Specific`} value={DSKQuantity} max={DSKCount.question_count * 1} setCount={setDSKQuantity} errorText={errorTextDS} setErrorText={setErrorTextDS} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="HCCount" label={`(${HCCount.question_count}) Hands-on Coding`} value={HCQuantity} max={HCCount.question_count * 1} setCount={setHCQuantity} errorText={errorTextHC} setErrorText={setErrorTextHC} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
           </Box>
         </Box>
         <Box p={1} />
 
         <Box
-          px={5}
-          py={0}
+          px={4}
+          py={1}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
+            minHeight: "140px"
           }}
         >
           <Typography variant="subtitle2">Communication Skills ({CSMarks} Marks)</Typography>
           <Box p={1} />
-          <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
-            <Box sx={{ width: "20%" }}>
-              <ACTTextField name="CSSessionTime" value={CSTime} setTime={setCSTime} />
+
+          <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="CSSessionTime" label="Time (Min)" max={60} errorText={errorTextCS} setErrorText={setErrorTextCS} startErrorText="Time: 1 - " endErrorText="Min" value={CSTime} setCount={setCSTime} />
             </Box>
-            <Box sx={{ width: "80%" }}>
-              <ACQCTextField name="ESCount" disabled label={`(${ESCount.question_count * 0}) Speaking`} value={ESQuantity} max={ESCount.question_count * 0} setQuantity={setESQuantity} />
-              <ACQCTextField name="ELCount" label={`(${ELCount.question_count / 5}) Listening`} value={ELQuantity} max={ELCount.question_count / 5} setQuantity={setELQuantity} />
-              <ACQCTextField name="ERCount" label={`(${ERCount.question_count / 5}) Reading`} value={ERQuantity} max={ERCount.question_count / 5} setQuantity={setERQuantity} />
-              <ACQCTextField name="EWCount" disabled label={`(${EWCount.question_count * 0}) Writing`} value={EWQuantity} max={EWCount.question_count * 0} setQuantity={setEWQuantity} />
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="ESCount" disabled label={`(${ESCount.question_count * 0}) Speaking`} value={ESQuantity} max={ESCount.question_count * 0} setCount={setESQuantity} errorText={errorTextS} setErrorText={setErrorTextS} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="ELCount" label={`(${ELCount.question_count / 5}) Listening`} value={ELQuantity} max={ELCount.question_count / 5} setCount={setELQuantity} errorText={errorTextL} setErrorText={setErrorTextL} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="ERCount" label={`(${ERCount.question_count / 5}) Reading`} value={ERQuantity} max={ERCount.question_count / 5} setCount={setERQuantity} errorText={errorTextR} setErrorText={setErrorTextR} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="EWCount" disabled label={`(${EWCount.question_count * 0}) Writing`} value={EWQuantity} max={EWCount.question_count * 0} setCount={setEWQuantity} errorText={errorTextW} setErrorText={setErrorTextW} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
           </Box>
         </Box>
         <Box p={1} />
 
         <Box
-          px={5}
-          py={0}
+          px={4}
+          py={1}
           sx={{
             bgcolor: "background.primary",
             borderRadius: "12px",
             width: { xs: "100%", md: "100%" },
+            minHeight: "140px"
           }}
         >
           <Typography variant="subtitle2">Personality & Behavioral ({PBMarks} Marks)</Typography>
           <Box p={1} />
-          <Box sx={{ width: "100%", height: "80px", display: "flex", alignItems: "start" }}>
-            <Box sx={{ width: "20%" }}>
-              <ACTTextField name="PBSessionTime" value={PBTime} setTime={setPBTime} />
+
+          <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="PBSessionTime" label="Time (Min)" max={60} errorText={errorTextPB} setErrorText={setErrorTextPB} startErrorText="Time: 1 - " endErrorText="Min" value={PBTime} setCount={setPBTime} />
             </Box>
-            <Box sx={{ width: "80%" }}>
-              <ACQCTextField name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setQuantity={setITWSQuantity} />
-              <ACQCTextField name="ACLCount" label={`(${ACLCount.question_count}) A.C.L`} value={ACLQuantity} max={ACLCount.question_count * 1} setQuantity={setACLQuantity} />
-              <ACQCTextField name="PMTMCount" label={`(${PMTMCount.question_count}) P.M.T.M`} value={PMTMQuantity} max={PMTMCount.question_count * 1} setQuantity={setPMTMQuantity} />
-              <ACQCTextField name="PEIPCount" label={`(${PEIPCount.question_count}) P.E.I.P `} value={PEIPQuantity} max={PEIPCount.question_count * 1} setQuantity={setPEIPQuantity} />
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setCount={setITWSQuantity} errorText={errorTextIT} setErrorText={setErrorTextIT} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="ACLCount" label={`(${ACLCount.question_count}) A.C.L`} value={ACLQuantity} max={ACLCount.question_count * 1} setCount={setACLQuantity} errorText={errorTextAC} setErrorText={setErrorTextAC} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="PMTMCount" label={`(${PMTMCount.question_count}) P.M.T.M`} value={PMTMQuantity} max={PMTMCount.question_count * 1} setCount={setPMTMQuantity} errorText={errorTextPM} setErrorText={setErrorTextPM} startErrorText="Value: 0 to " endErrorText="" />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <ACQCTextField name="PEIPCount" label={`(${PEIPCount.question_count}) P.E.I.P `} value={PEIPQuantity} max={PEIPCount.question_count * 1} setCount={setPEIPQuantity} errorText={errorTextPE} setErrorText={setErrorTextPE} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
           </Box>
         </Box>
@@ -288,7 +358,6 @@ const AdminConfigurationPage = () => {
           <LoadingButton
             variant="outlined"
             loading={isLoading}
-            // disabled={checkDisable}
             disabled={isUpdateDisable}
             onClick={() => onConfigUpdateHandle()}
             sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 6, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}

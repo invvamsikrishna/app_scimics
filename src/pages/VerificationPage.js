@@ -22,7 +22,7 @@ const VerificationPage = ({ authSuccess }) => {
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
 
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(300);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const VerificationPage = ({ authSuccess }) => {
       // alert("clicked")
       sendOtptoEmail();
       setIsActive(false);
-      setTimer(120);
+      setTimer(300);
     }
   };
 

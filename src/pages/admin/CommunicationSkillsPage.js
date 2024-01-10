@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Tooltip, Typography } from "@mui/material";
 import Page from "../../components/Page";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import AdminGeneratedQue from "../../components/AdminGeneratedQue";
 import { AGTextField } from "../../components/hook-form/RHFTextField";
 import { useAlertContext } from "../../components/AlertProvider";
+import { generatePageInformation } from "./CognitiveAbilitiesPage";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const CommunicationSkillsPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -41,10 +43,12 @@ const CommunicationSkillsPage = () => {
   const handleArrowButtonUp1 = (e) => {
     e.preventDefault();
     setQuestionCount1((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setErrorText1("");
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown1 = (e) => {
+    setErrorText1("");
     e.preventDefault();
     setQuestionCount1((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -79,12 +83,14 @@ const CommunicationSkillsPage = () => {
   };
 
   const handleArrowButtonUp2 = (e) => {
+    setErrorText2("");
     e.preventDefault();
     setQuestionCount2((prevValue) => Math.min(Number(prevValue) + 1, 10));
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown2 = (e) => {
+    setErrorText2("");
     e.preventDefault();
     setQuestionCount2((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -121,10 +127,12 @@ const CommunicationSkillsPage = () => {
   const handleArrowButtonUp3 = (e) => {
     e.preventDefault();
     setQuestionCount3((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setErrorText3("");
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown3 = (e) => {
+    setErrorText3("");
     e.preventDefault();
     setQuestionCount3((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -161,10 +169,12 @@ const CommunicationSkillsPage = () => {
   const handleArrowButtonUp4 = (e) => {
     e.preventDefault();
     setQuestionCount4((prevValue) => Math.min(Number(prevValue) + 1, 10));
+    setErrorText4("");
     setDisableGenerate(false);
   };
 
   const handleArrowButtonDown4 = (e) => {
+    setErrorText4("");
     e.preventDefault();
     setQuestionCount4((prevValue) => {
       const newValue = Math.max(Number(prevValue) - 1, 0);
@@ -241,75 +251,101 @@ const CommunicationSkillsPage = () => {
     }
   };
 
+  const onHandleRemoveError = () => {
+    setErrorText1("");
+    setErrorText2("");
+    setErrorText3("");
+    setErrorText4("");
+  }
+
   return (
     <Page title="Communication Skills Generate Page">
-      <Container maxWidth="xl" sx={{ py: 1 }}>
+      <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Communication Skills
+          <Tooltip title={<ul >
+              {generatePageInformation.map((info, index) => (
+                <li key={index} style={{ marginLeft: '8px' }}
+                >{info}</li>
+              ))}
+            </ul>} placement="right" arrow>
+              <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
+            </Tooltip>
         </Typography>
+
         <Box p={1} />
 
-        <Box px={2} py={1} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, height: "125px" }}>
+        <Box px={2} py={1} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" }, minHeight: "145px" }}>
           <Typography variant="subtitle1" color="gray">
             Number of Questions
           </Typography>
           <Box p={1} />
-          <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "start", width: { xs: "100%", md: "100%" } }}>
-            <AGTextField
-              disabled
-              handleArrowButtonUp={handleArrowButtonUp1}
-              handleArrowButtonDown={handleArrowButtonDown1}
-              errorText={errorText1}
-              handleInputChange={EShandleInputChange}
-              handleArrowKeys={EShandleArrowKeys}
-              name="ESQuestionCount"
-              label="English Speaking"
-              value={questionCount1}
-              setQuestionCount={setQuestionCount1}
-            />
-            <AGTextField
-              handleArrowButtonUp={handleArrowButtonUp2}
-              handleArrowButtonDown={handleArrowButtonDown2}
-              errorText={errorText2}
-              handleInputChange={ELhandleInputChange}
-              handleArrowKeys={ELhandleArrowKeys}
-              name="ELQuestionCount"
-              label="English Listening"
-              value={questionCount2}
-              setQuestionCount={setQuestionCount2}
-            />
-            <AGTextField
-              handleArrowButtonUp={handleArrowButtonUp3}
-              handleArrowButtonDown={handleArrowButtonDown3}
-              errorText={errorText3}
-              handleInputChange={ERhandleInputChange}
-              handleArrowKeys={ERhandleArrowKeys}
-              name="ERQuestionCount"
-              label="English Reading"
-              value={questionCount3}
-              setQuestionCount={setQuestionCount3}
-            />
-            <AGTextField
-              disabled
-              handleArrowButtonUp={handleArrowButtonUp4}
-              handleArrowButtonDown={handleArrowButtonDown4}
-              errorText={errorText4}
-              handleInputChange={EWhandleInputChange}
-              handleArrowKeys={EWhandleArrowKeys}
-              name="EWQuestionCount"
-              label="English Writing"
-              value={questionCount4}
-              setQuestionCount={setQuestionCount4}
-            />
-            <LoadingButton
-              variant="outlined"
-              disabled={disableGenerate}
-              loading={isLoading}
-              onClick={() => onGenerateClicked()}
-              sx={{ minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 3, py: 1, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
-            >
-              Generate
-            </LoadingButton>
+          <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                disabled
+                handleArrowButtonUp={handleArrowButtonUp1}
+                handleArrowButtonDown={handleArrowButtonDown1}
+                errorText={errorText1}
+                handleInputChange={EShandleInputChange}
+                handleArrowKeys={EShandleArrowKeys}
+                name="ESQuestionCount"
+                label="Speaking"
+                value={questionCount1}
+                setQuestionCount={setQuestionCount1}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                handleArrowButtonUp={handleArrowButtonUp2}
+                handleArrowButtonDown={handleArrowButtonDown2}
+                errorText={errorText2}
+                handleInputChange={ELhandleInputChange}
+                handleArrowKeys={ELhandleArrowKeys}
+                name="ELQuestionCount"
+                label="Listening"
+                value={questionCount2}
+                setQuestionCount={setQuestionCount2}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                handleArrowButtonUp={handleArrowButtonUp3}
+                handleArrowButtonDown={handleArrowButtonDown3}
+                errorText={errorText3}
+                handleInputChange={ERhandleInputChange}
+                handleArrowKeys={ERhandleArrowKeys}
+                name="ERQuestionCount"
+                label="Reading"
+                value={questionCount3}
+                setQuestionCount={setQuestionCount3}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <AGTextField
+                disabled
+                handleArrowButtonUp={handleArrowButtonUp4}
+                handleArrowButtonDown={handleArrowButtonDown4}
+                errorText={errorText4}
+                handleInputChange={EWhandleInputChange}
+                handleArrowKeys={EWhandleArrowKeys}
+                name="EWQuestionCount"
+                label="Writing"
+                value={questionCount4}
+                setQuestionCount={setQuestionCount4}
+              />
+            </Box>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+              <LoadingButton
+                variant="outlined"
+                disabled={disableGenerate}
+                loading={isLoading}
+                onClick={() => onGenerateClicked()}
+                sx={{ marginTop: 1, minHeight: "56px", color: "#5a64c1", fontSize: 16, fontWeight: 500, px: 4, backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7" }}
+              >
+                Generate
+              </LoadingButton>
+            </Box>
           </Box>
         </Box>
         <Box p={1} />
