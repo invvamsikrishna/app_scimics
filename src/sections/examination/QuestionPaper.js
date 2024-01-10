@@ -7,11 +7,10 @@ import TimerWidget from "./TimerWidget";
 import { COMMON_ERROR_MSG, NO_AVAILABLE_TESTS_THROW, QUES_STATUS } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import UserServices from "../../services/UserServices";
-import { useSnackbar } from "../../components/SnackBar";
 import { LoadingButton } from "@mui/lab";
-import { useAlertDialog } from "../../components/dialog/AlertDialog";
 import TexttoSpeachCheck from "../../components/TexttoSpeachCheck";
 import { useSpeechSynthesis } from "../../components/createContextCodes/SpeechSynthesisContext";
+import { useAlertContext } from "../../components/AlertProvider";
 
 const StyledRadio = styled(Radio)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -23,10 +22,7 @@ const StyledRadio = styled(Radio)(({ theme }) => ({
 const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAnstoQues, markReviewtoQues, getPrevQuestion, getNextQuestion, getNextTest }) => {
   const timerRef = useRef(null);
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
-  const showAlertDialog = useAlertDialog();
-
-  const [isLoading, setLoading] = useState(false);
+  const { showLoading, hideLoading, showSnackbar, showAlertDialog } = useAlertContext();
 
   const [comprehensionText, setcomprehensionText] = useState("");
   const { stop } = useSpeechSynthesis();
@@ -40,7 +36,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
   useEffect(() => {
     const synthesis = window.speechSynthesis;
     const voices = synthesis.getVoices();
-    const findingVoice = voices.find((voice) => voice.name === 'Microsoft Ravi - English (India)' && voice.lang === 'en-IN');
+    const findingVoice = voices.find((voice) => voice.name === "Microsoft Ravi - English (India)" && voice.lang === "en-IN");
     setRaviIndiaVoice(findingVoice);
 
     if (exam.currentTest === 2 && exam.data[exam.currentTest]?.questions[exam.currentQues]?.category === "English Listening") {
@@ -48,9 +44,9 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
       // console.log(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension);
     } else {
       // console.log("--");
-      setcomprehensionText("-")
+      setcomprehensionText("-");
     }
-  }, [exam.data[exam.currentTest]?.questions[exam.currentQues]])
+  }, [exam.data[exam.currentTest]?.questions[exam.currentQues]]);
 
   const onPlayingNext = (comp) => {
     if (exam.data[exam.currentTest]?.questions[exam.currentQues + 1]?.comprehension_pk != comp) {
@@ -59,7 +55,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
       console.log("stoping");
       stop();
     }
-  }
+  };
   const onPlayingPrev = (comp) => {
     if (exam.data[exam.currentTest]?.questions[exam.currentQues - 1]?.comprehension_pk != comp) {
       // console.log("playing");
@@ -67,7 +63,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
       console.log("stoping");
       stop();
     }
-  }
+  };
   useEffect(() => {
     if (exam.currentTest != null) {
       if (exam.data[exam.currentTest]?.duration != null) {
@@ -84,30 +80,17 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     var markReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[3]).length;
     var ansmarkReview = exam.data[exam.currentTest]?.questions?.filter((e) => e.status == QUES_STATUS[4]).length;
 
-    var description = "Are you sure, you want to move to the next section? You currently have:"
-    var points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
-    
-    // var points = ["loading..."];
-    // if((((notVisited*1) + (notAnswered*1) + (markReview*1)) === 0) && (((markReview*1) + (ansmarkReview*1)) === 0)){
-    //   console.log("ans if1",((notVisited*1) + (notAnswered*1) + (markReview*1)));
-    //   console.log("mark if1",((markReview*1) + (ansmarkReview*1)));
-    //   points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `You can't revisit this section, even if you have MARKED some questions for "Review".`]
-    // }
-    // else if((((notVisited*1) + (notAnswered*1)+ (markReview*1)) === 0) && (((ansmarkReview*1)+ (markReview*1)) > 1)){
-    //   console.log("ans if2",((notVisited*1) + (notAnswered*1) + (markReview*1)));
-    //   console.log("mark if2",((markReview*1) + (ansmarkReview*1)));
-    //   points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`, `${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
-    // }
-    // else if((((notVisited*1) + (notAnswered*1) + (markReview*1)) > 1) && (((markReview*1) + (ansmarkReview*1)) > 1)){
-    //   console.log("ans if3",((notVisited*1) + (notAnswered*1) + (markReview*1)));
-    //   console.log("mark if3",((markReview*1) + (ansmarkReview*1)));
-      // points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`${(markReview * 1) + (ansmarkReview * 1)} Marked For Review` , `You can't revisit this section, even if you have MARKED some questions for "Review".`]
-    // }
-    // else{
-    //   console.log("ans else",((notVisited*1) + (notAnswered*1) + (markReview*1)));
-    //   console.log("mark else",((markReview*1) + (ansmarkReview*1)));
-      // points = [`You have ${timerRef.current.getTimeRemaining()} time remaining`,`${(notVisited * 1) + (notAnswered * 1) + (markReview * 1)} Not Answered`,`You can't revisit this section, even if you have MARKED some questions for "Review".`]
-    // }
+    var customSum1 = notVisited + notAnswered + markReview;
+    var customSum2 = markReview + ansmarkReview;
+    console.log(customSum2);
+
+    var description = "Are you sure, you want to move to the next section? You currently have:";
+    var points = [
+      `You have ${timerRef.current.getTimeRemaining()} time remaining`,
+      ...(customSum1 > 0 ? [`${customSum1} Not Answered`] : []),
+      ...(customSum2 > 0 ? [`${customSum2} Marked For Review`] : []),
+      `You can't revisit this section, even if you have MARKED some questions for "Review".`,
+    ];
 
     if (exam.data.length - 1 <= exam.currentTest) {
       description = "Are you sure, you want to submit the exam?";
@@ -128,16 +111,16 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     if (result == true) return;
 
     if (result == NO_AVAILABLE_TESTS_THROW) {
-      setLoading(true);
+      showLoading();
       try {
         const response = await UserServices.validateExamTest(account.user.user_pk, exam.data);
         const responseData = response.data?.data ?? {};
-        setLoading(false);
+        hideLoading();
 
         navigate("/user/result", { replace: true, state: responseData });
       } catch (err) {
-        showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-        setLoading(false);
+        showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+        hideLoading();
       }
     }
   };
@@ -174,14 +157,13 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
                 <Typography variant="subtitle1" fontWeight={500} sx={{ mb: 2 }}>
                   Comprehension
                 </Typography>
-                {exam.currentTest === 2 && exam.data[exam.currentTest]?.questions[exam.currentQues]?.category === "English Listening" ?
+                {exam.currentTest === 2 && exam.data[exam.currentTest]?.questions[exam.currentQues]?.category === "English Listening" ? (
                   <TexttoSpeachCheck comprehensionText={comprehensionText} raviIndiaVoice={raviIndiaVoice} />
-                  :
+                ) : (
                   <Typography variant="subtitle1" fontWeight="normal" textAlign="justify">
                     {exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension ?? "-"}
                   </Typography>
-                }
-
+                )}
               </Box>
 
               <Box p={1} />
@@ -224,15 +206,40 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
             </div>
 
             <div>
-              <Button variant="outlined" color="secondary" sx={{ mr: 1 }} disabled={exam.currentQues <= 0} onClick={() => { getPrevQuestion(); onPlayingPrev(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk) }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ mr: 1 }}
+                disabled={exam.currentQues <= 0}
+                onClick={() => {
+                  getPrevQuestion();
+                  onPlayingPrev(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk);
+                }}
+              >
                 Previous
               </Button>
 
-              <Button variant="outlined" color="secondary" sx={{ mr: 3 }} disabled={exam.data[exam.currentTest]?.questions?.length - 1 <= exam.currentQues} onClick={() => { getNextQuestion(); onPlayingNext(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk) }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ mr: 3 }}
+                disabled={exam.data[exam.currentTest]?.questions?.length - 1 <= exam.currentQues}
+                onClick={() => {
+                  getNextQuestion();
+                  onPlayingNext(exam.data[exam.currentTest]?.questions[exam.currentQues]?.comprehension_pk);
+                }}
+              >
                 Next
               </Button>
 
-              <LoadingButton loading={isLoading} variant="contained" color="success" onClick={() => { handleClearTimer(); stop() }}>
+              <LoadingButton
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  handleClearTimer();
+                  stop();
+                }}
+              >
                 Finish
               </LoadingButton>
             </div>

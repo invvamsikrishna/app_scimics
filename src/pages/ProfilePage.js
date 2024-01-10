@@ -9,12 +9,12 @@ import { COMMON_ERROR_MSG, PROFILE_FILE_SIZE, PUBLIC_URL, UPDATE_PROFILE_SUCCESS
 import { connect } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { getAllColleges, getAllCoursesById } from "../actions/common";
-import { useSnackbar } from "../components/SnackBar";
 import UserServices from "../services/UserServices";
 import { authUpdated } from "../actions/auth";
+import { useAlertContext } from "../components/AlertProvider";
 
 const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCoursesById }) => {
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
 
   const [isLoading, setLoading] = useState(false);
 
@@ -58,13 +58,13 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
     try {
       const response = await UserServices.updateUser(values);
       setLoading(false);
-      showAlert(UPDATE_PROFILE_SUCCESS_MSG);
+      showSnackbar(UPDATE_PROFILE_SUCCESS_MSG);
 
       delete values["password"];
       delete values["email"];
       authUpdated(values);
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
@@ -83,10 +83,10 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
     try {
       const response = await UserServices.updateUserPswd(values);
       setLoading(false);
-      showAlert(UPDATE_PSWD_SUCCESS_MSG);
+      showSnackbar(UPDATE_PSWD_SUCCESS_MSG);
       resetField("password");
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
@@ -97,12 +97,12 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
     if (!file) return;
 
     if (!file.type.includes("image")) {
-      showAlert("Unsupported format", "error");
+      showSnackbar("Unsupported format", "error");
       return;
     }
 
     if (file.size > PROFILE_FILE_SIZE) {
-      showAlert(`Maximum file size should not exceed ${PROFILE_FILE_SIZE / 1000} Kb`, "error");
+      showSnackbar(`Maximum file size should not exceed ${PROFILE_FILE_SIZE / 1000} Kb`, "error");
       return;
     }
 
@@ -112,7 +112,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
   const handleColleges = async () => {
     var result = await getAllColleges();
     if (result != true) {
-      showAlert(result, "error");
+      showSnackbar(result, "error");
     }
   };
 
@@ -121,7 +121,7 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
 
     var result = await getAllCoursesById(id);
     if (result != true) {
-      showAlert(result, "error");
+      showSnackbar(result, "error");
     }
   };
 

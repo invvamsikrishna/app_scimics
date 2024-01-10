@@ -67,13 +67,20 @@ export const clearAnstoQues = (value) => (dispatch) => {
 };
 
 export const markReviewtoQues = () => (dispatch) => {
-  dispatch({
-    type: "EXAM_MARK_REVIEW",
-  });
+  try {
+    dispatch({
+      type: "EXAM_MARK_REVIEW",
+    });
 
-  dispatch({
-    type: "EXAM_NEXT_QUES",
-  });
+    dispatch({
+      type: "EXAM_NEXT_QUES",
+    });
+
+    return true;
+  } catch (err) {
+    // console.log(err.message);
+    return err.message;
+  }
 };
 
 export const getNextTest = () => (dispatch) => {

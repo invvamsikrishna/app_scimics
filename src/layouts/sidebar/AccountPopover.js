@@ -6,7 +6,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from "@
 import MenuPopover from "../../components/MenuPopover";
 import { connect } from "react-redux";
 import { authLogout } from "../../actions/auth";
-import { useAlertDialog } from "../../components/dialog/AlertDialog";
+import { useAlertContext } from "../../components/AlertProvider";
 
 const MENU_OPTIONS = [
   {
@@ -29,7 +29,7 @@ const MENU_OPTIONS = [
 const AccountPopover = ({ account, authLogout }) => {
   const anchorRef = useRef(null);
   const navigate = useNavigate();
-  const showAlertDialog = useAlertDialog();
+  const { showAlertDialog } = useAlertContext();
 
   const [open, setOpen] = useState(null);
 

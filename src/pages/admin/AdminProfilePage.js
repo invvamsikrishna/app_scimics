@@ -3,20 +3,18 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Avatar, Box, Container, Stack, Typography, Grid, Button, Divider, TextField, MenuItem } from "@mui/material";
-import Page from "../components/Page";
-import { FormProvider, RHFTextField, URHFTextField } from "../components/hook-form";
+import Page from "../../components/Page";
+import { FormProvider, RHFTextField, URHFTextField } from "../../components/hook-form";
 // import { COMMON_ERROR_MSG, PROFILE_FILE_SIZE, PUBLIC_URL, UPDATE_PROFILE_SUCCESS_MSG, UPDATE_PSWD_SUCCESS_MSG,} from "../constants";
 // import { connect } from "react-redux";
 import { LoadingButton } from "@mui/lab";
-// import { useSnackbar } from "../components/SnackBar";
 // import UserServices from "../services/UserServices";
 // import { authUpdated } from "../actions/auth";
 
-const AdminProfilePage = ({ account,
-  //  common, authUpdated, getAllColleges, getAllCoursesById 
-  }) => {
-  // const showAlert = useSnackbar();
-
+const AdminProfilePage = ({
+  account,
+  //  common, authUpdated, getAllColleges, getAllCoursesById
+}) => {
   const [isLoading, setLoading] = useState(false);
 
   const schema = Yup.object().shape({
@@ -68,7 +66,7 @@ const AdminProfilePage = ({ account,
     //   resetField("password");
     // } catch (err) {
     //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-      // setLoading(false);
+    // setLoading(false);
     // }
   };
 
@@ -93,9 +91,11 @@ const AdminProfilePage = ({ account,
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={8}>
               <Grid item xs={12} md={3} sx={{ textAlign: "center" }}>
-                <Avatar src=""
-                // {account.user?.pic}
-                sx={{ width: "80%", height: "auto", maxWidth: "150px", margin: "auto", aspectRatio: "1/1" }} />
+                <Avatar
+                  src=""
+                  // {account.user?.pic}
+                  sx={{ width: "80%", height: "auto", maxWidth: "150px", margin: "auto", aspectRatio: "1/1" }}
+                />
 
                 <Box p={1} />
 
@@ -121,19 +121,18 @@ const AdminProfilePage = ({ account,
                 </Grid>
 
                 {/* {account.user?.signin_source === "EMAIL" && ( */}
-                  <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
-                    <Grid item xs={8} md={8}>
-                      <RHFTextField name="password" label="Change Password" />
-                    </Grid>
-
-                    <Grid item xs={4} md={4}>
-                      <LoadingButton variant="contained" fullWidth loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
-                        Update Password
-                      </LoadingButton>
-                    </Grid>
+                <Grid item container xs={12} spacing={2} sx={{ alignItems: "end" }}>
+                  <Grid item xs={8} md={8}>
+                    <RHFTextField name="password" label="Change Password" />
                   </Grid>
-                {/* )} */}
 
+                  <Grid item xs={4} md={4}>
+                    <LoadingButton variant="contained" fullWidth loading={isLoading} onClick={handleChangePswd} sx={{ height: "47px", minWidth: "150px", fontWeight: "normal" }}>
+                      Update Password
+                    </LoadingButton>
+                  </Grid>
+                </Grid>
+                {/* )} */}
               </Grid>
             </Grid>
           </FormProvider>

@@ -4,8 +4,8 @@ import Iconify from "../../components/Iconify";
 import AccountPopover from "./AccountPopover";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAlertDialog } from "../../components/dialog/AlertDialog";
 import { useSpeechSynthesis } from "../../components/createContextCodes/SpeechSynthesisContext";
+import { useAlertContext } from "../../components/AlertProvider";
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -31,7 +31,7 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 export default function DashboardNavbar({ account, isExam, onOpenSidebar }) {
-  const showAlertDialog = useAlertDialog();
+  const { showAlertDialog } = useAlertContext();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState(document.title);

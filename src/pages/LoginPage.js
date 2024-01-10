@@ -12,11 +12,11 @@ import { FormProvider, RHFTextField } from "../components/hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthServices from "../services/AuthServices";
-import { useSnackbar } from "../components/SnackBar";
 import { connect } from "react-redux";
 import { authSuccess } from "../actions/auth";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useAlertContext } from "../components/AlertProvider";
 
 export const useStyles = makeStyles((theme) => ({
   root: { position: "relative", minHeight: "100vh", overflow: "hidden" },
@@ -98,7 +98,7 @@ export const useStyles = makeStyles((theme) => ({
 const LoginPage = ({ authSuccess }) => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
   const lgUp = useResponsive("up", "lg");
 
   const [isLoading, setLoading] = useState(false);
@@ -135,7 +135,7 @@ const LoginPage = ({ authSuccess }) => {
         navigate("/verification", { state: responseData });
       }
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
@@ -146,7 +146,7 @@ const LoginPage = ({ authSuccess }) => {
         const result = await AuthServices.getGoogleUserInfo(tokenResponse.access_token);
         handleGoogleSubmit(result.data);
       } catch (err) {
-        showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+        showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       }
     },
     onError: () => {
@@ -169,7 +169,7 @@ const LoginPage = ({ authSuccess }) => {
         navigate("/user/icap-test", { replace: true });
       }
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
@@ -182,7 +182,7 @@ const LoginPage = ({ authSuccess }) => {
     //   const result = await AuthServices.githubLoginPerson();
     //   console.log(result);
     // } catch (err) {
-    //   showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+    //   showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
     // }
   };
 

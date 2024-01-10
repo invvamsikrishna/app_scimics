@@ -3,8 +3,8 @@ import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from "@mui/materi
 import Iconify from "../../components/Iconify";
 import AdminAccountPopover from "./AdminAccountPopover";
 import { useNavigate } from "react-router-dom";
+import { useAlertContext } from "../../components/AlertProvider";
 // import { useEffect, useState } from "react";
-import { useAlertDialog } from "../../components/dialog/AlertDialog";
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -30,7 +30,7 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 export default function AdminDashboardNavbar({ account, onOpenSidebar }) {
-  const showAlertDialog = useAlertDialog();
+  const { showAlertDialog } = useAlertContext();
   const navigate = useNavigate();
 
   // const [title, setTitle] = useState(document.title);

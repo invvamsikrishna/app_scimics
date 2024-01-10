@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, Typography, Box, Card, Stack } from "@mui/material";
 import Page from "../components/Page";
-import { COMMON_ERROR_MSG, PUBLIC_URL} from "../constants";
+import { COMMON_ERROR_MSG, PUBLIC_URL } from "../constants";
 import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
 import { FormProvider, RHFCheckbox, RHFTextField } from "../components/hook-form";
@@ -11,12 +11,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useStyles } from "./LoginPage";
 import { useState } from "react";
 import AuthServices from "../services/AuthServices";
-import { useSnackbar } from "../components/SnackBar";
+import { useAlertContext } from "../components/AlertProvider";
 
 const SignUpPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
   const lgUp = useResponsive("up", "lg");
 
   const [isLoading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ const SignUpPage = () => {
       setLoading(false);
       navigate("/verification", { state: values });
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };

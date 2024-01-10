@@ -28,7 +28,7 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
     // console.log(rowData);
     setRowData(rowData);
     navigate("/user/viewpdf");
-  }
+  };
 
   const columns = [
     {
@@ -125,19 +125,22 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
             user_id: tableMeta.rowData[12],
             firstname: tableMeta.rowData[13],
             lastname: tableMeta.rowData[14],
-            createdon: tableMeta.rowData[15]
+            createdon: tableMeta.rowData[15],
           };
           // var data = tableMeta.rowData;
-          return <LoadingButton
-            variant="outlined"
-            onClick={() => onShowPdfClick(rowData)}
-            sx={{
-              color: "#5a64c1",
-              backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)", border: "1px solid #5C67C7",
-            }}
-          >
-            Show Report
-          </LoadingButton>;
+          return (
+            <LoadingButton
+              variant="outlined"
+              onClick={() => onShowPdfClick(rowData)}
+              sx={{
+                color: "#5a64c1",
+                backgroundImage: "linear-gradient(to left, #5C67C759, #5C67C700)",
+                border: "1px solid #5C67C7",
+              }}
+            >
+              Show Report
+            </LoadingButton>
+          );
         },
       },
     },
@@ -155,12 +158,12 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
       name: "lastname",
       label: "lastname",
       options: { display: "false" },
-    },{
+    },
+    {
       name: "createdon",
       label: "createdon",
       options: { display: "false" },
     },
-
   ];
 
   const options = {
@@ -178,13 +181,13 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
 
   return (
     <Card elevation={1}>
-      {report.loading && (
+      {report.isLoading && (
         <Box minHeight={200} display="flex" justifyContent="center" alignItems="center">
           <CircularProgress />
         </Box>
       )}
 
-      {!report.loading && <MUIDataTable title="" className={classes.customTable} columns={columns} data={report.data ?? []} options={options} />}
+      {!report.isLoading && <MUIDataTable title="" className={classes.customTable} columns={columns} data={report.data ?? []} options={options} />}
     </Card>
   );
 };

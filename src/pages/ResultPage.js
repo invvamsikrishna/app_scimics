@@ -3,14 +3,12 @@ import { Avatar, Grid, Box, Container, Stack, Typography, Card, List, ListItem, 
 import Page from "../components/Page";
 import Iconify from "../components/Iconify";
 import { connect } from "react-redux";
-import { Router, useLocation, useNavigate } from "react-router-dom";
-import UserServices from "../services/UserServices";
-import { useSnackbar } from "../components/SnackBar";
-import { COMMON_ERROR_MSG } from "../constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAlertContext } from "../components/AlertProvider";
 
 const ResultPage = ({ account }) => {
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
 
   const props = useLocation().state;
 

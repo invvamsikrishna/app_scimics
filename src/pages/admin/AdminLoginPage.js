@@ -3,18 +3,18 @@ import { makeStyles } from "@mui/styles";
 import { useForm } from "react-hook-form";
 // import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, Typography, Box, Card, Stack, alpha, InputLabel, CircularProgress, IconButton } from "@mui/material";
-import Page from "../components/Page";
-import { PUBLIC_URL } from "../constants";
-import useResponsive from "../hooks/useResponsive";
-import CustomButton from "../components/CustomButton";
-import { FormProvider } from "../components/hook-form";
+import Page from "../../components/Page";
+import { PUBLIC_URL } from "../../constants";
+import useResponsive from "../../hooks/useResponsive";
+import CustomButton from "../../components/CustomButton";
+import { FormProvider } from "../../components/hook-form";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 // import AuthServices from "../services/AuthServices";
-import { useSnackbar } from "../components/SnackBar";
 // import { connect } from "react-redux";
 // import { authSuccess } from "../actions/auth";
-import { CustomTextField } from "../components/hook-form/RHFTextField";
+import { CustomTextField } from "../../components/hook-form/RHFTextField";
+import { useAlertContext } from "../../components/AlertProvider";
 // import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // import VisibilityIcon from "@mui/icons-material/Visibility";
 
@@ -98,7 +98,7 @@ export const useStyles = makeStyles((theme) => ({
 const AdminLoginPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
   const lgUp = useResponsive("up", "lg");
   const [passwordType, setPasswordType] = useState("password");
   // const [eyeIcon, setEyeIcon] = useState(false);
@@ -120,23 +120,18 @@ const AdminLoginPage = () => {
 
   const { handleSubmit } = methods;
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const onSubmit = async () => {
     setLoading(true);
-    const mail ="admin@123.com";
-    const pass ="admin@123";
-    if(mail===email && pass===password){
+    const mail = "admin@123.com";
+    const pass = "admin@123";
+    if (mail === email && pass === password) {
       setLoading(false);
       navigate("/admin-dashboard/cognitive-abilities-page", { replace: true });
-    }else{
-      showAlert("wrong credentials");
-      setTimeout(() => {
-        if (showAlert.close) {
-          showAlert.close();
-      }
-      }, 20000);
+    } else {
+      showSnackbar("wrong credentials");
       setLoading(false);
     }
   };
@@ -157,7 +152,6 @@ const AdminLoginPage = () => {
 
         <Container maxWidth="xs" disableGutters>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-
             <Box sx={{ py: 6, display: "flex", justifyContent: "center" }}>
               <Box component="img" src={PUBLIC_URL + "/static/icons/logo.svg"} sx={{ width: 130 }} />
             </Box>
@@ -178,43 +172,40 @@ const AdminLoginPage = () => {
               <Stack spacing={2}>
                 <InputLabel shrink={false} htmlFor={"username"}>
                   <Typography component="span" color="white" fontSize={12} fontWeight="normal">
-                  Email address*
+                    Email address*
                   </Typography>
                 </InputLabel>
 
-                <CustomTextField 
-                onChange={(e)=>setEmail(e.target.value)}
-                name="email"
-                type="email"
-                placeholder="Enter email address"
-                endadornment={<React.Fragment>
-                {isLoading ? <CircularProgress color="primary" size={20} /> : null}
-              </React.Fragment>}
-                >
-                </CustomTextField>
-                
+                <CustomTextField
+                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  type="email"
+                  placeholder="Enter email address"
+                  endadornment={<React.Fragment>{isLoading ? <CircularProgress color="primary" size={20} /> : null}</React.Fragment>}
+                ></CustomTextField>
+
                 <InputLabel shrink={false} htmlFor={"username"}>
                   <Typography component="span" color="white" fontSize={12} fontWeight="normal">
-                  Password*
+                    Password*
                   </Typography>
                 </InputLabel>
 
-                <CustomTextField 
-                onChange={(e)=>setPassword(e.target.value)}
-                name="password"
-                type={passwordType}
-                placeholder="Enter password"
-                endadornment={<React.Fragment>
-                {isLoading ? <CircularProgress color="primary" size={20} /> : null}
-                {/* {passwordType === "password" && (
+                <CustomTextField
+                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
+                  type={passwordType}
+                  placeholder="Enter password"
+                  endadornment={
+                    <React.Fragment>
+                      {isLoading ? <CircularProgress color="primary" size={20} /> : null}
+                      {/* {passwordType === "password" && (
                     <IconButton onClick={togglePasswordVisibility} sx={{ p: 0, color: "white" }}>
                       {eyeIcon ? <VisibilityIcon /> : <VisibilityOffIcon />}
                     </IconButton>
                   )} */}
-              </React.Fragment>
-              }
-                >
-                </CustomTextField>
+                    </React.Fragment>
+                  }
+                ></CustomTextField>
               </Stack>
 
               <Box p={2} />

@@ -12,14 +12,14 @@ import Page404 from "./pages/Page404";
 import ResultPage from "./pages/ResultPage";
 import MyTestReportsPage from "./pages/MyTestReportsPage";
 
-import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminSidebarLayout from "./layouts/adminSidebar/indexAdmin";
-import AdminProfilePage from "./pages/AdminProfilePage";
-import TechnicalProficiencyPage from "./pages/TechnicalProficiencyPage";
-import CommunicationSkillsPage from "./pages/CommunicationSkillsPage";
-import CognitiveAbilitiesPage from "./pages/CognitiveAbilitiesPage";
-import PersonalityBehavioralPage from "./pages/PersonalityBehavioralPage";
-import AdminConfigurationPage from "./pages/AdminConfigurationPage";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminProfilePage from "./pages/admin/AdminProfilePage";
+import TechnicalProficiencyPage from "./pages/admin/TechnicalProficiencyPage";
+import CommunicationSkillsPage from "./pages/admin/CommunicationSkillsPage";
+import CognitiveAbilitiesPage from "./pages/admin/CognitiveAbilitiesPage";
+import PersonalityBehavioralPage from "./pages/admin/PersonalityBehavioralPage";
+import AdminConfigurationPage from "./pages/admin/AdminConfigurationPage";
 import ShowPdf from "./printToPDF/ShowPdf";
 
 const CustomeRouter = () => {
@@ -34,13 +34,12 @@ const CustomeRouter = () => {
       <Route path="/adminpanellogin" element={<AdminLoginPage />} />
 
       <Route path="/admin-dashboard" element={<AdminSidebarLayout />}>
-          <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
-          <Route path="technical-proficiency-page" element={<TechnicalProficiencyPage />} />
-          <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
-          <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
-          <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
-          <Route path="adminprofile" element={<AdminProfilePage />} />
-         
+        <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
+        <Route path="technical-proficiency-page" element={<TechnicalProficiencyPage />} />
+        <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
+        <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
+        <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
+        <Route path="adminprofile" element={<AdminProfilePage />} />
       </Route>
       <Route path="/" element={<ProtectedRoute />}>
         <Route path="/user" element={<SidebarLayout />}>

@@ -8,23 +8,23 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useStyles } from "./LoginPage";
 import PinInput from "react-pin-input";
 import { useEffect, useState } from "react";
-import { useSnackbar } from "../components/SnackBar";
 import { authSuccess } from "../actions/auth";
 import { connect } from "react-redux";
+import { useAlertContext } from "../components/AlertProvider";
 
-const VerificationPage = ({authSuccess}) => {
+const VerificationPage = ({ authSuccess }) => {
   const classes = useStyles();
   const props = useLocation().state;
   const navigate = useNavigate();
-  const showAlert = useSnackbar();
+  const { showSnackbar } = useAlertContext();
   const lgUp = useResponsive("up", "lg");
 
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
 
-  const [timer, setTimer] = useState(120); 
+  const [timer, setTimer] = useState(120);
   const [isActive, setIsActive] = useState(false);
-  
+
   useEffect(() => {
     if (props.email) {
       sendOtptoEmail();
@@ -53,26 +53,26 @@ const VerificationPage = ({authSuccess}) => {
       const response = await AuthServices.sendOtptoEmail({ email: props.email });
       const responseData = response.data?.data ?? {};
       setLoading(false);
-      showAlert(OTPSENT_SUCCESS_MSG);
+      showSnackbar(OTPSENT_SUCCESS_MSG);
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
 
-  const handleResend= (e)=>{
+  const handleResend = (e) => {
     e.preventDefault();
     if (isActive) {
       // alert("clicked")
       sendOtptoEmail();
       setIsActive(false);
       setTimer(120);
-    }    
-  }
+    }
+  };
 
   const handleSubmit = async () => {
     if (otp.length != 6) {
-      showAlert(OTPLENGTH_ERROR_MSG, "error");
+      showSnackbar(OTPLENGTH_ERROR_MSG, "error");
       return;
     }
 
@@ -81,16 +81,16 @@ const VerificationPage = ({authSuccess}) => {
     try {
       const response = await AuthServices.verifyOtptoEmail({ email: props.email, received_otp: otp });
       setLoading(false);
-      showAlert(SIGNUP_SUCCESS_MSG);
+      showSnackbar(SIGNUP_SUCCESS_MSG);
 
       const responseData = response.data?.data ?? {};
       setLoading(false);
       if (responseData.is_account_verified == true) {
         authSuccess(responseData);
         navigate("/user/icap-test", { replace: true });
-      } 
+      }
     } catch (err) {
-      showAlert(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
       setLoading(false);
     }
   };
@@ -141,14 +141,13 @@ const VerificationPage = ({authSuccess}) => {
             </Typography>
 
             <Box sx={{ textAlign: "center" }}>
-            {isActive ?
-              <Link 
-              onClick={handleResend}
-               style={{ color: "#CED765" }}>Resend Code
-              </Link>
-              :
-              <Typography style={{ color: "#CED765" }}>Resend Code in {timer}s</Typography>
-             }
+              {isActive ? (
+                <Link onClick={handleResend} style={{ color: "#CED765" }}>
+                  Resend Code
+                </Link>
+              ) : (
+                <Typography style={{ color: "#CED765" }}>Resend Code in {timer}s</Typography>
+              )}
             </Box>
 
             <Box p={1} />
