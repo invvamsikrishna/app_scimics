@@ -124,7 +124,7 @@ const LoginPage = ({ authSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await AuthServices.loginPerson(data);
+      const response = await AuthServices.loginPerson({ ...data, user_type: "USER" });
       const responseData = response.data?.data ?? {};
       setLoading(false);
 

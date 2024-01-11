@@ -8,10 +8,7 @@ import { AGTextField } from "../../components/hook-form/RHFTextField";
 import { useAlertContext } from "../../components/AlertProvider";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-export const generatePageInformation = [
-  "Question quantity must be between 1 to 10.",
-  "Either one of the Questions quantity must be greater than 1."
-]
+export const generatePageInformation = ["Question quantity must be between 1 to 10.", "Either one of the Questions quantity must be greater than 1."];
 
 const CognitiveAbilitiesPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -165,20 +162,27 @@ const CognitiveAbilitiesPage = () => {
   const onHandleRemoveError = () => {
     setErrorText1("");
     setErrorText2("");
-  }
+  };
 
   return (
     <Page title="Cognitive Abilities Generate Page">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Cognitive Abilities
-          <Tooltip title={<ul >
-            {generatePageInformation.map((info, index) => (
-              <li key={index} style={{ marginLeft: '8px' }}
-              >{info}</li>
-            ))}
-          </ul>} placement="right" arrow>
-            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
+          <Tooltip
+            title={
+              <ul>
+                {generatePageInformation.map((info, index) => (
+                  <li key={index} style={{ marginLeft: "8px" }}>
+                    {info}
+                  </li>
+                ))}
+              </ul>
+            }
+            placement="right"
+            arrow
+          >
+            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1 }} />
           </Tooltip>
         </Typography>
 
@@ -246,7 +250,7 @@ const CognitiveAbilitiesPage = () => {
           queArray.length > 0 &&
           isGenrated &&
           queArray.map((items, index) => {
-            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setAnstoChange={setAnstoChange} />;
+            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setQueArray={setQueArray} />;
           })
         )}
       </Container>

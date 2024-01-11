@@ -162,21 +162,28 @@ const TechnicalProficiencyPage = () => {
   const onHandleRemoveError = () => {
     setErrorText1("");
     setErrorText2("");
-  }
+  };
 
   return (
     <Page title="Technical Proficiency Generate Page">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Technical Proficiency
-          <Tooltip title={<ul >
-              {generatePageInformation.map((info, index) => (
-                <li key={index} style={{ marginLeft: '8px' }}
-                >{info}</li>
-              ))}
-            </ul>} placement="right" arrow>
-              <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
-            </Tooltip>
+          <Tooltip
+            title={
+              <ul>
+                {generatePageInformation.map((info, index) => (
+                  <li key={index} style={{ marginLeft: "8px" }}>
+                    {info}
+                  </li>
+                ))}
+              </ul>
+            }
+            placement="right"
+            arrow
+          >
+            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1 }} />
+          </Tooltip>
         </Typography>
 
         <Box p={1} />
@@ -242,7 +249,7 @@ const TechnicalProficiencyPage = () => {
           queArray.length > 0 &&
           isGenrated &&
           queArray.map((items, index) => {
-            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />;
+            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setQueArray={setQueArray} />;
           })
         )}
       </Container>

@@ -4,10 +4,10 @@ const initialState = {
   errorMessage: null,
 };
 
-export default function reportReducer(state = initialState, action) {
+export default function questionReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case "REPORT_LOAD_START":
+    case "QUESTION_LOAD_START":
       return {
         ...state,
         isLoading: true,
@@ -15,21 +15,21 @@ export default function reportReducer(state = initialState, action) {
         errorMessage: null,
       };
 
-    case "REPORT_LOAD_SUCCESS":
+    case "QUESTION_LOAD_SUCCESS":
       return {
         ...state,
         isLoading: false,
         data: payload,
       };
 
-    case "REPORT_LOAD_ERROR":
+    case "QUESTION_LOAD_ERROR":
       return {
         ...state,
         isLoading: false,
         errorMessage: payload,
       };
 
-    case "REPORT_DATA_CLEAR":
+    case "QUESTION_DATA_CLEAR":
       return {
         ...state,
         isLoading: false,

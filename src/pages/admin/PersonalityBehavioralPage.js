@@ -256,21 +256,28 @@ const PersonalityBehavioralPage = () => {
     setErrorText2("");
     setErrorText3("");
     setErrorText4("");
-  }
+  };
 
   return (
-    <Page title="Personality & Behavioral Generate Page" >
+    <Page title="Personality & Behavioral Generate Page">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           Personality & Behavioral
-          <Tooltip title={<ul >
-              {generatePageInformation.map((info, index) => (
-                <li key={index} style={{ marginLeft: '8px' }}
-                >{info}</li>
-              ))}
-            </ul>} placement="right" arrow>
-              <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
-            </Tooltip>
+          <Tooltip
+            title={
+              <ul>
+                {generatePageInformation.map((info, index) => (
+                  <li key={index} style={{ marginLeft: "8px" }}>
+                    {info}
+                  </li>
+                ))}
+              </ul>
+            }
+            placement="right"
+            arrow
+          >
+            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1 }} />
+          </Tooltip>
         </Typography>
 
         <Box p={1} />
@@ -281,7 +288,7 @@ const PersonalityBehavioralPage = () => {
           </Typography>
           <Box p={1} />
           <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
-            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth:"120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <AGTextField
                 handleArrowButtonUp={handleArrowButtonUp1}
                 handleArrowButtonDown={handleArrowButtonDown1}
@@ -295,7 +302,7 @@ const PersonalityBehavioralPage = () => {
                 setQuestionCount={setQuestionCount1}
               />
             </Box>
-            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth:"120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <AGTextField
                 handleArrowButtonUp={handleArrowButtonUp2}
                 handleArrowButtonDown={handleArrowButtonDown2}
@@ -309,7 +316,7 @@ const PersonalityBehavioralPage = () => {
                 setQuestionCount={setQuestionCount2}
               />
             </Box>
-            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth:"120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <AGTextField
                 handleArrowButtonUp={handleArrowButtonUp3}
                 handleArrowButtonDown={handleArrowButtonDown3}
@@ -323,7 +330,7 @@ const PersonalityBehavioralPage = () => {
                 setQuestionCount={setQuestionCount3}
               />
             </Box>
-            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth:"120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <AGTextField
                 handleArrowButtonUp={handleArrowButtonUp4}
                 handleArrowButtonDown={handleArrowButtonDown4}
@@ -337,7 +344,7 @@ const PersonalityBehavioralPage = () => {
                 setQuestionCount={setQuestionCount4}
               />
             </Box>
-            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth:"120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <LoadingButton
                 variant="outlined"
                 disabled={disableGenerate}
@@ -365,7 +372,7 @@ const PersonalityBehavioralPage = () => {
           queArray.length > 0 &&
           isGenrated &&
           queArray.map((items, index) => {
-            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} />;
+            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setQueArray={setQueArray} />;
           })
         )}
       </Container>

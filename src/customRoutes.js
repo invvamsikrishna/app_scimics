@@ -21,6 +21,8 @@ import CognitiveAbilitiesPage from "./pages/admin/CognitiveAbilitiesPage";
 import PersonalityBehavioralPage from "./pages/admin/PersonalityBehavioralPage";
 import AdminConfigurationPage from "./pages/admin/AdminConfigurationPage";
 import ShowPdf from "./printToPDF/ShowPdf";
+import QuestionsPage from "./pages/admin/QuestionsPage";
+import McqQuestionPage from "./pages/admin/McqQuestionPage";
 
 const CustomeRouter = () => {
   return (
@@ -33,15 +35,21 @@ const CustomeRouter = () => {
 
       <Route path="/adminpanellogin" element={<AdminLoginPage />} />
 
-      <Route path="/admin-dashboard" element={<AdminSidebarLayout />}>
-        <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
-        <Route path="technical-proficiency-page" element={<TechnicalProficiencyPage />} />
-        <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
-        <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
-        <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
-        <Route path="adminprofile" element={<AdminProfilePage />} />
+      <Route path="/" element={<ProtectedRoute type="SUPERADMIN" />}>
+        <Route path="/admin-dashboard" element={<AdminSidebarLayout />}>
+          <Route path="ques-management/add-mcq-question" element={<McqQuestionPage />} />
+          <Route path="ques-management/questions-list" element={<QuestionsPage />} />
+
+          <Route path="cognitive-abilities-page" element={<CognitiveAbilitiesPage />} />
+          <Route path="technical-proficiency-page" element={<TechnicalProficiencyPage />} />
+          <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
+          <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
+          <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
+          <Route path="adminprofile" element={<AdminProfilePage />} />
+        </Route>
       </Route>
-      <Route path="/" element={<ProtectedRoute />}>
+
+      <Route path="/" element={<ProtectedRoute type="USER" />}>
         <Route path="/user" element={<SidebarLayout />}>
           <Route path="icap-test" element={<IcapTestPage />} />
           <Route path="profile" element={<ProfilePage />} />

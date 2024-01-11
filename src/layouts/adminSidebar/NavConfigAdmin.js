@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { PUBLIC_URL } from "../../constants";
 
-const getIcon = (src) => <Box component="img" src={`${PUBLIC_URL}${src}`} sx={{width:16, height:16}} />;
+const getIcon = (src) => <Box component="img" src={`${PUBLIC_URL}${src}`} sx={{ width: 16, height: 16 }} />;
 
 const NavConfigAdmin = [
   {
@@ -28,6 +28,21 @@ const NavConfigAdmin = [
     title: "Configuration",
     path: "/admin-dashboard/admin-configuration-page",
     icon: getIcon("/static/icons/admin-config.svg"),
+  },
+  {
+    title: "Ques Management",
+    path: "/admin-dashboard/ques-management",
+    icon: getIcon("/static/icons/admin-personality.svg"),
+    children: [
+      {
+        title: "Add MCQ Question",
+        path: "/admin-dashboard/ques-management/add-mcq-question",
+      },
+      {
+        title: "Questions List",
+        path: "/admin-dashboard/ques-management/questions-list",
+      },
+    ],
   },
 ];
 

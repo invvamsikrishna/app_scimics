@@ -3,5 +3,6 @@ import examReducer from "./exam";
 import authReducer from "./auth";
 import commonReducer from "./common";
 import reportReducer from "./report";
+import questionReducer from "./question";
 
-export default combineReducers({ auth: authReducer, common: commonReducer, exam: examReducer, report: reportReducer });
+export default combineReducers({ auth: authReducer, common: commonReducer, exam: examReducer, question: questionReducer, report: reportReducer });

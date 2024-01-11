@@ -1,5 +1,4 @@
 import { Box, Card, CircularProgress } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import MUIDataTable from "mui-datatables";
 import React, { useEffect } from "react";
 import { getMyTestReports } from "../../actions/report";
@@ -8,16 +7,10 @@ import { fDateTime } from "../../services/formatTime";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import { useRowData } from "../../components/createContextCodes/RowDataContext";
-
-export const useStyles = makeStyles((theme) => ({
-  customTable: {
-    "& th": { padding: "16px 8px" },
-    "& td": { padding: "16px 8px" },
-  },
-}));
+import { customMuiStyles } from "../common/CustomStyles";
 
 const TestReportsList = ({ account, report, getMyTestReports }) => {
-  const classes = useStyles();
+  const classes = customMuiStyles();
   // console.log(report);
   useEffect(() => {
     getMyTestReports(account.user?.user_pk);
@@ -172,11 +165,6 @@ const TestReportsList = ({ account, report, getMyTestReports }) => {
     responsive: "standard",
     download: false,
     print: false,
-    setTableProps: () => {
-      return {
-        // size: "small",
-      };
-    },
   };
 
   return (
