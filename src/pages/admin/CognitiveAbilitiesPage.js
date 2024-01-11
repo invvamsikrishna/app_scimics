@@ -10,6 +10,12 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export const generatePageInformation = ["Question quantity must be between 1 to 10.", "Either one of the Questions quantity must be greater than 1."];
 
+export const generateAgainMessage = (
+  <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
+    <Typography>Please Generate Questions again!</Typography>
+  </Box>
+);
+
 const CognitiveAbilitiesPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [isGenrated, setGenrated] = useState(false);
@@ -21,7 +27,6 @@ const CognitiveAbilitiesPage = () => {
   const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState("");
   const [errorText2, setErrorText2] = useState("");
-  const [anstoChange, setAnstoChange] = useState("");
 
   const QAhandleInputChange = (e) => {
     const inputValue = e.target.value;
@@ -110,7 +115,6 @@ const CognitiveAbilitiesPage = () => {
   const onGenerateClicked = async () => {
     if (questionCount1 >= 1 || questionCount2 >= 1) {
       setLoading(true);
-      setGenrated(true);
       try {
         const response = await axios.post("https://scimics-api.onrender.com/scimics/getcognitiveq", {
           "3Q_time": "2",
@@ -119,6 +123,7 @@ const CognitiveAbilitiesPage = () => {
         });
         // console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions);
+        setGenrated(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -163,7 +168,11 @@ const CognitiveAbilitiesPage = () => {
     setErrorText1("");
     setErrorText2("");
   };
-
+  // const [countQuantitative, setcountQuantitative] = useState(0);
+  // const [countLogicalReasoning, setcountLogicalReasoning] = useState(0);
+  // console.log(questionCount1, questionCount2, countQuantitative, countLogicalReasoning);
+  // console.log(queArray);
+  // console.log(isGenrated);
   return (
     <Page title="Cognitive Abilities Generate Page">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
@@ -238,30 +247,45 @@ const CognitiveAbilitiesPage = () => {
 
         <Box p={1} />
 
-        {queArray === null ? (
-          <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again!</Typography>
-          </Box>
-        ) : queArray.length === 0 && isGenrated ? (
+        { isLoading ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
             <Typography>Please wait...</Typography>
           </Box>
+        ) : ( queArray === null ? (
+          generateAgainMessage
         ) : (
-          queArray.length > 0 &&
-          isGenrated &&
-          queArray.map((items, index) => {
-            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setQueArray={setQueArray} />;
-          })
-        )}
+          queArray.length > 0 && isGenrated ? (
+            <>
+              {
+              queArray.map((items, index) => {
+                // if (
+                //   (countQuantitative < questionCount1 && items.category === "Quantitative Aptitude") ||
+                //   (countLogicalReasoning < questionCount2 && items.category === "Logical Reasoning")
+                // ) {
+                //   if (items.category === "Quantitative Aptitude") {
+                //     setcountQuantitative((prevCount) => prevCount + 1);
+                //   } else if (items.category === "Logical Reasoning") {
+                //     setcountLogicalReasoning((prevCount) => prevCount + 1);
+                //   }
+                  return (
+                    <AdminGeneratedQue
+                      key={index}
+                      items={items}
+                      index={index}
+                      onApproveQue={onApproveQue}
+                      disabledButtons={disabledButtons}
+                      setQueArray={setQueArray}
+                    />
+                  );
+                // }
+                // return null;
+              })}
+            </>
+          ) : (queArray.length === 0 && isGenrated && generateAgainMessage )
+        ))}
       </Container>
     </Page>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     account: state.auth,
-//   };
-// };
 
 export default CognitiveAbilitiesPage;

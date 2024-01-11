@@ -9,17 +9,7 @@ const StyledRadio = styled(Radio)(({ theme }) => ({
   },
 }));
 
-const AdminGeneratedQue = ({ items, index, onApproveQue, disabledButtons, value, setAnstoChange, anstoChange, setQueArray }) => {
-  //   const [ChangingAnswer, setChangingAnswer] = useState("");
-  //   const [isChanaged, setisChanaged] = useState(false);
-
-  //   useEffect(() => {
-  //     if (!isChanaged) {
-  //       setChangingAnswer(items.correct_answer);
-  //     } else {
-  //       setChangingAnswer(anstoChange);
-  //     }
-  //   }, [value]);
+const AdminGeneratedQue = ({ items, index, onApproveQue, disabledButtons, setQueArray }) => {
 
   const handleChange = (e) => {
     setQueArray((state) => {

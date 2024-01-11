@@ -52,7 +52,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     if (exam.data[exam.currentTest]?.questions[exam.currentQues + 1]?.comprehension_pk != comp) {
       // console.log("playing");
       // }else{
-      console.log("stoping");
+      // console.log("stoping");
       stop();
     }
   };
@@ -60,7 +60,7 @@ const QuestionPaper = ({ account, exam, getExamQuestions, setAnstoQues, clearAns
     if (exam.data[exam.currentTest]?.questions[exam.currentQues - 1]?.comprehension_pk != comp) {
       // console.log("playing");
       // }else{
-      console.log("stoping");
+      // console.log("stoping");
       stop();
     }
   };

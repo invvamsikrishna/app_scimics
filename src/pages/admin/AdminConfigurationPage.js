@@ -113,6 +113,8 @@ const AdminConfigurationPage = () => {
   }, []);
 
   useEffect(() => {
+    // dont change the below == to === as value chnages from input to arrow keys
+
     if (CATime == 0 || TPTime == 0 || CSTime == 0 || PBTime == 0) {
       setUpdateDisable(true);
       // console.log("zero");
@@ -212,7 +214,7 @@ const AdminConfigurationPage = () => {
   }
   
   const ConfigurationInfo = [
-    "The Configuration which is visible and updated, that will replicate in the exam page for user.",
+    "The Configuration which is visible and updated, will replicate in the I-CAP exam page.",
     "Time must be between 1 Minute to 60 Minutes.",
     "Either one of the Questions quantity must be greater than 1."
   ]

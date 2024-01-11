@@ -16,7 +16,8 @@ const NavConfigAdmin = [
   },
   {
     title: "Communication Skills",
-    path: "/admin-dashboard/communication-skills-page",
+    path: "/admin-dashboard",
+    // /communication-skills-page",
     icon: getIcon("/static/icons/admin-communication.svg"),
   },
   {
