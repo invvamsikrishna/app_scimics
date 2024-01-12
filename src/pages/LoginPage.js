@@ -202,11 +202,11 @@ const LoginPage = ({ authSuccess }) => {
 
         <Container maxWidth="xs" disableGutters>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Box sx={{ py: 6, display: "flex", justifyContent: "center" }}>
+            <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
               <Box component="img" src={PUBLIC_URL + "/static/icons/logo.svg"} sx={{ width: 130 }} />
             </Box>
 
-            <Card className={classes.card} sx={{ px: 5, pt: 3, pb: 6 }}>
+            <Card className={classes.card} sx={{ px: 5, pt: 3, pb: 3 }}>
               <Typography fontWeight={500} sx={{ color: "text.subtitle" }}>
                 Welcome{" "}
                 <Typography component="span" fontSize={20}>
@@ -218,7 +218,7 @@ const LoginPage = ({ authSuccess }) => {
                 Login Account
               </Typography>
 
-              <Box p={2} />
+              <Box p={1} />
 
               <Stack direction="row" spacing={3}>
                 <CustomButton title="Google" loading={isLoading} startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
@@ -232,9 +232,9 @@ const LoginPage = ({ authSuccess }) => {
                 Or
               </Typography>
 
-              <Box p={1} />
+              {/* <Box p={1} /> */}
 
-              <Stack spacing={2}>
+              <Stack spacing={1}>
                 <RHFTextField name="email" label="Email address*" placeholder="Enter email address" />
 
                 <RHFTextField name="password" type="password" label="Password*" placeholder="Enter password" />
@@ -254,7 +254,7 @@ const LoginPage = ({ authSuccess }) => {
               </Typography>
             </Card>
 
-            <Box p={7} />
+            {/* <Box p={5} /> */}
           </FormProvider>
         </Container>
       </Box>

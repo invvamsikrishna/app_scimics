@@ -97,7 +97,7 @@ const AdminLoginPage = ({ authSuccess }) => {
 
               <CustomButton loading={isLoading} type="submit" title="Login" sx={{ width: "100%" }} />
             </Card>
-            <Box p={7} />
+            
           </FormProvider>
         </Container>
       </Box>

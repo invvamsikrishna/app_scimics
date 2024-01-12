@@ -6,8 +6,8 @@ import axios from "axios";
 import AdminGeneratedQue from "../../components/AdminGeneratedQue";
 import { AGTextField } from "../../components/hook-form/RHFTextField";
 import { useAlertContext } from "../../components/AlertProvider";
-import { generatePageInformation } from "./CognitiveAbilitiesPage";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { generatePageInformation, generateAgainMessage } from "./CognitiveAbilitiesPage";
 
 const TechnicalProficiencyPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -108,7 +108,6 @@ const TechnicalProficiencyPage = () => {
   const onGenerateClicked = async () => {
     if (questionCount1 > 0 || questionCount2 > 0) {
       setLoading(true);
-      setGenrated(true);
       try {
         const response = await axios.post("https://scimics-api.onrender.com/scimics/gettechnicalq", {
           stream: "Btech",
@@ -119,6 +118,7 @@ const TechnicalProficiencyPage = () => {
         });
         // console.log(response.data.data.MCQ_Questions[0].questions);
         setQueArray(response.data.data.MCQ_Questions[0].questions);
+        setGenrated(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -173,7 +173,7 @@ const TechnicalProficiencyPage = () => {
             title={
               <ul>
                 {generatePageInformation.map((info, index) => (
-                  <li key={index} style={{ marginLeft: "8px" }}>
+                  <li key={index} style={{ marginLeft: "20px" }}>
                     {info}
                   </li>
                 ))}
@@ -237,21 +237,28 @@ const TechnicalProficiencyPage = () => {
         </Box>
         <Box p={1} />
 
-        {queArray === null ? (
-          <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
-            <Typography>Please Generate Questions again!</Typography>
-          </Box>
-        ) : queArray.length === 0 && isGenrated ? (
+        {isLoading ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
             <Typography>Please wait...</Typography>
           </Box>
+        ) : (queArray === null ? (
+          generateAgainMessage
         ) : (
-          queArray.length > 0 &&
-          isGenrated &&
-          queArray.map((items, index) => {
-            return <AdminGeneratedQue items={items} index={index} onApproveQue={onApproveQue} disabledButtons={disabledButtons} setQueArray={setQueArray} />;
-          })
-        )}
+          queArray.length > 0 && isGenrated ? (
+            <>
+              {
+                queArray.map((items, index) => {
+                  return (<AdminGeneratedQue
+                    items={items}
+                    index={index}
+                    onApproveQue={onApproveQue}
+                    disabledButtons={disabledButtons}
+                    setQueArray={setQueArray}
+                  />);
+                })}
+            </>
+          ) : (queArray.length === 0 && isGenrated && generateAgainMessage)
+        ))}
       </Container>
     </Page>
   );

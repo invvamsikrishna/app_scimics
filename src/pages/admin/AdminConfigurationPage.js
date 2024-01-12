@@ -226,7 +226,7 @@ const AdminConfigurationPage = () => {
           Configuraion
           <Tooltip title={<ul >
               {ConfigurationInfo.map((info, index) => (
-                <li key={index} style={{ marginLeft: '8px' }}
+                <li key={index} style={{ marginLeft: "20px" }}
                 >{info}</li>
               ))}
             </ul>} placement="right" arrow>
@@ -341,16 +341,16 @@ const AdminConfigurationPage = () => {
               <ACQCTextField name="PBSessionTime" label="Time (Min)" max={60} errorText={errorTextPB} setErrorText={setErrorTextPB} startErrorText="Time: 1 - " endErrorText="Min" value={PBTime} setCount={setPBTime} />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-              <ACQCTextField name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setCount={setITWSQuantity} errorText={errorTextIT} setErrorText={setErrorTextIT} startErrorText="Value: 0 to " endErrorText="" />
+                <ACQCTextField tooltipTitle="Interpersonal & Team Work Skills" name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setCount={setITWSQuantity} errorText={errorTextIT} setErrorText={setErrorTextIT} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-              <ACQCTextField name="ACLCount" label={`(${ACLCount.question_count}) A.C.L`} value={ACLQuantity} max={ACLCount.question_count * 1} setCount={setACLQuantity} errorText={errorTextAC} setErrorText={setErrorTextAC} startErrorText="Value: 0 to " endErrorText="" />
+              <ACQCTextField tooltipTitle="Adaptability & Continuous Learning" name="ACLCount" label={`(${ACLCount.question_count}) A.C.L`} value={ACLQuantity} max={ACLCount.question_count * 1} setCount={setACLQuantity} errorText={errorTextAC} setErrorText={setErrorTextAC} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-              <ACQCTextField name="PMTMCount" label={`(${PMTMCount.question_count}) P.M.T.M`} value={PMTMQuantity} max={PMTMCount.question_count * 1} setCount={setPMTMQuantity} errorText={errorTextPM} setErrorText={setErrorTextPM} startErrorText="Value: 0 to " endErrorText="" />
+              <ACQCTextField tooltipTitle="Project Management & Time Management" name="PMTMCount" label={`(${PMTMCount.question_count}) P.M.T.M`} value={PMTMQuantity} max={PMTMCount.question_count * 1} setCount={setPMTMQuantity} errorText={errorTextPM} setErrorText={setErrorTextPM} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-              <ACQCTextField name="PEIPCount" label={`(${PEIPCount.question_count}) P.E.I.P `} value={PEIPQuantity} max={PEIPCount.question_count * 1} setCount={setPEIPQuantity} errorText={errorTextPE} setErrorText={setErrorTextPE} startErrorText="Value: 0 to " endErrorText="" />
+              <ACQCTextField tooltipTitle="Professional Etiquette & Interview Preparedness" name="PEIPCount" label={`(${PEIPCount.question_count}) P.E.I.P `} value={PEIPQuantity} max={PEIPCount.question_count * 1} setCount={setPEIPQuantity} errorText={errorTextPE} setErrorText={setErrorTextPE} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
           </Box>
         </Box>

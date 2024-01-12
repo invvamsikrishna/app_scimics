@@ -27,6 +27,7 @@ const CognitiveAbilitiesPage = () => {
   const [disableGenerate, setDisableGenerate] = useState(true);
   const [errorText1, setErrorText1] = useState("");
   const [errorText2, setErrorText2] = useState("");
+  // console.log(queArray);
 
   const QAhandleInputChange = (e) => {
     const inputValue = e.target.value;
@@ -168,11 +169,7 @@ const CognitiveAbilitiesPage = () => {
     setErrorText1("");
     setErrorText2("");
   };
-  // const [countQuantitative, setcountQuantitative] = useState(0);
-  // const [countLogicalReasoning, setcountLogicalReasoning] = useState(0);
-  // console.log(questionCount1, questionCount2, countQuantitative, countLogicalReasoning);
-  // console.log(queArray);
-  // console.log(isGenrated);
+
   return (
     <Page title="Cognitive Abilities Generate Page">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
@@ -182,7 +179,7 @@ const CognitiveAbilitiesPage = () => {
             title={
               <ul>
                 {generatePageInformation.map((info, index) => (
-                  <li key={index} style={{ marginLeft: "8px" }}>
+                  <li key={index} style={{ marginLeft: "20px" }}>
                     {info}
                   </li>
                 ))}
@@ -247,41 +244,27 @@ const CognitiveAbilitiesPage = () => {
 
         <Box p={1} />
 
-        { isLoading ? (
+        {isLoading ? (
           <Box px={5} py={3} sx={{ bgcolor: "background.primary", borderRadius: "12px", width: { xs: "100%", md: "100%" } }}>
             <Typography>Please wait...</Typography>
           </Box>
-        ) : ( queArray === null ? (
+        ) : (queArray === null ? (
           generateAgainMessage
         ) : (
           queArray.length > 0 && isGenrated ? (
             <>
               {
-              queArray.map((items, index) => {
-                // if (
-                //   (countQuantitative < questionCount1 && items.category === "Quantitative Aptitude") ||
-                //   (countLogicalReasoning < questionCount2 && items.category === "Logical Reasoning")
-                // ) {
-                //   if (items.category === "Quantitative Aptitude") {
-                //     setcountQuantitative((prevCount) => prevCount + 1);
-                //   } else if (items.category === "Logical Reasoning") {
-                //     setcountLogicalReasoning((prevCount) => prevCount + 1);
-                //   }
-                  return (
-                    <AdminGeneratedQue
-                      key={index}
-                      items={items}
-                      index={index}
-                      onApproveQue={onApproveQue}
-                      disabledButtons={disabledButtons}
-                      setQueArray={setQueArray}
-                    />
-                  );
-                // }
-                // return null;
-              })}
+                queArray.map((items, index) => {
+                  return (<AdminGeneratedQue
+                    items={items}
+                    index={index}
+                    onApproveQue={onApproveQue}
+                    disabledButtons={disabledButtons}
+                    setQueArray={setQueArray}
+                  />);
+                })}
             </>
-          ) : (queArray.length === 0 && isGenrated && generateAgainMessage )
+          ) : (queArray.length === 0 && isGenrated && generateAgainMessage)
         ))}
       </Container>
     </Page>

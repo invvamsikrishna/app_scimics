@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from "react-hook-form";
-import { CircularProgress, IconButton, InputLabel, TextField, Typography } from "@mui/material";
+import { CircularProgress, IconButton, InputLabel, TextField, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -106,7 +106,7 @@ export function URHFTextField({ label, ...other }) {
 }
 
 //AdminCongigurationQuestionCountTextField
-export function ACQCTextField({ name, label, value, max, setCount, errorText, setErrorText, startErrorText, endErrorText, ...other }) {
+export function ACQCTextField({ name, label, value, max, setCount, errorText, setErrorText, startErrorText, endErrorText, tooltipTitle, ...other }) {
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     if (inputValue < 0 || inputValue > max) {
@@ -140,6 +140,7 @@ export function ACQCTextField({ name, label, value, max, setCount, errorText, se
   };
 
   return (
+    <Tooltip title={tooltipTitle} placement="top" arrow>
     <TextField
       type="number"
       sx={{ marginTop: 1, width: "90%", marginRight: 1 }}
@@ -168,12 +169,14 @@ export function ACQCTextField({ name, label, value, max, setCount, errorText, se
       }}
       {...other}
     />
+    </Tooltip>
   );
 }
 
 // AdminGeneratingquestionsTextField
-export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, ...other }) {
+export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, tooltipTitle, ...other }) {
   return (
+    <Tooltip title={tooltipTitle} placement="top" arrow>
     <TextField
       name={name}
       label={label}
@@ -202,5 +205,6 @@ export function AGTextField({ name, value, label, setQuestionCount, errorText, h
       }}
       {...other}
     />
+    </Tooltip>
   );
 }
