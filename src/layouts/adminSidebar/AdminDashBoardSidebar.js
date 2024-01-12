@@ -7,7 +7,6 @@ import useResponsive from "../../hooks/useResponsive";
 import NavSection from "../../components/NavSection";
 // import { connect } from "react-redux";
 import { NavConfigAdmin } from "./NavConfigAdmin";
-import BulkUpload from "../../components/BulkUpload";
 
 const DRAWER_WIDTH = 240;
 
@@ -34,7 +33,6 @@ const AdminDashboardSidebar = ({ isOpenSidebar, onCloseSidebar, getTestQuestion 
         <Box component="img" src={`${PUBLIC_URL}/static/icons/logo.svg`} sx={{ width: 100 }} />
         </Box>
       <NavSection navConfig={NavConfigAdmin} />
-      <BulkUpload />
       <Box flexGrow={1} />
     </>
   );

@@ -220,10 +220,10 @@ const AdminConfigurationPage = () => {
   ]
 
   return (
-    <Page title="Configuration">
+    <Page title="Exam Configuration">
       <Container maxWidth="xl" sx={{ py: 1 }} onClick={() => onHandleRemoveError()}>
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
-          Configuraion
+          I-CAP Exam Configuraion
           <Tooltip title={<ul >
               {ConfigurationInfo.map((info, index) => (
                 <li key={index} style={{ marginLeft: "20px" }}

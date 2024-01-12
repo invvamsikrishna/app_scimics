@@ -23,6 +23,7 @@ import AdminConfigurationPage from "./pages/admin/AdminConfigurationPage";
 import ShowPdf from "./printToPDF/ShowPdf";
 import QuestionsPage from "./pages/admin/QuestionsPage";
 import McqQuestionPage from "./pages/admin/McqQuestionPage";
+import AdminUserConfigurationPage from "./pages/admin/AdminUserConfigurationPage";
 
 const CustomeRouter = () => {
   return (
@@ -45,6 +46,7 @@ const CustomeRouter = () => {
           <Route path="communication-skills-page" element={<CommunicationSkillsPage />} />
           <Route path="personality-behavioral-page" element={<PersonalityBehavioralPage />} />
           <Route path="admin-configuration-page" element={<AdminConfigurationPage />} />
+          <Route path="admin-user-configuration-page" element={<AdminUserConfigurationPage />} />
           <Route path="adminprofile" element={<AdminProfilePage />} />
         </Route>
       </Route>

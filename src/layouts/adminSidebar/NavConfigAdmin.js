@@ -26,14 +26,19 @@ const NavConfigAdmin = [
     icon: getIcon("/static/icons/admin-personality.svg"),
   },
   {
-    title: "Configuration",
+    title: "Exam Configuration",
     path: "/admin-dashboard/admin-configuration-page",
     icon: getIcon("/static/icons/admin-config.svg"),
   },
   {
+    title: "User Configuration",
+    path: "/admin-dashboard/admin-user-configuration-page",
+    icon: getIcon("/static/icons/user-configuration.svg"),
+  },
+  {
     title: "Ques Management",
     path: "/admin-dashboard/ques-management",
-    icon: getIcon("/static/icons/admin-personality.svg"),
+    icon: getIcon("/static/icons/ques-management.svg"),
     children: [
       {
         title: "Add MCQ Question",
