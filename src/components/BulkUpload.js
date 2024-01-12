@@ -4,7 +4,6 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useAlertContext } from './AlertProvider';
-import { RHFTextField } from './hook-form';
 import { connect } from "react-redux";
 import { getAllColleges, getAllCoursesById } from "../actions/common";
 
@@ -72,7 +71,7 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
 
     const onHandleSubmitXL = async () => {
         // console.log(excelData, collegeId, courseId);
-        setisLoading("true");
+        setisLoading(true);
         if (excelData.length > 0) {
             try {
                 const response = await axios.post("https://scimics-api.onrender.com/scimics/bulkuserupload", {
@@ -88,7 +87,7 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
             } finally {
                 setisLoading(false);
                 fileInputRef.current.value = "";
-                setExcelData("");
+                setExcelData([]);
                 setCollegeId(0);
                 setCourseId(0);
             }
