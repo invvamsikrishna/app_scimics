@@ -176,60 +176,40 @@ const LoginPage = ({ authSuccess }) => {
 
 
 
-
-
-  const [rerender, setRerender] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
 
-    if (code && localStorage.getItem("accessToken") === null) {
-      const getAccessToken = async () => {
+    if (code && !userData) {
+      const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/scimics/gitAccessToken?code=${code}`, {
+          const response = await fetch(`http://localhost:8080/scimics/gitUserData?code=${code}`, {
             method: 'GET',
           });
 
           const data = await response.json();
-          console.log(data.access_token);
+          console.log(data.user_data);
 
-          if (data.access_token) {
-            localStorage.setItem("accessToken", data.access_token);
-            setRerender(!rerender);
-            getUserData();
+          if (data.user_data) {
+            setUserData(data.user_data);
           }
         } catch (error) {
           console.error(error);
         }
       };
 
-      getAccessToken();
-    } else {
-      getUserData();
+      fetchData();
     }
-  }, [rerender]); // Include 'rerender' in the dependency array
+  }, [userData]);
 
-  const getUserData = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/scimics/gitUserData', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      });
-
-      const data = await response.json();
-      console.log(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleGithubLogin = () => {
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user");
   };
 
-  async function handleGithubLogin() {
-    window.location.assign("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user");
-  }
+
 
 
 
