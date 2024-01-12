@@ -185,17 +185,6 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
-  // const handleGithubLogin = async () => {
-  //   const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
-  //   window.open(githubOAuthUrl, "_blank");
-  // try {
-  //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
-  //   const result = await AuthServices.githubLoginPerson();
-  //   console.log(result);
-  // } catch (err) {
-  //   showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-  // }
-  // };
 
   const handleGithubLogin = () => {
     window.location.assign(AuthServices.githubOauthUrl());

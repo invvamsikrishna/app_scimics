@@ -182,11 +182,11 @@ const AdminConfigurationPage = () => {
         });
         // console.log(response);
         setLoading(false);
-        showSnackbar("Configuration Updated successfully");
+        showSnackbar("Configuration update successful");
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
-        showSnackbar("Configuration failed to update");
+        showSnackbar("Configuration update failed");
       }
     } else {
       setLoading(false);
@@ -212,7 +212,7 @@ const AdminConfigurationPage = () => {
     setErrorTextPM("");
     setErrorTextPE("");
   }
-  
+
   const ConfigurationInfo = [
     "The Configuration which is visible and updated, will replicate in the I-CAP exam page.",
     "Time must be between 1 Minute to 60 Minutes.",
@@ -225,13 +225,13 @@ const AdminConfigurationPage = () => {
         <Typography variant="subtitle1" fontSize={24} fontWeight={500}>
           I-CAP Exam Configuraion
           <Tooltip title={<ul >
-              {ConfigurationInfo.map((info, index) => (
-                <li key={index} style={{ marginLeft: "20px" }}
-                >{info}</li>
-              ))}
-            </ul>} placement="right" arrow>
-              <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
-            </Tooltip>
+            {ConfigurationInfo.map((info, index) => (
+              <li key={index} style={{ marginLeft: "20px" }}
+              >{info}</li>
+            ))}
+          </ul>} placement="right" arrow>
+            <InfoOutlinedIcon sx={{ color: "gray", cursor: "pointer", fontSize: 16, marginLeft: 1, }} />
+          </Tooltip>
         </Typography>
 
         <Box p={1} />
@@ -341,7 +341,7 @@ const AdminConfigurationPage = () => {
               <ACQCTextField name="PBSessionTime" label="Time (Min)" max={60} errorText={errorTextPB} setErrorText={setErrorTextPB} startErrorText="Time: 1 - " endErrorText="Min" value={PBTime} setCount={setPBTime} />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-                <ACQCTextField tooltipTitle="Interpersonal & Team Work Skills" name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setCount={setITWSQuantity} errorText={errorTextIT} setErrorText={setErrorTextIT} startErrorText="Value: 0 to " endErrorText="" />
+              <ACQCTextField tooltipTitle="Interpersonal & Team Work Skills" name="ITWSCount" label={`(${ITWSCount.question_count}) I.T.W.S`} value={ITWSQuantity} max={ITWSCount.question_count * 1} setCount={setITWSQuantity} errorText={errorTextIT} setErrorText={setErrorTextIT} startErrorText="Value: 0 to " endErrorText="" />
             </Box>
             <Box sx={{ width: { xs: "20%", md: "20%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
               <ACQCTextField tooltipTitle="Adaptability & Continuous Learning" name="ACLCount" label={`(${ACLCount.question_count}) A.C.L`} value={ACLQuantity} max={ACLCount.question_count * 1} setCount={setACLQuantity} errorText={errorTextAC} setErrorText={setErrorTextAC} startErrorText="Value: 0 to " endErrorText="" />
