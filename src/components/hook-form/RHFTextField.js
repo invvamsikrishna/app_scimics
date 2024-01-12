@@ -93,7 +93,7 @@ export function URHFTextField({ label, ...other }) {
   return (
     <>
       {label && (
-        <InputLabel shrink={false} sx={{ mb: 2 }}>
+        <InputLabel shrink={false} sx={{ mb: "6px !important" }}>
           <Typography component="span" color="white" fontSize={12} fontWeight="normal">
             {label}
           </Typography>
@@ -141,34 +141,34 @@ export function ACQCTextField({ name, label, value, max, setCount, errorText, se
 
   return (
     <Tooltip title={tooltipTitle} placement="top" arrow>
-    <TextField
-      type="number"
-      sx={{ marginTop: 1, width: "90%", marginRight: 1 }}
-      name={name}
-      label={label}
-      value={value}
-      onChange={(e) => handleInputChange(e)}
-      onKeyDown={handleArrowKeys}
-      inputProps={{
-        min: 0,
-        max: max,
-      }}
-      error={Boolean(errorText)}
-      helperText={errorText}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
-            <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonUp(e)}>
-              <ArrowDropUpIcon />
-            </IconButton>
-            <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonDown(e)}>
-              <ArrowDropDownIcon />
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      {...other}
-    />
+      <TextField
+        type="number"
+        sx={{ marginTop: 1, width: "90%", marginRight: 1 }}
+        name={name}
+        label={label}
+        value={value}
+        onChange={(e) => handleInputChange(e)}
+        onKeyDown={handleArrowKeys}
+        inputProps={{
+          min: 0,
+          max: max,
+        }}
+        error={Boolean(errorText)}
+        helperText={errorText}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
+              <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonUp(e)}>
+                <ArrowDropUpIcon />
+              </IconButton>
+              <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonDown(e)}>
+                <ArrowDropDownIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        {...other}
+      />
     </Tooltip>
   );
 }
@@ -177,34 +177,34 @@ export function ACQCTextField({ name, label, value, max, setCount, errorText, se
 export function AGTextField({ name, value, label, setQuestionCount, errorText, handleInputChange, handleArrowKeys, handleArrowButtonUp, handleArrowButtonDown, tooltipTitle, ...other }) {
   return (
     <Tooltip title={tooltipTitle} placement="top" arrow>
-    <TextField
-      name={name}
-      label={label}
-      type="number"
-      sx={{ marginTop: 1, width: "85%", marginRight: 1 }}
-      value={value}
-      onChange={(e) => handleInputChange(e)}
-      onKeyDown={(e) => handleArrowKeys(e)}
-      inputProps={{
-        min: 0,
-        max: 20,
-      }}
-      error={Boolean(errorText)}
-      helperText={errorText}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
-            <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonUp(e)}>
-              <ArrowDropUpIcon />
-            </IconButton>
-            <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonDown(e)}>
-              <ArrowDropDownIcon />
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      {...other}
-    />
+      <TextField
+        name={name}
+        label={label}
+        type="number"
+        sx={{ marginTop: 1, width: "85%", marginRight: 1 }}
+        value={value}
+        onChange={(e) => handleInputChange(e)}
+        onKeyDown={(e) => handleArrowKeys(e)}
+        inputProps={{
+          min: 0,
+          max: 20,
+        }}
+        error={Boolean(errorText)}
+        helperText={errorText}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "end" }}>
+              <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonUp(e)}>
+                <ArrowDropUpIcon />
+              </IconButton>
+              <IconButton sx={{ width: "10%", height: "10%" }} edge="end" onClick={(e) => handleArrowButtonDown(e)}>
+                <ArrowDropDownIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        {...other}
+      />
     </Tooltip>
   );
 }

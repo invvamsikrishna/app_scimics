@@ -9,8 +9,8 @@ import useResponsive from "../hooks/useResponsive";
 import CustomButton from "../components/CustomButton";
 import Iconify from "../components/Iconify";
 import { FormProvider, RHFTextField } from "../components/hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import AuthServices from "../services/AuthServices";
 import { connect } from "react-redux";
 import { authSuccess } from "../actions/auth";
@@ -98,13 +98,24 @@ export const useStyles = makeStyles((theme) => ({
 const LoginPage = ({ authSuccess }) => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { showSnackbar } = useAlertContext();
   const lgUp = useResponsive("up", "lg");
 
   const [isLoading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const code = urlParams.get("code");
+
+    if (code) {
+      getGithubUserInfo(code);
+    }
+  }, []);
+
   const schema = Yup.object().shape({
-    email: Yup.string().email("Invalid email Id...").required("Email address is required"),
+    email: Yup.string().email("Invalid email address").required("Email address is required"),
     password: Yup.string().required("Password is required"),
   });
 
@@ -174,16 +185,50 @@ const LoginPage = ({ authSuccess }) => {
     }
   };
 
-  const handleGithubLogin = async () => {
-    const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
-    window.open(githubOAuthUrl, "_blank");
-    // try {
-    //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
-    //   const result = await AuthServices.githubLoginPerson();
-    //   console.log(result);
-    // } catch (err) {
-    //   showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
-    // }
+  // const handleGithubLogin = async () => {
+  //   const githubOAuthUrl = "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email";
+  //   window.open(githubOAuthUrl, "_blank");
+  // try {
+  //   const result = await axios.get("https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user:email");
+  //   const result = await AuthServices.githubLoginPerson();
+  //   console.log(result);
+  // } catch (err) {
+  //   showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+  // }
+  // };
+
+  const handleGithubLogin = () => {
+    window.location.assign(AuthServices.githubOauthUrl());
+  };
+
+  const getGithubUserInfo = async (code) => {
+    try {
+      const response = await AuthServices.getGithubUserInfo(code);
+      const responseData = response.data?.user_data ?? {};
+      handleGithubSubmit(responseData);
+    } catch (err) {
+      // showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+    }
+  };
+
+  const handleGithubSubmit = async (data) => {
+    setLoading(true);
+
+    try {
+      var values = { name: data.name, avatar_url: data.avatar_url, github_id: data.id };
+
+      const response = await AuthServices.githubLoginPerson(values);
+      const responseData = response.data?.data ?? {};
+      setLoading(false);
+
+      if (responseData.is_account_verified == true) {
+        authSuccess(responseData);
+        navigate("/user/icap-test", { replace: true });
+      }
+    } catch (err) {
+      showSnackbar(err.response?.data?.error ?? COMMON_ERROR_MSG, "error");
+      setLoading(false);
+    }
   };
 
   return (
@@ -223,7 +268,7 @@ const LoginPage = ({ authSuccess }) => {
               <Stack direction="row" spacing={3}>
                 <CustomButton title="Google" loading={isLoading} startIcon={<Iconify icon={"mdi:google"} />} onPressed={handleGoogleLogin} sx={{ width: "100%" }} />
 
-                <CustomButton title="Github" disabled={true} loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
+                <CustomButton title="Github" loading={isLoading} startIcon={<Iconify icon={"mdi:github"} />} onPressed={handleGithubLogin} sx={{ width: "100%" }} />
               </Stack>
 
               <Box p={1} />

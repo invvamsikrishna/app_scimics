@@ -10,7 +10,11 @@ class AuthServices {
       headers: { Authorization: `Bearer ${token}` },
     });
   googleLoginPerson = (data) => instance.post("/googlesignuporlogin", data);
-  githubLoginPerson = () => instance.post("/github/callback");
+
+  githubOauthUrl = () => "https://github.com/login/oauth/authorize?client_id=2e63a9cb2528d488121b&scope=user";
+  getGithubUserInfo = (code) => instance.get(`/gituserdata?code=${code}`);
+  githubLoginPerson = (data) => instance.post("/githubsignuporlogin", data);
+
   sendOtptoEmail = (data) => instance.post("/sendotp", data);
   verifyOtptoEmail = (data) => instance.post("/verifyotp", data);
 }

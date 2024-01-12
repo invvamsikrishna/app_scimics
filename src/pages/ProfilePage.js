@@ -161,9 +161,11 @@ const ProfilePage = ({ account, common, authUpdated, getAllColleges, getAllCours
                   <RHFTextField name="lastname" label="Last name" />
                 </Grid>
 
-                <Grid item xs={12}>
-                  <RHFTextField name="email" label="Email address" disabled={true} />
-                </Grid>
+                {account.user?.signin_source !== "GITHUB" && (
+                  <Grid item xs={12}>
+                    <RHFTextField name="email" label="Email address" disabled={true} />
+                  </Grid>
+                )}
 
                 <Grid item xs={2}>
                   <URHFTextField name="country" value="+91" label="Country Code" disabled />
