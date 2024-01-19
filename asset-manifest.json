@@ -1,32 +1,19 @@
 {
   "files": {
-    "main.css": "/app_scimics/static/css/main.01362c23.css",
-    "main.js": "/app_scimics/static/js/main.3ed7a97f.js",
+    "main.css": "/app_scimics/static/css/main.c84a7994.css",
+    "main.js": "/app_scimics/static/js/main.d5384c82.js",
     "static/js/27.227a6009.chunk.js": "/app_scimics/static/js/27.227a6009.chunk.js",
-    "static/media/page13round.png": "/app_scimics/static/media/page13round.0be94dbc71996183c483.png",
-    "static/media/page1png.png": "/app_scimics/static/media/page1png.43a7907663ebbfd6ac8a.png",
-    "static/media/page9header.png": "/app_scimics/static/media/page9header.683aa6792a33c90829d4.png",
-    "static/media/page4header.png": "/app_scimics/static/media/page4header.c88737a6568372fdda91.png",
-    "static/media/page10to11header.png": "/app_scimics/static/media/page10to11header.c110c5da5c31ebd27ea4.png",
-    "static/media/page2header.png": "/app_scimics/static/media/page2header.ab9917cf4b0fdc05c512.png",
-    "static/media/page12header.png": "/app_scimics/static/media/page12header.83ba4bfa29314587d490.png",
     "static/media/circlearrow3.png": "/app_scimics/static/media/circlearrow3.3578d24b06877274aa15.png",
     "static/media/circlearrow1.png": "/app_scimics/static/media/circlearrow1.276d4f487b6e50a845d0.png",
     "static/media/circlearrow2.png": "/app_scimics/static/media/circlearrow2.6f1275b7d16755cd4d9b.png",
     "static/media/circlearrow5.png": "/app_scimics/static/media/circlearrow5.5dd842f58ad7067229b4.png",
-    "static/media/page3header.png": "/app_scimics/static/media/page3header.84a096f3109b00274af1.png",
-    "static/media/page5to8header.png": "/app_scimics/static/media/page5to8header.dc962bb1e0157db2e47d.png",
     "static/media/circlearrow4.png": "/app_scimics/static/media/circlearrow4.c39e2c86075cdc19345e.png",
-    "static/media/brain.png": "/app_scimics/static/media/brain.9f013957027718aaa756.png",
     "static/media/mocx-greenicons-3.png": "/app_scimics/static/media/mocx-greenicons-3.c4936fdd25b979bba525.png",
-    "static/media/courier-prime-latin-400-normal.woff2": "/app_scimics/static/media/courier-prime-latin-400-normal.9828a27d46cfbc788c63.woff2",
     "static/media/mocx-gryicons-3.png": "/app_scimics/static/media/mocx-gryicons-3.a2a177c606cc6fd4a9b8.png",
     "static/media/mocx-greenicons-9.png": "/app_scimics/static/media/mocx-greenicons-9.755548d8dca434c3c0e4.png",
-    "static/media/courier-prime-latin-400-normal.woff": "/app_scimics/static/media/courier-prime-latin-400-normal.1d155ce17f82c7375483.woff",
     "static/media/mocx-gryicons-9.png": "/app_scimics/static/media/mocx-gryicons-9.ee2eeb66960da239456b.png",
     "static/media/mocx-greenicons-6.png": "/app_scimics/static/media/mocx-greenicons-6.ea54a3f054f520545908.png",
     "static/media/mocx-greenicons-4.png": "/app_scimics/static/media/mocx-greenicons-4.e05e31ff5ce20d2729e4.png",
-    "static/media/courier-prime-latin-ext-400-normal.woff2": "/app_scimics/static/media/courier-prime-latin-ext-400-normal.5f815ad51fabfda18bb0.woff2",
     "static/media/mocx-gryicons-6.png": "/app_scimics/static/media/mocx-gryicons-6.f7f5c8d5421747b44c87.png",
     "static/media/mocx-greenicons-8.png": "/app_scimics/static/media/mocx-greenicons-8.ab0395d4829aaa11f784.png",
     "static/media/mocx-gryicons-4.png": "/app_scimics/static/media/mocx-gryicons-4.e78f3b7774d3fc31ddbd.png",
@@ -34,12 +21,10 @@
     "static/media/mocx-greenicons-10.png": "/app_scimics/static/media/mocx-greenicons-10.7bf745891f30d76cce73.png",
     "static/media/mocx-greenicons-2.png": "/app_scimics/static/media/mocx-greenicons-2.60341b4c3c76d5b92e62.png",
     "static/media/mocx-greenicons-7.png": "/app_scimics/static/media/mocx-greenicons-7.320ed9073ddab91c3f8f.png",
-    "static/media/courier-prime-latin-ext-400-normal.woff": "/app_scimics/static/media/courier-prime-latin-ext-400-normal.8cafd33ca5a5ca88061d.woff",
-    "static/media/logo-scimics.svg": "/app_scimics/static/media/logo-scimics.779d1bb06c6a73b99a26e0dac40f87cd.svg",
     "index.html": "/app_scimics/index.html"
   },
   "entrypoints": [
-    "static/css/main.01362c23.css",
-    "static/js/main.3ed7a97f.js"
+    "static/css/main.c84a7994.css",
+    "static/js/main.d5384c82.js"
   ]
 }
