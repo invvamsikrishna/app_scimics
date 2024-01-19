@@ -1,18 +1,22 @@
 import './pages.css';
 import React from 'react';
 import { Box } from "@mui/material";
-import Page1 from './Pages/Page1';
-import Page2 from './Pages/Page2';
-import Page3 from './Pages/Page3';
-import Page4 from './Pages/Page4';
-import Page5 from './Pages/Page5';
-import Page9 from './Pages/Page9';
-import Page10 from './Pages/Page10';
-import Page12 from './Pages/Page12';
-import Page13 from './Pages/Page13';
+// import Page1 from './Pages/Page1';
+// import Page2 from './Pages/Page2';
+// import Page3 from './Pages/Page3';
+// import Page4 from './Pages/Page4';
+// import Page5 from './Pages/Page5';
+// import Page9 from './Pages/Page9';
+// import Page10 from './Pages/Page10';
+// import Page12 from './Pages/Page12';
+// import Page13 from './Pages/Page13';
 import { useEffect, useState } from 'react';
 import { fDateTime } from '../services/formatTime';
 import { useRowData } from '../components/createContextCodes/RowDataContext';
+import PdfPage2 from './PdfPages/PdfPage2';
+import PdfPage8 from './PdfPages/PdfPage8';
+import PdfPage7 from './PdfPages/PdfPage7';
+import PdfPage3 from './PdfPages/PdfPage3';
 
 const Pages = ({ personData }) => {
   // console.log(personData);
@@ -162,8 +166,13 @@ const Pages = ({ personData }) => {
 
   return (
     <Box>
-      <Page1 firstName={firstName} lastName={lastName} assessedOn={assessedOn} batch={batch} universityName={universityName} region={region} course={course} applicationValidity={applicationValidity} />
-      <Page2 id={id} firstName={firstName} lastName={lastName} overallScore={overallScore} scoreMinRange={scoreMinRange} scoreMaxRange={scoreMaxRange}
+      <PdfPage2 id={id} overallScore={overallScore} scoreMinRange={scoreMinRange} scoreMaxRange={scoreMaxRange}/>
+      <PdfPage3 id={id} />
+      <PdfPage7 id={id} examCondectedOn={examCondectedOn} />
+      <PdfPage8 id={id}/>
+      {/* <Page1 firstName={firstName} lastName={lastName} assessedOn={assessedOn} batch={batch} universityName={universityName} region={region} course={course} applicationValidity={applicationValidity} /> */}
+
+      {/* <Page2 id={id} firstName={firstName} lastName={lastName} overallScore={overallScore} scoreMinRange={scoreMinRange} scoreMaxRange={scoreMaxRange}
         OpennessZScore={OpennessZScore}
         ConscientiousnessZScore={ConscientiousnessZScore}
         ExtraversionZScore={ExtraversionZScore}
@@ -212,7 +221,7 @@ const Pages = ({ personData }) => {
         EmotionalZScore={EmotionalZScore}
       />
       <Page12 id={id} firstName={firstName} lastName={lastName} examCondectedOn={examCondectedOn}/>
-      <Page13 />
+      <Page13 /> */}
     </Box>
   )
 }

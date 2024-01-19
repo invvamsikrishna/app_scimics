@@ -1,50 +1,15 @@
 import { LoadingButton } from '@mui/lab';
-import { Box, MenuItem, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useAlertContext } from './AlertProvider';
-import { connect } from "react-redux";
-import { getAllColleges, getAllCoursesById } from "../actions/common";
 
-const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
+const BulkUpload = ({fetchData}) => {
     const [excelData, setExcelData] = useState([]);
     const [isLoading, setisLoading] = useState(false);
     const { showSnackbar } = useAlertContext();
     const fileInputRef = useRef(null);
-    const [collegeId, setCollegeId] = useState(0);
-    const [courseId, setCourseId] = useState(0);
-
-    useEffect(() => {
-        handleColleges();
-    }, []);
-
-    const handleColleges = async () => {
-        var result = await getAllColleges();
-        if (result != true) {
-            showSnackbar(result, "error");
-        }
-    };
-
-    const handleCourses = async (id) => {
-        var result = await getAllCoursesById(id);
-        if (result != true) {
-            showSnackbar(result, "error");
-        }
-    };
-
-    useEffect(() => {
-        if (common.colleges.length > 0) {
-            setCollegeId(common.colleges[0].college_pk);
-            handleCourses(common.colleges[0].college_pk);
-        }
-    }, [common.colleges]);
-
-    useEffect(() => {
-        if (common.courses.length > 0) {
-            setCourseId(common.courses[0].course_pk);
-        }
-    }, [common.courses]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -60,7 +25,10 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
                 const userObject = {};
                 headers.forEach((header, index) => {
                     const trimmedValue = String(row[index]).trim();
-                    userObject[header] = trimmedValue;
+                    if (trimmedValue !== '') { // Check if the cell is not empty
+                        userObject[header] = trimmedValue;
+                    }
+                    // userObject[header] = trimmedValue;
                 });
                 return userObject;
             });
@@ -70,26 +38,22 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
     };
 
     const onHandleSubmitXL = async () => {
-        // console.log(excelData, collegeId, courseId);
         setisLoading(true);
         if (excelData.length > 0) {
             try {
-                const response = await axios.post("https://scimics-api.onrender.com/scimics/bulkuserupload", {
+                    const response = await axios.post("https://scimics-api.onrender.com/scimics/bulkuserupload", {
                     excelData,
-                    collegeId,
-                    courseId
                 });
                 // console.log(response);
-                showSnackbar("Bulk Upload successfull");
+                showSnackbar(`Bulk Upload successful, ${response.data.data}`);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 showSnackbar("Bulk Upload failed");
             } finally {
                 setisLoading(false);
                 fileInputRef.current.value = "";
+                fetchData();
                 setExcelData([]);
-                setCollegeId(0);
-                setCourseId(0);
             }
         } else {
             setisLoading(false);
@@ -99,42 +63,10 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
 
     return (
         <Box sx={{ display: "flex", alignItems: "start", width: { xs: "100%", md: "100%" }, flexWrap: "wrap" }}>
-            <Box sx={{ width: { xs: "27%", md: "27%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-                <TextField sx={{ marginTop: 1, width: "90%", marginRight: 1 }} fullWidth
-                    name="college_id"
-                    value={collegeId}
-                    label="College"
-                    onChange={(e) => {
-                        setCollegeId(e.target.value);
-                        handleCourses(e.target.value);
-                    }}
-                    select >
-                    {common.colleges.map((item, index) => (
-                        <MenuItem key={index} value={item.college_pk} >
-                            {item.college_name}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </Box>
-
-            <Box sx={{ width: { xs: "27%", md: "27%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
-                <TextField sx={{ marginTop: 1, width: "90%", marginRight: 1 }} fullWidth
-                    name="course_id"
-                    label="Course"
-                    onChange={(e) => setCourseId(e.target.value)}
-                    value={courseId}
-                    select >
-                    {common.courses.map((item, index) => (
-                        <MenuItem key={index} value={item.course_pk} >
-                            {item.course_name}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </Box>
-
-            <Box sx={{ width: { xs: "27%", md: "27%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: { xs: "30%", md: "30%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
                 <TextField type="file" sx={{ marginTop: 1, width: "90%", marginRight: 1 }} fullWidth onChange={handleFileChange} inputRef={fileInputRef} />
             </Box>
+
             <Box sx={{ width: { xs: "19%", md: "19%" }, minWidth: "120px", display: "flex", justifyContent: "center" }}>
                 <LoadingButton
                     variant="outlined"
@@ -149,10 +81,4 @@ const BulkUpload = ({ common, getAllColleges, getAllCoursesById }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        common: state.common,
-    };
-};
-
-export default connect(mapStateToProps, { getAllColleges, getAllCoursesById })(BulkUpload);
+export default BulkUpload;

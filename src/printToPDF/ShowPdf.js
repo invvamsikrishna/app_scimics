@@ -5,8 +5,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import personData from "./Assets/data/personData.json"
 import { useRef } from 'react';
 
-function ShowPdf({ report }) {
-  // console.log(report);
+function ShowPdf() {
   
   const targetRef = useRef();
   const toPDF = useReactToPrint({
@@ -15,7 +14,7 @@ function ShowPdf({ report }) {
 
   // console.log(personData);
   return (
-    <Box className="App">
+    <Box >
 
       <Box style={{ display: 'flex', justifyContent: 'start', width: '100vw' }} >
         <Button variant="outlined"
@@ -28,6 +27,7 @@ function ShowPdf({ report }) {
           onClick={toPDF}>Download <PictureAsPdfIcon />
         </Button>
       </Box>
+      
       <Box ref={targetRef}>
         <Pages personData={personData} />
       </Box>

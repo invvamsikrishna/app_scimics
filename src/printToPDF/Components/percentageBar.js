@@ -39,7 +39,7 @@ function LinearProgressWithLabel(props) {
     // <Box sx={{ display: 'flex', alignItems: 'center', }}>
       <Box sx={{ width: '100%',
       //  mr: 1,
-      height:"90px",}}>
+      height:"70px",}}>
         <StyledLinearProgressBar variant="determinate" {...props} sx={{minHeight:"32px", }}/>
       </Box>
       //  <Box sx={{ width: "4.5%", height:"80px", }}>

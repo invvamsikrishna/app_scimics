@@ -8,7 +8,7 @@ function CircularProgressWithLabel(props) {
   // console.log(props);
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex', border:"1px solid gray", borderRadius:"50%"  }}>
-      <CircularProgress variant="determinate" value={props.range} size="200px" color="success" thickness={1.5} />
+      <CircularProgress variant="determinate" value={props.range} size="180px" style={{ color: '#ced765',}} thickness={1.5} />
       <Box
         sx={{
           top: 0,
@@ -24,7 +24,7 @@ function CircularProgressWithLabel(props) {
           margin:"6px",
         }}
       >
-        <Typography variant="caption" component="div" color="white"  sx={{fontSize:"40px"}}>
+        <Typography variant="caption" component="div"  sx={{fontSize:"40px", fontWeight:"bold", color:"#737373"}}>
           {`${Math.round(props.value)}`}
         </Typography>
       </Box>
@@ -37,13 +37,16 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CircularWithValueLabeled({value, scoreMinRange, scoreMaxRange}) {
+  // console.log(value, scoreMinRange, scoreMaxRange);
   const [progress, setProgress] = React.useState(0);
   const [range,setRange]=React.useState(0);
+
   React.useEffect(() => {
     const clampedValue = Math.min(scoreMaxRange, Math.max(scoreMinRange, value));
     const percentage = ((clampedValue - scoreMinRange) / (scoreMaxRange - scoreMinRange)) * 100;
     setRange(Math.ceil(percentage));
     setProgress(value);
   }, [value]);
-  return <CircularProgressWithLabel value={progress[0]} range={range} />;
+
+  return <CircularProgressWithLabel value={progress} range={range} />;
 }

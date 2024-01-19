@@ -6,7 +6,8 @@
 //style used for page1,
 export const aFullPdfPage = {
   minHeight:"1454px",
-  background: 'linear-gradient(to bottom, #08242c, #1f6679, #08242c)',
+  backgroundColor: "white"
+  // background: 'linear-gradient(to bottom, #08242c, #1f6679, #08242c)',
 }
 //style used for page3,
 export const bFullPDFPage ={

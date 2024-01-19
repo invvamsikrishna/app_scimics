@@ -31,7 +31,7 @@ const NavConfigAdmin = [
     icon: getIcon("/static/icons/admin-config.svg"),
   },
   {
-    title: "User Configuration",
+    title: "User Management",
     path: "/admin-dashboard/admin-user-configuration-page",
     icon: getIcon("/static/icons/user-configuration.svg"),
   },

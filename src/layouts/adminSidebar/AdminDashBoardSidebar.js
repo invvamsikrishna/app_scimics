@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Drawer} from "@mui/material";
 import { PUBLIC_URL } from "../../constants";
 import useResponsive from "../../hooks/useResponsive";
 import NavSection from "../../components/NavSection";
-// import { connect } from "react-redux";
 import { NavConfigAdmin } from "./NavConfigAdmin";
 
 const DRAWER_WIDTH = 240;
@@ -70,11 +69,4 @@ const AdminDashboardSidebar = ({ isOpenSidebar, onCloseSidebar, getTestQuestion 
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     exam: state.exam,
-//   };
-// };
-
 export default AdminDashboardSidebar
-// connect(mapStateToProps, { getTestQuestion })(AdminDashboardSidebar);
